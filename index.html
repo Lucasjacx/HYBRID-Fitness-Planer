@@ -1,562 +1,830 @@
 <!DOCTYPE html>
-<html lang="de" class="dark">
+<html lang="de">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HYBRID AI - Premium Hybrid Training System</title>
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    colors: {
-                        brand: {
-                            50: '#fff1f2',
-                            100: '#ffe4e6',
-                            500: '#f43f5e',
-                            600: '#e11d48',
-                            700: '#be123c',
-                            accent: '#38bdf8'
-                        }
-                    }
-                }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HYBRID AI | Performance, Endurance & Community</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Inter Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              black: '#09090b',
+              card: '#121215',
+              border: '#27272a',
+              green: '#a3e635',
+              greenHover: '#84cc16',
+              greenGlow: 'rgba(163, 230, 53, 0.15)',
+              muted: '#a1a1aa'
             }
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          }
         }
-    </script>
-    <!-- FontAwesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Chart.js -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
-        body { font-family: 'Inter', sans-serif; }
-        .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
-        .custom-scrollbar::-webkit-scrollbar-track { background: rgba(15, 23, 42, 0.6); }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(225, 29, 72, 0.4); border-radius: 4px; }
-        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: rgba(225, 29, 72, 0.8); }
-        
-        .muscle-path {
-            transition: all 0.25s ease;
-            cursor: pointer;
-            stroke: rgba(255, 255, 255, 0.15);
-            stroke-width: 0.8;
-        }
-        .muscle-path:hover {
-            filter: drop-shadow(0 0 6px rgba(244, 63, 94, 0.8));
-            stroke: #f43f5e;
-            stroke-width: 1.5;
-        }
-        .muscle-active {
-            fill: #e11d48 !important;
-            filter: drop-shadow(0 0 8px rgba(225, 29, 72, 0.9));
-        }
-    </style>
-</head>
-<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col selection:bg-rose-500 selection:text-white antialiased">
-
-<script>
-window.appState = {
-    lang: 'de',
-    activeTab: 'dashboard',
-    selectedMuscle: null,
-    restTimerInterval: null,
-    userProfile: {
-        name: "Lucas Hybrid",
-        handle: "@lucas_hybrid",
-        avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=250&q=80",
-        runningKm: 45.0,
-        cyclingKm: 150.0,
-        swimmingKm: 6.2,
-        totalTonnage: 18500,
-        streakDays: 21
-    },
-    posts: [
-        {
-            id: 1,
-            author: "Sarah Jenkins",
-            handle: "@sjenkins_fit",
-            avatar: "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=150&q=80",
-            time: "Vor 2 Std.",
-            content: "Koppeltraining absolviert: 90km Rad + 10km Koppellauf. Der Ironman naht! Hybrid Training zahlt sich aus! 🚴‍♂️🏃‍♂️🔥",
-            image: "https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=800&q=80",
-            boosts: 42,
-            isBoosted: false,
-            comments: [
-                { author: "@lucas_hybrid", text: "Starke Leistung! Wie teilst du dir die Wattwerte auf?" }
-            ]
-        }
-    ],
-    workouts: {
-        '2026-10-08': {
-            title: "Ironman Brick Session & Heavy Squat",
-            type: "Hybrid",
-            duration: "90 min",
-            completed: false,
-            exercises: [
-                { name: "Indoor Cycling Z2 Endurance", sets: [ { reps: 1, weight: 150, done: true } ] },
-                { name: "Brick Run (Race Pace)", sets: [ { reps: 1, weight: 10, done: true } ] },
-                { name: "Barbell Back Squat", sets: [ { reps: 8, weight: 120, done: false }, { reps: 8, weight: 125, done: false } ] }
-            ]
-        }
+      }
     }
-};
+  </script>
 
-const i18n = {
-    de: {
-        appName: "HYBRID AI",
-        dashboard: "Dashboard",
-        macroPeriodization: "Makro-Planung",
-        pitstopFeed: "Athleten-Pitstop",
-        profile: "Mein Profil",
-        boosts: "Boosts",
-        muscleInspector: "Anatomische Muskel-Analyse",
-        frontView: "Vorderansicht (Anterior)",
-        backView: "Rückansicht (Posterior)",
-        selectMusclePrompt: "Klicke auf einen Muskel für gezielte Hybrid-Übungen",
-        restTimer: "Satzpause-Timer",
-        startRest: "Pause starten",
-        reset: "Zurücksetzen",
-        newPost: "Neuen Pitstop Beitrag teilen",
-        postPlaceholder: "Teile deine Trainingseinheit, Zeiten oder Formcheck...",
-        postButton: "Veröffentlichen"
-    },
-    pt: {
-        appName: "HYBRID AI",
-        dashboard: "Painel",
-        macroPeriodization: "Macroplanejamento",
-        pitstopFeed: "Pitstop de Atletas",
-        profile: "Meu Perfil",
-        boosts: "Boosts",
-        muscleInspector: "Inspetor Muscular Anatômico",
-        frontView: "Vista Frontal (Anterior)",
-        backView: "Vista Posterior",
-        selectMusclePrompt: "Clique em um músculo para ver exercícios específicos",
-        restTimer: "Cronômetro de Descanso",
-        startRest: "Iniciar Descanso",
-        reset: "Reiniciar",
-        newPost: "Compartilhar Atualização",
-        postPlaceholder: "Escreva sobre seu treino de hoje...",
-        postButton: "Publicar"
-    }
-};
-
-function t(key) {
-    const lang = window.appState.lang || 'de';
-    return (i18n[lang] && i18n[lang][key]) ? i18n[lang][key] : (i18n['de'][key] || key);
-}
-</script>
-
-<header class="bg-slate-900/90 backdrop-blur-md border-b border-slate-800 sticky top-0 z-50">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex items-center justify-between h-16">
-            <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-rose-600 to-amber-500 flex items-center justify-center text-white font-extrabold text-xl shadow-lg shadow-rose-600/30">
-                    <i class="fa-solid fa-bolt"></i>
-                </div>
-                <div>
-                    <span class="text-xl font-black tracking-wider bg-clip-text text-transparent bg-gradient-to-r from-rose-500 via-amber-400 to-rose-400" data-i18n="appName">HYBRID AI</span>
-                    <span class="block text-[10px] text-slate-400 font-medium uppercase tracking-widest">Endurance & Strength Engine</span>
-                </div>
-            </div>
-
-            <!-- Navigation Links -->
-            <nav class="hidden md:flex items-center gap-1 bg-slate-950/60 p-1.5 rounded-xl border border-slate-800/80">
-                <button onclick="switchTab('dashboard')" id="nav-dashboard" class="nav-btn px-3.5 py-1.5 rounded-lg text-sm font-semibold transition-all">
-                    <i class="fa-solid fa-chart-pie mr-2"></i><span data-i18n="dashboard">Dashboard</span>
-                </button>
-                <button onclick="switchTab('macro')" id="nav-macro" class="nav-btn px-3.5 py-1.5 rounded-lg text-sm font-semibold transition-all">
-                    <i class="fa-solid fa-route mr-2"></i><span data-i18n="macroPeriodization">Makro-Planung</span>
-                </button>
-                <button onclick="switchTab('pitstop')" id="nav-pitstop" class="nav-btn px-3.5 py-1.5 rounded-lg text-sm font-semibold transition-all">
-                    <i class="fa-solid fa-fire mr-2"></i><span data-i18n="pitstopFeed">Pitstop</span>
-                </button>
-                <button onclick="switchTab('profile')" id="nav-profile" class="nav-btn px-3.5 py-1.5 rounded-lg text-sm font-semibold transition-all">
-                    <i class="fa-solid fa-user mr-2"></i><span data-i18n="profile">Profil</span>
-                </button>
-            </nav>
-
-            <!-- Language Switcher & User Avatar -->
-            <div class="flex items-center gap-3">
-                <select onchange="changeLanguage(this.value)" id="langSelect" class="bg-slate-800 border border-slate-700 text-slate-200 text-xs rounded-lg px-2.5 py-1.5 font-medium focus:ring-2 focus:ring-rose-500 focus:outline-none">
-                    <option value="de">🇩🇪 DE</option>
-                    <option value="pt">🇵🇹 PT</option>
-                </select>
-                <div class="w-9 h-9 rounded-full bg-slate-800 border border-rose-500/40 overflow-hidden flex items-center justify-center">
-                    <img id="userAvatarHeader" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=250&q=80" class="w-full h-full object-cover" alt="User">
-                </div>
-            </div>
-        </div>
-    </div>
-</header>
-
-<main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
-
-    <!-- DASHBOARD VIEW -->
-    <div id="tab-dashboard" class="tab-content space-y-6">
-        <!-- Top Stats Row -->
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div class="bg-slate-900 border border-slate-800 p-4 rounded-2xl shadow-sm">
-                <div class="flex justify-between items-center text-slate-400 text-xs font-semibold uppercase">
-                    <span>Lauf-Volumen</span>
-                    <i class="fa-solid fa-person-running text-rose-500"></i>
-                </div>
-                <div class="text-2xl font-bold mt-2 text-white">45.0 <span class="text-sm font-normal text-slate-400">km</span></div>
-                <div class="text-xs text-emerald-400 mt-1"><i class="fa-solid fa-arrow-trend-up"></i> Ironman Vorbereitung</div>
-            </div>
-            <div class="bg-slate-900 border border-slate-800 p-4 rounded-2xl shadow-sm">
-                <div class="flex justify-between items-center text-slate-400 text-xs font-semibold uppercase">
-                    <span>Rad-Volumen</span>
-                    <i class="fa-solid fa-person-biking text-amber-500"></i>
-                </div>
-                <div class="text-2xl font-bold mt-2 text-white">150.0 <span class="text-sm font-normal text-slate-400">km</span></div>
-                <div class="text-xs text-emerald-400 mt-1"><i class="fa-solid fa-arrow-trend-up"></i> Z2 Basis stabil</div>
-            </div>
-            <div class="bg-slate-900 border border-slate-800 p-4 rounded-2xl shadow-sm">
-                <div class="flex justify-between items-center text-slate-400 text-xs font-semibold uppercase">
-                    <span>Schwimmen</span>
-                    <i class="fa-solid fa-person-swimming text-sky-400"></i>
-                </div>
-                <div class="text-2xl font-bold mt-2 text-white">6.2 <span class="text-sm font-normal text-slate-400">km</span></div>
-                <div class="text-xs text-sky-400 mt-1"><i class="fa-solid fa-water"></i> Technik-Fokus</div>
-            </div>
-            <div class="bg-slate-900 border border-slate-800 p-4 rounded-2xl shadow-sm">
-                <div class="flex justify-between items-center text-slate-400 text-xs font-semibold uppercase">
-                    <span>Kraft-Tonnage</span>
-                    <i class="fa-solid fa-dumbbell text-rose-500"></i>
-                </div>
-                <div class="text-2xl font-bold mt-2 text-white">18.5 <span class="text-sm font-normal text-slate-400">Ton</span></div>
-                <div class="text-xs text-rose-400 mt-1"><i class="fa-solid fa-fire"></i> Muskelmasse-Erhalt</div>
-            </div>
-        </div>
-
-        <!-- Muscle Inspector & Active Workout Grid -->
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-            
-            <div class="lg:col-span-7 bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl flex flex-col">
-                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4">
-                    <div>
-                        <h2 class="text-lg font-bold text-white flex items-center gap-2">
-                            <i class="fa-solid fa-child-reaching text-rose-500"></i>
-                            <span data-i18n="muscleInspector">Anatomische Muskel-Analyse</span>
-                        </h2>
-                        <p class="text-xs text-slate-400" data-i18n="selectMusclePrompt">Klicke auf einen Muskel für gezielte Hybrid-Übungen</p>
-                    </div>
-                    <div id="selectedMuscleBadge" class="self-start sm:self-auto bg-rose-500/10 border border-rose-500/30 text-rose-400 text-xs font-semibold px-3 py-1 rounded-full">
-                        Kein Muskel gewählt
-                    </div>
-                </div>
-
-                <!-- Anatomical SVG Rendering Grid (Front & Back Views) -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 items-center justify-center bg-slate-950/80 p-4 rounded-xl border border-slate-800/80 my-auto">
-                    
-                    <!-- ANTERIOR (FRONT) VIEW -->
-                    <div class="flex flex-col items-center">
-                        <span class="text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-2" data-i18n="frontView">Vorderansicht (Anterior)</span>
-                        <svg viewBox="0 0 200 400" class="w-full max-w-[190px] h-auto drop-shadow-md">
-                            <g fill="#1e293b" opacity="0.3">
-                                <ellipse cx="100" cy="35" rx="16" ry="20"/>
-                                <path d="M72,60 C75,55 125,55 128,60 C145,68 152,90 152,110 L146,180 L140,220 L132,380 L100,380 L100,230 L100,230 L100,380 L68,380 L60,220 L54,180 L48,110 C48,90 55,68 72,60 Z" />
-                            </g>
-                            <path d="M88,52 L112,52 L120,62 L80,62 Z" class="muscle-path fill-slate-700" onclick="selectMuscle('Trapez / Nacken')" data-name="Trapez / Nacken"/>
-                            <path d="M81,66 C90,66 98,70 98,88 L80,90 C72,82 72,70 81,66 Z" class="muscle-path fill-slate-600" onclick="selectMuscle('Brustmuskel (Pectoralis)')" data-name="Brustmuskel (Pectoralis)"/>
-                            <path d="M119,66 C110,66 102,70 102,88 L120,90 C128,82 128,70 119,66 Z" class="muscle-path fill-slate-600" onclick="selectMuscle('Brustmuskel (Pectoralis)')" data-name="Brustmuskel (Pectoralis)"/>
-                            <path d="M72,175 C85,170 95,178 96,220 C90,260 76,260 70,225 Z" class="muscle-path fill-slate-600" onclick="selectMuscle('Oberschenkel (Quadriceps)')" data-name="Oberschenkel (Quadriceps)"/>
-                            <path d="M128,175 C115,170 105,178 104,220 C110,260 124,260 130,225 Z" class="muscle-path fill-slate-600" onclick="selectMuscle('Oberschenkel (Quadriceps)')" data-name="Oberschenkel (Quadriceps)"/>
-                        </svg>
-                    </div>
-
-                    <!-- POSTERIOR (BACK) VIEW -->
-                    <div class="flex flex-col items-center">
-                        <span class="text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-2" data-i18n="backView">Rückansicht (Posterior)</span>
-                        <svg viewBox="0 0 200 400" class="w-full max-w-[190px] h-auto drop-shadow-md">
-                            <g fill="#1e293b" opacity="0.3">
-                                <ellipse cx="100" cy="35" rx="16" ry="20"/>
-                                <path d="M72,60 C75,55 125,55 128,60 C145,68 152,90 152,110 L146,180 L140,220 L132,380 L100,380 L100,230 L100,230 L100,380 L68,380 L60,220 L54,180 L48,110 C48,90 55,68 72,60 Z" />
-                            </g>
-                            <path d="M71,172 C80,168 98,170 98,212 C82,218 70,205 69,185 Z" class="muscle-path fill-slate-600" onclick="selectMuscle('Gesäßmuskel (Gluteus)')" data-name="Gesäßmuskel (Gluteus)"/>
-                            <path d="M129,172 C120,168 102,170 102,212 C118,218 130,205 131,185 Z" class="muscle-path fill-slate-600" onclick="selectMuscle('Gesäßmuskel (Gluteus)')" data-name="Gesäßmuskel (Gluteus)"/>
-                            <path d="M71,218 C82,218 96,222 95,268 C82,270 73,260 70,235 Z" class="muscle-path fill-slate-700" onclick="selectMuscle('Beinbeuger (Hamstrings)')" data-name="Beinbeuger (Hamstrings)"/>
-                            <path d="M129,218 C118,218 104,222 105,268 C118,270 127,260 130,235 Z" class="muscle-path fill-slate-700" onclick="selectMuscle('Beinbeuger (Hamstrings)')" data-name="Beinbeuger (Hamstrings)"/>
-                        </svg>
-                    </div>
-                </div>
-
-                <div id="exerciseRecommendations" class="mt-4 p-3.5 bg-slate-800/60 rounded-xl border border-slate-700/60 text-xs">
-                    <span class="font-bold text-rose-400"><i class="fa-solid fa-lightbulb mr-1"></i> Empfehlung:</span>
-                    <span class="text-slate-300">Wähle oben eine Muskelgruppe für abgestimmte Kraft- und Ausdauer-Übungen für deinen Triathlon & Muskelaufbau.</span>
-                </div>
-            </div>
-
-            <!-- Active Workout & Timer -->
-            <div class="lg:col-span-5 bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl flex flex-col justify-between">
-                <div>
-                    <div class="flex items-center justify-between pb-4 border-b border-slate-800">
-                        <div>
-                            <span class="text-xs text-rose-500 font-bold uppercase tracking-wider">Heutiges Training</span>
-                            <h3 class="text-lg font-bold text-white" id="workoutTitle">Ironman Brick Session & Heavy Squat</h3>
-                        </div>
-                        <span class="bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs px-2.5 py-1 rounded-full font-semibold">Aktiv</span>
-                    </div>
-
-                    <div class="mt-4 space-y-4 custom-scrollbar max-h-[320px] overflow-y-auto pr-1" id="workoutExerciseList">
-                        <!-- Populated dynamically via JS -->
-                    </div>
-                </div>
-
-                <!-- Rest Timer Section -->
-                <div class="mt-6 pt-4 border-t border-slate-800 bg-slate-950/60 p-4 rounded-xl border border-slate-800/80">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <span class="text-xs font-semibold text-slate-400" data-i18n="restTimer">Satzpause-Timer</span>
-                            <div class="text-2xl font-mono font-black text-rose-500" id="timerDisplay">01:30</div>
-                        </div>
-                        <div class="flex gap-2">
-                            <button onclick="startRestTimer(90)" class="bg-rose-600 hover:bg-rose-700 text-white px-3 py-1.5 rounded-lg text-xs font-bold transition-all shadow-md shadow-rose-600/30" data-i18n="startRest">
-                                Pause starten
-                            </button>
-                            <button onclick="resetRestTimer()" class="bg-slate-800 hover:bg-slate-700 text-slate-300 px-3 py-1.5 rounded-lg text-xs font-bold transition-all" data-i18n="reset">
-                                Zurücksetzen
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- MACRO-PLANNING VIEW -->
-    <div id="tab-macro" class="tab-content hidden space-y-6">
-        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl">
-            <h2 class="text-xl font-bold text-white mb-2 flex items-center gap-2">
-                <i class="fa-solid fa-route text-rose-500"></i>
-                <span data-i18n="macroPeriodization">Makro-Planung & Ironman Vorbereitung</span>
-            </h2>
-            <p class="text-xs text-slate-400 mb-6">Perfekt abgestimmt für Hybrid-Atheten mit Fokus auf Muskelmasse, Schwimmen, Radfahren, Laufen und Ironman-Ziele.</p>
-            
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div class="bg-slate-950/60 p-4 rounded-xl border border-slate-800">
-                    <span class="text-xs text-rose-500 font-bold uppercase">Phase 1</span>
-                    <h4 class="text-base font-bold text-white mt-1">Base Building & Hypertrophie</h4>
-                    <p class="text-xs text-slate-400 mt-2">Aufbau von Muskelmasse und Z2 Grundlagenausdauer im Schwimmen, Radfahren und Laufen.</p>
-                    <div class="mt-4 pt-3 border-t border-slate-800 text-xs text-slate-300">Dauer: 12 Wochen</div>
-                </div>
-                <div class="bg-slate-950/60 p-4 rounded-xl border border-slate-800">
-                    <span class="text-xs text-amber-500 font-bold uppercase">Phase 2</span>
-                    <h4 class="text-base font-bold text-white mt-1">Build & Brick Sessions</h4>
-                    <p class="text-xs text-slate-400 mt-2">Koppeltraining (Rad + Lauf), Schwellenintervalle und gleichzeitiger Erhalt der Kraftwerte.</p>
-                    <div class="mt-4 pt-3 border-t border-slate-800 text-xs text-slate-300">Dauer: 8 Wochen</div>
-                </div>
-                <div class="bg-slate-950/60 p-4 rounded-xl border border-slate-800">
-                    <span class="text-xs text-emerald-400 font-bold uppercase">Phase 3</span>
-                    <h4 class="text-base font-bold text-white mt-1">Peak & Tapering</h4>
-                    <p class="text-xs text-slate-400 mt-2">Volumenreduktion für maximale Frische am Renntag beim Ironman 70.3 oder Full Ironman.</p>
-                    <div class="mt-4 pt-3 border-t border-slate-800 text-xs text-slate-300">Dauer: 3 Wochen</div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- PITSTOP FEED VIEW -->
-    <div id="tab-pitstop" class="tab-content hidden space-y-6">
-        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl">
-            <h2 class="text-lg font-bold text-white mb-3 flex items-center gap-2">
-                <i class="fa-solid fa-fire text-rose-500"></i>
-                <span data-i18n="pitstopFeed">Athleten-Pitstop Feed</span>
-            </h2>
-            
-            <div class="mb-6 bg-slate-950/60 p-4 rounded-xl border border-slate-800">
-                <textarea id="newPostText" rows="3" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-sm text-slate-100 focus:ring-2 focus:ring-rose-500 focus:outline-none resize-none" placeholder="Teile deine Trainingseinheit, Zeiten oder Formcheck mit der Community..."></textarea>
-                <div class="flex justify-between items-center mt-3">
-                    <div class="flex gap-2 text-slate-400 text-xs">
-                        <button class="hover:text-rose-400"><i class="fa-solid fa-image mr-1"></i> Foto</button>
-                        <button class="hover:text-rose-400"><i class="fa-solid fa-chart-line mr-1"></i> Stats</button>
-                    </div>
-                    <button onclick="createPost()" class="bg-rose-600 hover:bg-rose-700 text-white px-4 py-2 rounded-xl text-xs font-bold transition-all shadow-md shadow-rose-600/30">
-                        Veröffentlichen
-                    </button>
-                </div>
-            </div>
-
-            <div id="postsContainer" class="space-y-4"></div>
-        </div>
-    </div>
-
-    <!-- PROFILE VIEW -->
-    <div id="tab-profile" class="tab-content hidden space-y-6">
-        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl flex flex-col md:flex-row items-center gap-6">
-            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=250&q=80" class="w-24 h-24 rounded-full border-2 border-rose-500 object-cover shadow-lg" alt="Profile">
-            <div class="text-center md:text-left flex-1">
-                <h2 class="text-2xl font-black text-white">Lucas Hybrid</h2>
-                <p class="text-xs text-rose-400 font-semibold mt-0.5">@lucas_hybrid • Hybrid Atleht & Ironman Aspirant</p>
-                <p class="text-xs text-slate-300 mt-3">Fokus auf Kombination aus schwerem Krafttraining (Muskelmasse) und ambitioniertem Ausdauersport (Laufen, Radfahren, Schwimmen).</p>
-            </div>
-            <div class="bg-slate-950/80 border border-slate-800 px-6 py-4 rounded-xl text-center">
-                <div class="text-2xl font-black text-rose-500">21</div>
-                <div class="text-[10px] uppercase tracking-wider text-slate-400 font-semibold mt-1">Tage Serie</div>
-            </div>
-        </div>
-    </div>
-
-</main>
-
-<script>
-function switchTab(tabId) {
-    document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
-    document.querySelectorAll('.nav-btn').forEach(el => {
-        el.classList.remove('bg-rose-600', 'text-white', 'shadow-md', 'shadow-rose-600/30');
-        el.classList.add('text-slate-400', 'hover:text-white', 'hover:bg-slate-900');
-    });
-
-    document.getElementById('tab-' + tabId).classList.remove('hidden');
-    const activeNav = document.getElementById('nav-' + tabId);
-    if(activeNav) {
-        activeNav.classList.remove('text-slate-400', 'hover:text-white', 'hover:bg-slate-900');
-        activeNav.classList.add('bg-rose-600', 'text-white', 'shadow-md', 'shadow-rose-600/30');
-    }
-    window.appState.activeTab = tabId;
-    if(tabId === 'pitstop') renderPosts();
-}
-
-function selectMuscle(muscleName) {
-    window.appState.selectedMuscle = muscleName;
-    document.getElementById('selectedMuscleBadge').innerText = muscleName;
+  <style>
+    body { background-color: #09090b; color: #f4f4f5; }
+    .glow-effect { box-shadow: 0 0 25px -5px rgba(163, 230, 53, 0.2); }
     
-    document.querySelectorAll('.muscle-path').forEach(p => p.classList.remove('muscle-active'));
-    document.querySelectorAll(`[data-name="${muscleName}"]`).forEach(p => p.classList.add('muscle-active'));
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #09090b; }
+    ::-webkit-scrollbar-thumb { background: #27272a; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #a3e635; }
 
-    const recommendations = {
-        'Brustmuskel (Pectoralis)': 'Kraft: Bankdrücken & Dips | Cardio: Schwimmen (Kraulstil für optimale Brust- & Schulterflexibilität).',
-        'Oberschenkel (Quadriceps)': 'Kraft: Kniebeugen & Bulgarian Split Squats | Cardio: Radfahren (High Cadence Intervals) & Laufen.',
-        'Beinbeuger (Hamstrings)': 'Kraft: Romanian Deadlifts | Cardio: Trail Running & Schwimm-Abstoß.',
-        'Gesäßmuskel (Gluteus)': 'Kraft: Hip Thrusts & Heavy Squats | Cardio: Starker Abdruck beim Laufen & Radfahren.',
-        'Trapez / Nacken': 'Kraft: Shrugs & Kreuzheben | Cardio: Stabile Haltung bei langen Rad-Einheiten.'
+    input[type="time"]::-webkit-calendar-picker-indicator,
+    input[type="date"]::-webkit-calendar-picker-indicator {
+      filter: invert(0.8) sepia(1) saturate(5) hue-rotate(45deg);
+      cursor: pointer;
+    }
+    
+    .muscle-group {
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+    .muscle-group:hover {
+      filter: brightness(1.3);
+      stroke: #ffffff;
+      stroke-width: 0.5px;
+    }
+  </style>
+</head>
+<body class="font-sans antialiased min-h-screen flex flex-col justify-between selection:bg-brand-green selection:text-black">
+
+  <!-- NAVIGATION BAR -->
+  <header class="border-b border-brand-border bg-brand-black/90 backdrop-blur sticky top-0 z-50">
+    <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between gap-2">
+      <div class="flex items-center gap-3">
+        <div class="w-9 h-9 rounded-xl bg-brand-green flex items-center justify-center text-black font-black text-xl tracking-tighter">
+          H
+        </div>
+        <span class="font-black text-xl tracking-wider text-white">HYBRID<span class="text-brand-green">AI</span></span>
+      </div>
+
+      <nav class="hidden md:flex items-center gap-6 text-sm font-semibold text-brand-muted">
+        <button onclick="switchTab('generator')" id="nav-generator" class="text-brand-green flex items-center gap-2 hover:text-white transition">
+          <i class="fa-solid fa-sliders"></i> <span id="txt-nav-planer">Planer</span>
+        </button>
+        <button onclick="switchTab('schedule')" id="nav-schedule" class="flex items-center gap-2 hover:text-white transition">
+          <i class="fa-solid fa-calendar-days"></i> <span id="txt-nav-schedule">Tagesplaner & Erholung</span>
+        </button>
+        <button onclick="switchTab('community')" id="nav-community" class="flex items-center gap-2 hover:text-white transition">
+          <i class="fa-solid fa-users"></i> <span id="txt-nav-community">Community</span>
+        </button>
+        <button onclick="switchTab('pro')" id="nav-pro" class="flex items-center gap-2 hover:text-white transition">
+          <i class="fa-solid fa-bolt text-brand-green"></i> <span id="txt-nav-pro">Pro Abo</span>
+        </button>
+      </nav>
+
+      <div class="flex items-center gap-3">
+        <!-- SPRACHAUSWAHL DROPDOWN -->
+        <select id="language-select" onchange="changeLanguage(this.value)" class="bg-brand-black border border-brand-border text-white text-xs font-bold rounded-lg px-2.5 py-2 focus:outline-none focus:border-brand-green cursor-pointer">
+          <option value="de">DE</option>
+          <option value="en">EN</option>
+          <option value="es">ES</option>
+          <option value="fr">FR</option>
+          <option value="pt">PT</option>
+          <option value="it">IT</option>
+        </select>
+
+        <button onclick="switchTab('pro')" class="px-4 py-2 bg-brand-green hover:bg-brand-greenHover text-black text-xs font-extrabold uppercase tracking-wider rounded-lg transition glow-effect">
+          Pro Upgrade
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN CONTAINER -->
+  <main class="max-w-6xl mx-auto px-4 py-8 flex-1 w-full space-y-8">
+
+    <!-- TAB 1: GENERATOR MIT WETTKAMPF-PLANUNG -->
+    <section id="tab-generator" class="space-y-8">
+      
+      <div class="text-center max-w-2xl mx-auto space-y-3">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-green/10 border border-brand-green/20 text-brand-green text-xs font-bold uppercase tracking-wider">
+          <i class="fa-solid fa-trophy"></i> Periodisierung & Macro-Planning
+        </div>
+        <h1 id="hero-title" class="text-3xl md:text-5xl font-black text-white tracking-tight">
+          Dein Training. Deine Zeiten.<br><span class="text-brand-green">Maximale Performance.</span>
+        </h1>
+        <p id="hero-desc" class="text-brand-muted text-sm md:text-base">
+          Verbinde Kraftaufbau und Ausdauer in einem klaren Wochenraster. Passe die Trainingszeit flexibel an deinen Tagesablauf an.
+        </p>
+      </div>
+
+      <!-- TRAILER VIDEO -->
+      <div class="max-w-3xl mx-auto rounded-2xl overflow-hidden border border-brand-border shadow-2xl glow-effect">
+        <video autoplay loop muted playsinline class="w-full h-auto max-h-[300px] object-cover">
+          <source src="trailer.mp4" type="video/mp4">
+          Dein Browser unterstützt kein Video.
+        </video>
+      </div>
+
+      <!-- FORMULAR CARD -->
+      <div class="bg-brand-card border border-brand-border rounded-2xl p-6 md:p-8 max-w-3xl mx-auto space-y-6 shadow-2xl">
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="space-y-2">
+            <label id="lbl-race-date" class="text-xs font-bold uppercase tracking-wider text-brand-muted block"><i class="fa-solid fa-flag-checkered text-brand-green"></i> 1. Wettkampf-Datum (Tag A)</label>
+            <input type="date" id="race-date" onchange="calculatePhases()" class="w-full bg-brand-black border border-brand-border text-white text-sm rounded-xl p-3 focus:outline-none focus:border-brand-green transition">
+          </div>
+
+          <div class="space-y-2">
+            <label id="lbl-goal" class="text-xs font-bold uppercase tracking-wider text-brand-muted block">2. Event-Typ</label>
+            <select id="goal" class="w-full bg-brand-black border border-brand-border text-white text-sm rounded-xl p-3 focus:outline-none focus:border-brand-green transition">
+              <option value="Ironman 70.3 / Triathlon">Ironman 70.3 / Mitteldistanz</option>
+              <option value="Ironman Full">Ironman Langdistanz</option>
+              <option value="Marathon">Marathon / Halbmarathon</option>
+              <option value="Hybrid Race">HYROX / Hybrid-Wettkampf</option>
+            </select>
+          </div>
+        </div>
+
+        <div id="phase-preview" class="bg-brand-black p-4 rounded-xl border border-brand-border space-y-3 hidden">
+          <span class="text-xs font-bold uppercase text-brand-green tracking-wider block"><i class="fa-solid fa-timeline"></i> Berechnete Macro-Phasen</span>
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center text-xs">
+            <div class="p-2 bg-zinc-900 rounded-lg border border-zinc-800">
+              <span class="text-brand-muted block text-[10px]">PHASE 1</span>
+              <strong class="text-white block">Grundlage (Base)</strong>
+              <span id="p1-weeks" class="text-brand-green text-[10px]">-- Wochen</span>
+            </div>
+            <div class="p-2 bg-zinc-900 rounded-lg border border-zinc-800">
+              <span class="text-brand-muted block text-[10px]">PHASE 2</span>
+              <strong class="text-white block">Aufbau (Build)</strong>
+              <span id="p2-weeks" class="text-brand-green text-[10px]">-- Wochen</span>
+            </div>
+            <div class="p-2 bg-zinc-900 rounded-lg border border-zinc-800">
+              <span class="text-brand-muted block text-[10px]">PHASE 3</span>
+              <strong class="text-white block">Peak & Deload</strong>
+              <span id="p3-weeks" class="text-brand-green text-[10px]">-- Wochen</span>
+            </div>
+            <div class="p-2 bg-zinc-900 rounded-lg border border-zinc-800">
+              <span class="text-brand-muted block text-[10px]">PHASE 4</span>
+              <strong class="text-white block">Tapering (Abbau)</strong>
+              <span id="p4-weeks" class="text-brand-green text-[10px]">2 Wochen</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="space-y-2">
+            <label class="text-xs font-bold uppercase tracking-wider text-brand-muted block">3. Einheiten pro Woche</label>
+            <select id="days" class="w-full bg-brand-black border border-brand-border text-white text-sm rounded-xl p-3 focus:outline-none focus:border-brand-green transition">
+              <option value="4 Tage">4 Einheiten (Vollbeschäftigt)</option>
+              <option value="5 Tage" selected>5 Einheiten (Standard Hybrid)</option>
+              <option value="6 Tage">6 Einheiten (Performance Focus)</option>
+            </select>
+          </div>
+
+          <div class="space-y-2">
+            <label class="text-xs font-bold uppercase tracking-wider text-brand-muted block">4. Fokus-Ausdauer</label>
+            <select id="endurance" class="w-full bg-brand-black border border-brand-border text-white text-sm rounded-xl p-3 focus:outline-none focus:border-brand-green transition">
+              <option value="Triathlon">Triathlon (Schwimmen, Velo, Laufen)</option>
+              <option value="Duathlon">Duathlon (Velo, Laufen)</option>
+              <option value="Laufen">Laufen + Kraft</option>
+            </select>
+          </div>
+        </div>
+
+        <button onclick="generatePlan()" id="btn-generate" class="w-full py-4 bg-brand-green hover:bg-brand-greenHover text-black font-black uppercase tracking-wider rounded-xl transition glow-effect flex items-center justify-center gap-3">
+          <i class="fa-solid fa-wand-magic-sparkles text-lg"></i>
+          <span>Plan Erstellen & In Den Kalender Schieben</span>
+        </button>
+
+      </div>
+    </section>
+
+    <!-- TAB 2: TAGESPLANER & DETAILLIERTE MUSKEL-ANATOMIE -->
+    <section id="tab-schedule" class="hidden space-y-6">
+      
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-brand-card p-6 rounded-2xl border border-brand-border">
+        <div>
+          <h2 class="text-2xl font-black text-white flex items-center gap-2">
+            <i class="fa-solid fa-calendar-day text-brand-green"></i> Wochen- & Tagesablauf
+          </h2>
+          <p class="text-xs text-brand-muted mt-1">Passe die Uhrzeiten flexibel an. Die Endzeiten werden automatisch kalkuliert.</p>
+        </div>
+      </div>
+
+      <!-- DETAILLIERTE ANATOMIE MUSKEL-MAP -->
+      <div class="bg-brand-card border border-brand-border rounded-2xl p-6 space-y-6">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-brand-border pb-4">
+          <div>
+            <h3 class="text-xl font-black text-white flex items-center gap-2">
+              <i class="fa-solid fa-child text-brand-green"></i> Präzisions-Muskelstatus & Interferenz
+            </h3>
+            <p class="text-xs text-brand-muted mt-1">Detaillierte Erholungsberechnung für spezifische Muskelgruppen.</p>
+          </div>
+
+          <div class="flex items-center gap-4 text-xs font-bold">
+            <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-red-500 inline-block"></span> 0-24h (Ermüdet)</span>
+            <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-yellow-400 inline-block"></span> 24-48h (Erholung)</span>
+            <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-brand-green inline-block"></span> 48h+ (Bereit)</span>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 items-center">
+          
+          <div class="lg:col-span-1 bg-brand-black p-4 rounded-xl border border-brand-border flex justify-center items-center gap-6">
+            
+            <!-- VORDERSEITE -->
+            <div class="text-center space-y-2">
+              <span class="text-[10px] uppercase font-bold text-brand-muted tracking-wider">Vorderseite</span>
+              <svg viewBox="0 0 100 200" class="w-32 h-64">
+                <path class="muscle-group" d="M 36 42 Q 50 39 64 42 L 62 58 Q 50 62 38 58 Z" fill="#a3e635" title="Brust"/>
+                <path class="muscle-group" d="M 24 42 Q 34 38 34 48 L 26 60 Z M 76 42 Q 66 38 66 48 L 74 60 Z" fill="#a3e635" title="Schultern"/>
+                <path class="muscle-group" d="M 25 62 L 32 62 L 30 80 L 23 78 Z M 75 62 L 68 62 L 70 80 L 77 78 Z" fill="#a3e635" title="Bizeps"/>
+                <path class="muscle-group" d="M 40 64 Q 50 66 60 64 L 58 74 Q 50 76 42 74 Z" fill="#a3e635"/>
+                <path class="muscle-group" d="M 41 76 Q 50 78 59 76 L 57 86 Q 50 88 43 86 Z" fill="#a3e635"/>
+                <path class="muscle-group" d="M 34 98 Q 48 95 48 140 L 36 138 Z" fill="#ef4444" title="Quads"/>
+                <path class="muscle-group" d="M 52 95 Q 66 98 64 138 L 52 140 Z" fill="#ef4444" title="Quads"/>
+                <path class="muscle-group" d="M 37 144 L 42 185 L 35 185 Z M 63 144 L 58 185 L 65 185 Z" fill="#eab308" title="Schienbein"/>
+              </svg>
+            </div>
+
+            <!-- RÜCKSEITE -->
+            <div class="text-center space-y-2">
+              <span class="text-[10px] uppercase font-bold text-brand-muted tracking-wider">Rückseite</span>
+              <svg viewBox="0 0 100 200" class="w-32 h-64">
+                <path class="muscle-group" d="M 38 35 Q 50 30 62 35 L 66 46 Q 50 42 34 46 Z" fill="#a3e635" title="Trapez"/>
+                <path class="muscle-group" d="M 32 48 Q 50 44 68 48 L 60 76 Q 50 80 40 76 Z" fill="#a3e635" title="Latissimus"/>
+                <path class="muscle-group" d="M 23 60 L 30 60 L 28 80 L 21 78 Z M 77 60 L 70 60 L 72 80 L 79 78 Z" fill="#a3e635" title="Trizeps"/>
+                <path class="muscle-group" d="M 42 78 Q 50 80 58 78 L 56 94 Q 50 96 44 94 Z" fill="#a3e635"/>
+                <path class="muscle-group" d="M 34 96 Q 50 90 66 96 L 64 118 Q 50 122 36 118 Z" fill="#eab308" title="Gluteus"/>
+                <path class="muscle-group" d="M 36 122 Q 48 120 48 152 L 38 150 Z" fill="#ef4444" title="Hamstrings"/>
+                <path class="muscle-group" d="M 52 120 Q 64 122 62 150 L 52 152 Z" fill="#ef4444" title="Hamstrings"/>
+                <path class="muscle-group" d="M 37 155 L 43 186 L 35 186 Z M 63 155 L 57 186 L 65 186 Z" fill="#eab308" title="Waden"/>
+              </svg>
+            </div>
+
+          </div>
+
+          <div class="lg:col-span-2 space-y-4">
+            <div class="bg-red-500/10 border border-red-500/30 rounded-xl p-4 flex items-start gap-3">
+              <i class="fa-solid fa-triangle-exclamation text-red-400 text-lg mt-0.5"></i>
+              <div class="space-y-1">
+                <h4 class="text-sm font-bold text-red-400">Interferenz-Warnung: Beine & Quads (18% Erholt)</h4>
+                <p class="text-xs text-zinc-300">
+                  Die Oberschenkel-Vorderseite (Quads) weist hohe mikroskopische Gewebeschäden auf. Heute kein Lauf mit Höhenmetern oder schweren Kniebeugen empfohlen.
+                </p>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+              <div class="bg-brand-black p-3 rounded-xl border border-brand-border space-y-1">
+                <div class="flex items-center justify-between text-[11px] font-bold">
+                  <span class="text-white">Quads (Oberschenkel)</span>
+                  <span class="text-red-400">18%</span>
+                </div>
+                <div class="w-full bg-zinc-800 h-1.5 rounded-full overflow-hidden">
+                  <div class="bg-red-500 h-full w-[18%]"></div>
+                </div>
+              </div>
+
+              <div class="bg-brand-black p-3 rounded-xl border border-brand-border space-y-1">
+                <div class="flex items-center justify-between text-[11px] font-bold">
+                  <span class="text-white">Hamstrings (Hinten)</span>
+                  <span class="text-red-400">25%</span>
+                </div>
+                <div class="w-full bg-zinc-800 h-1.5 rounded-full overflow-hidden">
+                  <div class="bg-red-500 h-full w-[25%]"></div>
+                </div>
+              </div>
+
+              <div class="bg-brand-black p-3 rounded-xl border border-brand-border space-y-1">
+                <div class="flex items-center justify-between text-[11px] font-bold">
+                  <span class="text-white">Gluteus (Gesäss)</span>
+                  <span class="text-yellow-400">55%</span>
+                </div>
+                <div class="w-full bg-zinc-800 h-1.5 rounded-full overflow-hidden">
+                  <div class="bg-yellow-400 h-full w-[55%]"></div>
+                </div>
+              </div>
+
+              <div class="bg-brand-black p-3 rounded-xl border border-brand-border space-y-1">
+                <div class="flex items-center justify-between text-[11px] font-bold">
+                  <span class="text-white">Waden & Schienbein</span>
+                  <span class="text-yellow-400">60%</span>
+                </div>
+                <div class="w-full bg-zinc-800 h-1.5 rounded-full overflow-hidden">
+                  <div class="bg-yellow-400 h-full w-[60%]"></div>
+                </div>
+              </div>
+
+              <div class="bg-brand-black p-3 rounded-xl border border-brand-border space-y-1">
+                <div class="flex items-center justify-between text-[11px] font-bold">
+                  <span class="text-white">Brust & Schultern</span>
+                  <span class="text-brand-green">100%</span>
+                </div>
+                <div class="w-full bg-zinc-800 h-1.5 rounded-full overflow-hidden">
+                  <div class="bg-brand-green h-full w-full"></div>
+                </div>
+              </div>
+
+              <div class="bg-brand-black p-3 rounded-xl border border-brand-border space-y-1">
+                <div class="flex items-center justify-between text-[11px] font-bold">
+                  <span class="text-white">Rücken & Lats</span>
+                  <span class="text-brand-green">100%</span>
+                </div>
+                <div class="w-full bg-zinc-800 h-1.5 rounded-full overflow-hidden">
+                  <div class="bg-brand-green h-full w-full"></div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+
+      <div id="workout-list" class="space-y-4"></div>
+
+    </section>
+
+    <!-- TAB 3: COMMUNITY / ATHLETEN-FEED -->
+    <section id="tab-community" class="hidden space-y-8 max-w-4xl mx-auto">
+      
+      <div class="text-center max-w-xl mx-auto space-y-2">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-green/10 border border-brand-green/20 text-brand-green text-xs font-bold uppercase tracking-wider">
+          <i class="fa-solid fa-comments"></i> Athleten-Treffpunkt
+        </div>
+        <h2 class="text-3xl font-black text-white">Hybrid Community Feed</h2>
+        <p class="text-brand-muted text-xs">Tausche dich mit anderen Athleten über Workouts, Zeiten und Wettkampf-Erfahrungen aus.</p>
+      </div>
+
+      <!-- BEITRAG ERSTELLEN BOX -->
+      <div class="bg-brand-card border border-brand-border rounded-2xl p-5 space-y-4 shadow-xl">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-full bg-brand-green flex items-center justify-center text-black font-extrabold text-sm">
+            DU
+          </div>
+          <input type="text" id="post-author" placeholder="Dein Name" value="Lucas" class="bg-brand-black border border-brand-border text-white text-xs rounded-xl p-2.5 focus:outline-none focus:border-brand-green w-48">
+          <select id="post-category" class="bg-brand-black border border-brand-border text-white text-xs rounded-xl p-2.5 focus:outline-none focus:border-brand-green flex-1">
+            <option value="Ironman 70.3">Ironman 70.3 Training</option>
+            <option value="Lauf-Session">Lauf-Session / Pace</option>
+            <option value="Kraft / Gym">Kraft / Gym Session</option>
+            <option value="Wettkampf-Tipp">Wettkampf-Tipp / Talk</option>
+          </select>
+        </div>
+
+        <textarea id="post-content" rows="3" placeholder="Was hast du heute trainiert? Wie lief die Einheit oder welche Frage hast du an die Community?" class="w-full bg-brand-black border border-brand-border text-white text-xs rounded-xl p-3 focus:outline-none focus:border-brand-green resize-none placeholder:text-zinc-600"></textarea>
+
+        <div class="flex justify-between items-center pt-1">
+          <span class="text-[10px] text-brand-muted"><i class="fa-solid fa-shield-halved text-brand-green"></i> Nur für verifizierte Hybrid-Athleten</span>
+          <button onclick="addCommunityPost()" class="px-5 py-2.5 bg-brand-green hover:bg-brand-greenHover text-black font-extrabold text-xs uppercase rounded-xl transition glow-effect flex items-center gap-2">
+            <i class="fa-solid fa-paper-plane"></i> Posten
+          </button>
+        </div>
+      </div>
+
+      <!-- FEED POSTS CONTAINER -->
+      <div id="community-feed" class="space-y-4"></div>
+
+    </section>
+
+    <!-- TAB 4: PRO ABO -->
+    <section id="tab-pro" class="hidden space-y-8 max-w-4xl mx-auto">
+      <div class="text-center space-y-3">
+        <h2 class="text-3xl md:text-4xl font-black text-white">Hol Dir Den Vollständigen Vorsprung</h2>
+        <p class="text-brand-muted text-sm max-w-xl mx-auto">Unlimitierte KI-Generierung, automatische Strava-Synchronisation und erweiterte Puls- Zonen-Analyse für deine Einheiten.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4">
+        <div class="bg-brand-card border border-brand-border rounded-2xl p-6 flex flex-col justify-between space-y-6">
+          <div class="space-y-4">
+            <span class="text-xs font-bold text-brand-muted uppercase tracking-wider">Monatlich Flexibel</span>
+            <div class="flex items-baseline gap-1">
+              <span class="text-4xl font-black text-white">CHF 4.90</span>
+              <span class="text-xs text-brand-muted">/ Monat</span>
+            </div>
+            <ul class="space-y-3 text-xs text-zinc-300 pt-2">
+              <li class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-green"></i> Alle Trainingspläne unlimitiert anpassen</li>
+              <li class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-green"></i> Kalender Export (Apple / Google)</li>
+              <li class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-green"></i> Jedeszeit monatlich kündbar</li>
+            </ul>
+          </div>
+          <button onclick="alert('Stripe Testmodus aktiv.')" class="w-full py-3 bg-zinc-800 hover:bg-zinc-700 text-white font-bold text-xs uppercase tracking-wider rounded-xl transition border border-brand-border">
+            7 Tage Gratis Testen
+          </button>
+        </div>
+
+        <div class="bg-brand-card border-2 border-brand-green rounded-2xl p-6 flex flex-col justify-between space-y-6 relative glow-effect">
+          <div class="space-y-4">
+            <span class="text-xs font-bold text-brand-green uppercase tracking-wider">Jahres-Pass</span>
+            <div class="flex items-baseline gap-1">
+              <span class="text-4xl font-black text-white">CHF 39.00</span>
+              <span class="text-xs text-brand-muted">/ Jahr</span>
+            </div>
+            <ul class="space-y-3 text-xs text-zinc-300 pt-2">
+              <li class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-green"></i> Alles aus dem Monats-Abo</li>
+              <li class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-green"></i> Strava & Garmin Sync (Beta)</li>
+              <li class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-green"></i> Watt & Pulszonen-Rechner</li>
+            </ul>
+          </div>
+
+          <button onclick="alert('Stripe Testmodus aktiv.')" class="w-full py-3 bg-brand-green hover:bg-brand-greenHover text-black font-black text-xs uppercase tracking-wider rounded-xl transition">
+            Jahres-Pass Aktivieren
+          </button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="border-t border-brand-border py-6 bg-brand-black text-center text-xs text-brand-muted">
+    <p>HYBRID AI &copy; 2026 – Gefertigt für Athleten. Passt sich deinem Kalender an.</p>
+  </footer>
+
+  <script>
+    let currentWorkouts = [
+      { id: 1, day: 'Montag', type: 'Kraft', title: 'Oberkörper & Rumpfstabilität', duration: 50, startTime: '07:00', desc: 'Bankdrücken, Klimmzüge, Schulterdrücken + Core Stability' },
+      { id: 2, day: 'Dienstag', type: 'Ausdauer', title: 'Grundlagenausdauer Laufen (Zone 2)', duration: 45, startTime: '18:00', desc: 'Ruhiger Lauf im flachen Gelände. Puls strikt in Zone 2 halten.' },
+      { id: 3, day: 'Mittwoch', type: 'Kraft', title: 'Unterkörper / Beine & Po', duration: 55, startTime: '07:00', desc: 'Kniebeugen, Rumänisches Kreuzheben, Ausfallschritte' },
+      { id: 4, day: 'Donnerstag', type: 'Ausdauer', title: 'Rennrad / ERG-Intervall', duration: 60, startTime: '17:30', desc: '15 Min Warmup, 4x5 Min Schwellen-Intervalle, 15 Min Cool Down' },
+      { id: 5, day: 'Freitag', type: 'Rest', title: 'Regeneration & Mobility', duration: 20, startTime: '08:00', desc: 'Foam Rolling und aktives Dehnen für Hüfte und Fußgelenke' }
+    ];
+
+    let communityPosts = [
+      {
+        id: 1,
+        author: 'Marco S.',
+        category: 'Ironman 70.3',
+        time: 'Vor 2 Stunden',
+        content: 'Heute morgen 90km auf dem Zeitfahrvelo im Regen absolviert. Die Formkurve für Rapperswil stimmt! Wie regeneriert ihr nach so langen Einheiten am besten bezüglich Beinkraft?',
+        kudos: 14,
+        comments: [
+          { author: 'Sarah B.', text: 'Direkt Protein-Shake + 20 Min Beine hochlegen! Wirkt Wunder.' }
+        ]
+      },
+      {
+        id: 2,
+        author: 'Elena K.',
+        category: 'Kraft / Gym',
+        time: 'Vor 5 Stunden',
+        content: 'Schwere Kniebeugen (4x6 @ 110kg) direkt am Tag vor den Intervall-Läufen gemacht. Die Erholungs-Analyse in der App hatte Recht – Quads sind komplett rot! Nächstes Mal halte ich den 24h Abstand ein.',
+        kudos: 22,
+        comments: []
+      }
+    ];
+
+    const translations = {
+      de: {
+        heroTitle: 'Dein Training. Deine Zeiten.<br><span class="text-brand-green">Maximale Performance.</span>',
+        heroDesc: 'Verbinde Kraftaufbau und Ausdauer in einem klaren Wochenraster. Passe die Trainingszeit flexibel an deinen Tagesablauf an.',
+        btnGenerate: 'Plan Erstellen & In Den Kalender Schieben',
+        navPlaner: 'Planer',
+        navSchedule: 'Tagesplaner & Erholung',
+        navCommunity: 'Community',
+        navPro: 'Pro Abo',
+        lblRaceDate: '1. Wettkampf-Datum (Tag A)',
+        lblGoal: '2. Event-Typ'
+      },
+      en: {
+        heroTitle: 'Your Training. Your Time.<br><span class="text-brand-green">Maximum Performance.</span>',
+        heroDesc: 'Combine strength building and endurance into a clear weekly schedule. Adjust your workout times flexibly to fit your daily routine.',
+        btnGenerate: 'Generate Plan & Export To Calendar',
+        navPlaner: 'Planner',
+        navSchedule: 'Daily Planner & Recovery',
+        navCommunity: 'Community',
+        navPro: 'Pro Plan',
+        lblRaceDate: '1. Race Date (Day A)',
+        lblGoal: '2. Event Type'
+      },
+      es: {
+        heroTitle: 'Tu Entrenamiento. Tus Horarios.<br><span class="text-brand-green">Rendimiento Máximo.</span>',
+        heroDesc: 'Combina el desarrollo de fuerza y la resistencia en un plan semanal claro. Adapta el tiempo de entrenamiento a tu rutina diaria.',
+        btnGenerate: 'Crear Plan y Exportar al Calendario',
+        navPlaner: 'Planificador',
+        navSchedule: 'Plan Diario y Recuperación',
+        navCommunity: 'Comunidad',
+        navPro: 'Suscripción Pro',
+        lblRaceDate: '1. Fecha de Competición (Día A)',
+        lblGoal: '2. Tipo de Evento'
+      },
+      fr: {
+        heroTitle: 'Votre Entraînement. Vos Horaires.<br><span class="text-brand-green">Performance Maximale.</span>',
+        heroDesc: 'Combinez le renforcement musculaire et l endurance dans un planning hebdomadaire clair. Adaptez vos séances à votre journée.',
+        btnGenerate: 'Créer le Plan et Exporter au Calendrier',
+        navPlaner: 'Planificateur',
+        navSchedule: 'Planning & Récupération',
+        navCommunity: 'Communauté',
+        navPro: 'Abonnement Pro',
+        lblRaceDate: '1. Date de la Compétition (Jour A)',
+        lblGoal: '2. Type d Événement'
+      },
+      pt: {
+        heroTitle: 'Teu Treino. Teus Horários.<br><span class="text-brand-green">Desempenho Máximo.</span>',
+        heroDesc: 'Combina ganho de força e resistência num plano semanal claro. Ajusta o teu tempo de treino à tua rotina diária.',
+        btnGenerate: 'Criar Plano e Exportar para o Calendário',
+        navPlaner: 'Planeador',
+        navSchedule: 'Agenda Diária e Recuperação',
+        navCommunity: 'Comunidade',
+        navPro: 'Plano Pro',
+        lblRaceDate: '1. Data da Prova (Dia A)',
+        lblGoal: '2. Tipo de Evento'
+      },
+      it: {
+        heroTitle: 'Il Tuo Allenamento. I Tuoi Orari.<br><span class="text-brand-green">Massima Performance.</span>',
+        heroDesc: 'Unisci forza e resistenza in una pianificazione settimanale chiara. Adatta i tuoi orari di allenamento alla tua giornata.',
+        btnGenerate: 'Crea Piano ed Esporta nel Calendario',
+        navPlaner: 'Pianificatore',
+        navSchedule: 'Piano Giornaliero e Recupero',
+        navCommunity: 'Community',
+        navPro: 'Abbonamento Pro',
+        lblRaceDate: '1. Data della Gara (Giorno A)',
+        lblGoal: '2. Tipo di Evento'
+      }
     };
 
-    const text = recommendations[muscleName] || 'Gezielte Hybrid-Übungen: Optimal abgestimmt auf Kraftzuwachs und Ausdauerleistung.';
-    document.getElementById('exerciseRecommendations').innerHTML = `<span class="font-bold text-rose-400"><i class="fa-solid fa-bolt mr-1"></i> ${muscleName}:</span> <span class="text-slate-300">${text}</span>`;
-}
-
-function renderWorkout() {
-    const today = '2026-10-08';
-    const workout = window.appState.workouts[today];
-    if(!workout) return;
-
-    document.getElementById('workoutTitle').innerText = workout.title;
-    const listEl = document.getElementById('workoutExerciseList');
-    listEl.innerHTML = '';
-
-    workout.exercises.forEach((ex, idx) => {
-        let setsHtml = ex.sets.map((s, sIdx) => `
-            <button onclick="toggleSet(${idx}, ${sIdx})" class="px-2.5 py-1 rounded-lg text-xs font-mono font-bold transition-all border ${s.done ? 'bg-emerald-500/20 border-emerald-500/50 text-emerald-400' : 'bg-slate-800 border-slate-700 text-slate-300 hover:border-slate-500'}">
-                S${sIdx+1}: ${s.reps}x ${s.weight > 0 ? s.weight+'kg' : ''}
-            </button>
-        `).join('');
-
-        listEl.innerHTML += `
-            <div class="bg-slate-950/60 p-3 rounded-xl border border-slate-800">
-                <div class="text-xs font-bold text-white mb-2">${ex.name}</div>
-                <div class="flex flex-wrap gap-2">${setsHtml}</div>
-            </div>
-        `;
-    });
-}
-
-function toggleSet(exIdx, setIdx) {
-    const today = '2026-10-08';
-    window.appState.workouts[today].exercises[exIdx].sets[setIdx].done = !window.appState.workouts[today].exercises[exIdx].sets[setIdx].done;
-    renderWorkout();
-}
-
-let timerInterval = null;
-function startRestTimer(seconds) {
-    clearInterval(timerInterval);
-    let sec = seconds;
-    const display = document.getElementById('timerDisplay');
-    
-    timerInterval = setInterval(() => {
-        let m = Math.floor(sec / 60);
-        let s = sec % 60;
-        display.innerText = `${m < 10 ? '0':''}${m}:${s < 10 ? '0':''}${s}`;
-        if(sec <= 0) {
-            clearInterval(timerInterval);
-            display.innerText = "00:00";
-        }
-        sec--;
-    }, 1000);
-}
-
-function resetRestTimer() {
-    clearInterval(timerInterval);
-    document.getElementById('timerDisplay').innerText = "01:30";
-}
-
-function renderPosts() {
-    const container = document.getElementById('postsContainer');
-    container.innerHTML = '';
-    window.appState.posts.forEach(p => {
-        container.innerHTML += `
-            <div class="bg-slate-950/60 border border-slate-800 p-4 rounded-xl">
-                <div class="flex items-center gap-3 mb-3">
-                    <img src="${p.avatar}" class="w-9 h-9 rounded-full object-cover border border-rose-500/30" alt="Avatar">
-                    <div>
-                        <div class="text-sm font-bold text-white">${p.author} <span class="text-xs font-normal text-slate-400">${p.handle}</span></div>
-                        <div class="text-[10px] text-slate-500">${p.time}</div>
-                    </div>
-                </div>
-                <p class="text-xs text-slate-200 leading-relaxed mb-3">${p.content}</p>
-                <div class="flex items-center justify-between pt-3 border-t border-slate-800 text-xs">
-                    <button onclick="boostPost(${p.id})" class="flex items-center gap-1.5 font-semibold transition-all ${p.isBoosted ? 'text-rose-500' : 'text-slate-400 hover:text-rose-400'}">
-                        <i class="fa-solid fa-bolt"></i> <span>${p.boosts} Boosts</span>
-                    </button>
-                    <span class="text-slate-500">${p.comments.length} Kommentare</span>
-                </div>
-            </div>
-        `;
-    });
-}
-
-function boostPost(id) {
-    const post = window.appState.posts.find(p => p.id === id);
-    if(post) {
-        post.isBoosted = !post.isBoosted;
-        post.boosts += post.isBoosted ? 1 : -1;
-        renderPosts();
+    function changeLanguage(langKey) {
+      const t = translations[langKey] || translations['de'];
+      
+      document.getElementById('hero-title').innerHTML = t.heroTitle;
+      document.getElementById('hero-desc').innerHTML = t.heroDesc;
+      document.getElementById('btn-generate').querySelector('span').innerText = t.btnGenerate;
+      
+      document.getElementById('txt-nav-planer').innerText = t.navPlaner;
+      document.getElementById('txt-nav-schedule').innerText = t.navSchedule;
+      document.getElementById('txt-nav-community').innerText = t.navCommunity;
+      document.getElementById('txt-nav-pro').innerText = t.navPro;
+      
+      document.getElementById('lbl-race-date').innerHTML = `<i class="fa-solid fa-flag-checkered text-brand-green"></i> ${t.lblRaceDate}`;
+      document.getElementById('lbl-goal').innerText = t.lblGoal;
     }
-}
 
-function createPost() {
-    const text = document.getElementById('newPostText').value.trim();
-    if(!text) return;
-    window.appState.posts.unshift({
+    function calculatePhases() {
+      const dateInput = document.getElementById('race-date').value;
+      if (!dateInput) return;
+
+      const raceDate = new Date(dateInput);
+      const today = new Date();
+      const diffTime = raceDate - today;
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+      const totalWeeks = Math.floor(diffDays / 7);
+
+      if (totalWeeks < 2) {
+        alert("Das Datum liegt zu nah in der Zukunft! Wähle ein Datum mit mindestens 4 Wochen Vorlaufzeit.");
+        return;
+      }
+
+      const taperWeeks = 2;
+      const remainingWeeks = totalWeeks - taperWeeks;
+      const baseWeeks = Math.floor(remainingWeeks * 0.5);
+      const buildWeeks = Math.floor(remainingWeeks * 0.3);
+      const peakWeeks = remainingWeeks - baseWeeks - buildWeeks;
+
+      document.getElementById('p1-weeks').innerText = `${baseWeeks} Wochen`;
+      document.getElementById('p2-weeks').innerText = `${buildWeeks} Wochen`;
+      document.getElementById('p3-weeks').innerText = `${peakWeeks} Wochen`;
+
+      document.getElementById('phase-preview').classList.remove('hidden');
+    }
+
+    function switchTab(tabName) {
+      document.getElementById('tab-generator').classList.add('hidden');
+      document.getElementById('tab-schedule').classList.add('hidden');
+      document.getElementById('tab-community').classList.add('hidden');
+      document.getElementById('tab-pro').classList.add('hidden');
+
+      document.getElementById('nav-generator').classList.remove('text-brand-green');
+      document.getElementById('nav-schedule').classList.remove('text-brand-green');
+      document.getElementById('nav-community').classList.remove('text-brand-green');
+      document.getElementById('nav-pro').classList.remove('text-brand-green');
+
+      document.getElementById(`tab-${tabName}`).classList.remove('hidden');
+      document.getElementById(`nav-${tabName}`).classList.add('text-brand-green');
+
+      if(tabName === 'schedule') {
+        renderWorkouts();
+      }
+      if(tabName === 'community') {
+        renderCommunityFeed();
+      }
+    }
+
+    function renderCommunityFeed() {
+      const feedContainer = document.getElementById('community-feed');
+      feedContainer.innerHTML = '';
+
+      communityPosts.forEach((post, index) => {
+        const postCard = document.createElement('div');
+        postCard.className = 'bg-brand-card border border-brand-border rounded-2xl p-5 space-y-4 hover:border-zinc-700 transition';
+
+        let commentsHtml = '';
+        post.comments.forEach(c => {
+          commentsHtml += `
+            <div class="bg-brand-black p-2.5 rounded-xl border border-brand-border text-xs space-y-1">
+              <span class="font-bold text-brand-green">${c.author}</span>
+              <p class="text-zinc-300">${c.text}</p>
+            </div>
+          `;
+        });
+
+        postCard.innerHTML = `
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-3">
+              <div class="w-9 h-9 rounded-full bg-zinc-800 border border-brand-border flex items-center justify-center font-bold text-xs text-white">
+                ${post.author.substring(0, 2)}
+              </div>
+              <div>
+                <h4 class="text-sm font-bold text-white">${post.author}</h4>
+                <span class="text-[10px] text-brand-muted">${post.time}</span>
+              </div>
+            </div>
+            <span class="px-2.5 py-1 bg-brand-green/10 text-brand-green border border-brand-green/20 rounded-lg text-[10px] font-bold uppercase">
+              ${post.category}
+            </span>
+          </div>
+
+          <p class="text-xs text-zinc-200 leading-relaxed">${post.content}</p>
+
+          <div class="flex items-center gap-4 pt-2 border-t border-brand-border text-xs">
+            <button onclick="giveKudos(${index})" class="flex items-center gap-1.5 text-brand-muted hover:text-brand-green transition font-bold">
+              <i class="fa-solid fa-thumbs-up text-brand-green"></i>
+              <span>${post.kudos} Kudos</span>
+            </button>
+            <span class="text-brand-muted"><i class="fa-regular fa-comment"></i> ${post.comments.length} Kommentare</span>
+          </div>
+
+          ${post.comments.length > 0 ? `<div class="space-y-2 pt-1">${commentsHtml}</div>` : ''}
+
+          <div class="flex items-center gap-2 pt-2">
+            <input type="text" id="comment-input-${index}" placeholder="Antworten..." class="bg-brand-black border border-brand-border text-white text-xs rounded-xl p-2 focus:outline-none focus:border-brand-green flex-1">
+            <button onclick="addComment(${index})" class="px-3 py-2 bg-zinc-800 hover:bg-zinc-700 text-white text-xs rounded-xl border border-brand-border transition">
+              Senden
+            </button>
+          </div>
+        `;
+
+        feedContainer.appendChild(postCard);
+      });
+    }
+
+    function addCommunityPost() {
+      const author = document.getElementById('post-author').value || 'Anonym';
+      const category = document.getElementById('post-category').value;
+      const content = document.getElementById('post-content').value;
+
+      if (!content.trim()) {
+        alert("Bitte gib einen Text ein!");
+        return;
+      }
+
+      communityPosts.unshift({
         id: Date.now(),
-        author: window.appState.userProfile.name,
-        handle: window.appState.userProfile.handle,
-        avatar: window.appState.userProfile.avatar,
-        time: "Gerade eben",
-        content: text,
-        boosts: 1,
-        isBoosted: true,
+        author: author,
+        category: category,
+        time: 'Gerade eben',
+        content: content,
+        kudos: 0,
         comments: []
-    });
-    document.getElementById('newPostText').value = '';
-    renderPosts();
-}
+      });
 
-function changeLanguage(lang) {
-    window.appState.lang = lang;
-    document.querySelectorAll('[data-i18n]').forEach(el => {
-        const key = el.getAttribute('data-i18n');
-        const translation = t(key);
-        if(translation) el.innerText = translation;
-    });
-}
+      document.getElementById('post-content').value = '';
+      renderCommunityFeed();
+    }
 
-document.addEventListener('DOMContentLoaded', () => {
-    switchTab('dashboard');
-    renderWorkout();
-});
-</script>
+    function giveKudos(index) {
+      communityPosts[index].kudos += 1;
+      renderCommunityFeed();
+    }
+
+    function addComment(index) {
+      const input = document.getElementById(`comment-input-${index}`);
+      if (!input.value.trim()) return;
+
+      communityPosts[index].comments.push({
+        author: 'Lucas',
+        text: input.value
+      });
+
+      renderCommunityFeed();
+    }
+
+    function getEndTime(startTimeStr, durationMinutes) {
+      if(!startTimeStr || durationMinutes === 0) return startTimeStr;
+      const [hours, mins] = startTimeStr.split(':').map(Number);
+      const startDate = new Date();
+      startDate.setHours(hours, mins, 0);
+      const endDate = new Date(startDate.getTime() + durationMinutes * 60000);
+      const endHours = String(endDate.getHours()).padStart(2, '0');
+      const endMins = String(endDate.getMinutes()).padStart(2, '0');
+      return `${endHours}:${endMins}`;
+    }
+
+    function renderWorkouts() {
+      const container = document.getElementById('workout-list');
+      container.innerHTML = '';
+
+      currentWorkouts.forEach((w, index) => {
+        const endTime = getEndTime(w.startTime, w.duration);
+        
+        let badgeColor = 'bg-zinc-800 text-zinc-300';
+        if(w.type === 'Kraft') badgeColor = 'bg-blue-500/10 text-blue-400 border border-blue-500/20';
+        if(w.type === 'Ausdauer') badgeColor = 'bg-brand-green/10 text-brand-green border border-brand-green/20';
+
+        const card = document.createElement('div');
+        card.className = 'bg-brand-card border border-brand-border rounded-2xl p-5 flex flex-col md:flex-row md:items-center justify-between gap-4 hover:border-zinc-700 transition';
+
+        card.innerHTML = `
+          <div class="space-y-2 flex-1">
+            <div class="flex items-center gap-3">
+              <span class="text-xs font-black uppercase text-brand-muted tracking-wider">${w.day}</span>
+              <span class="px-2.5 py-0.5 rounded-md text-[10px] font-bold uppercase ${badgeColor}">${w.type}</span>
+              <span class="text-xs text-zinc-500"><i class="fa-regular fa-clock"></i> ${w.duration} Min</span>
+            </div>
+            <h3 class="text-lg font-bold text-white">${w.title}</h3>
+            <p class="text-xs text-brand-muted">${w.desc}</p>
+          </div>
+
+          <div class="flex flex-wrap items-center gap-3 pt-3 md:pt-0 border-t md:border-t-0 border-brand-border">
+            <div class="flex items-center gap-2 bg-brand-black px-3 py-2 rounded-xl border border-brand-border">
+              <i class="fa-solid fa-clock text-brand-green text-xs"></i>
+              <input type="time" value="${w.startTime}" onchange="updateWorkoutTime(${index}, this.value)" class="bg-transparent text-white text-xs font-bold focus:outline-none">
+              <span class="text-xs text-brand-muted">- ${endTime}</span>
+            </div>
+
+            <button onclick="exportSingleIcs(${index})" class="p-2.5 bg-zinc-800 hover:bg-zinc-700 text-white rounded-xl text-xs border border-brand-border transition" title="Apple Kalender">
+              <i class="fa-brands fa-apple"></i>
+            </button>
+
+            <button onclick="exportGoogleCalendar(${index})" class="p-2.5 bg-zinc-800 hover:bg-zinc-700 text-white rounded-xl text-xs border border-brand-border transition" title="Google Kalender">
+              <i class="fa-brands fa-google"></i>
+            </button>
+          </div>
+        `;
+
+        container.appendChild(card);
+      });
+    }
+
+    function updateWorkoutTime(index, newTime) {
+      currentWorkouts[index].startTime = newTime;
+      renderWorkouts();
+    }
+
+    function exportGoogleCalendar(index) {
+      const w = currentWorkouts[index];
+      const endTime = getEndTime(w.startTime, w.duration);
+      const now = new Date();
+      const dateStr = now.toISOString().replace(/-|:|\.\d\d\d/g, "").substring(0, 8);
+      const startIso = `${dateStr}T${w.startTime.replace(':', '')}00`;
+      const endIso = `${dateStr}T${endTime.replace(':', '')}00`;
+      const title = encodeURIComponent(`[HYBRID AI] ${w.title}`);
+      const details = encodeURIComponent(`${w.desc}\n\nDauer: ${w.duration} Min`);
+      const url = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${startIso}/${endIso}&details=${details}`;
+      window.open(url, '_blank');
+    }
+
+    function exportSingleIcs(index) {
+      const w = currentWorkouts[index];
+      const endTime = getEndTime(w.startTime, w.duration);
+      const now = new Date();
+      const year = now.getFullYear();
+      const month = String(now.getMonth() + 1).padStart(2, '0');
+      const day = String(now.getDate()).padStart(2, '0');
+      const dtStart = `${year}${month}${day}T${w.startTime.replace(':', '')}00`;
+      const dtEnd = `${year}${month}${day}T${endTime.replace(':', '')}00`;
+
+      const icsContent = `BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//HYBRID AI Fitness//DE\nBEGIN:VEVENT\nSUMMARY:[HYBRID AI] ${w.title}\nDESCRIPTION:${w.desc}\nDTSTART:${dtStart}\nDTEND:${dtEnd}\nEND:VEVENT\nEND:VCALENDAR`;
+      downloadFile(icsContent, `training-${w.day.toLowerCase()}.ics`, 'text/calendar');
+    }
+
+    function downloadFile(content, fileName, mimeType) {
+      const blob = new Blob([content], { type: mimeType });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = fileName;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+
+    function generatePlan() {
+      const btn = document.getElementById('btn-generate');
+      btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Erstelle Wettkampfplan...`;
+
+      setTimeout(() => {
+        btn.innerHTML = `<i class="fa-solid fa-wand-magic-sparkles text-lg"></i> <span>Wettkampf-Plan Generieren & Kalender Synchronisieren</span>`;
+        switchTab('schedule');
+      }, 800);
+    }
+  </script>
 </body>
 </html>
