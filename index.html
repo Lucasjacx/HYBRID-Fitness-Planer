@@ -62,16 +62,15 @@ window.appState = {
     activeTab: 'dashboard',
     selectedMuscle: null,
     restTimerInterval: null,
-    restTimerSeconds: 0,
     userProfile: {
-        name: "Alex Sterling",
-        handle: "@alex_hybrid",
+        name: "Lucas Hybrid",
+        handle: "@lucas_hybrid",
         avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=250&q=80",
-        runningKm: 42.5,
-        cyclingKm: 120.0,
-        swimmingKm: 4.8,
-        totalTonnage: 14850,
-        streakDays: 14
+        runningKm: 45.0,
+        cyclingKm: 150.0,
+        swimmingKm: 6.2,
+        totalTonnage: 18500,
+        streakDays: 21
     },
     posts: [
         {
@@ -80,47 +79,25 @@ window.appState = {
             handle: "@sjenkins_fit",
             avatar: "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=150&q=80",
             time: "Vor 2 Std.",
-            content: "Neuer PR im Kniebeugen heute: 140kg x 5 Sätze! Danach direkt 5km Tempolauf für die Hyrox-Vorbereitung. Hybrid Training zahlt sich aus! 💪🔥",
+            content: "Koppeltraining absolviert: 90km Rad + 10km Koppellauf. Der Ironman naht! Hybrid Training zahlt sich aus! 🚴‍♂️🏃‍♂️🔥",
             image: "https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=800&q=80",
-            boosts: 34,
+            boosts: 42,
             isBoosted: false,
             comments: [
-                { author: "@alex_hybrid", text: "Starke Leistung! Welches Schulter-Warmup nutzt du davor?" }
+                { author: "@lucas_hybrid", text: "Starke Leistung! Wie teilst du dir die Wattwerte auf?" }
             ]
-        },
-        {
-            id: 2,
-            author: "Marc Lindner",
-            handle: "@marc_trihybrid",
-            avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=150&q=80",
-            time: "Vor 5 Std.",
-            content: "Early Morning Swim Section absolviert: 3.000m Z2. Später am Abend steht noch eine Schwere Deadlift Session im Plan. Vergesst nicht eure Carbs zu carben! 🏊‍♂️🏋️‍♂️",
-            image: "https://images.unsplash.com/photo-1600965962361-9035dbfd1c50?auto=format&fit=crop&w=800&q=80",
-            boosts: 52,
-            isBoosted: true,
-            comments: []
         }
     ],
     workouts: {
         '2026-10-08': {
-            title: "Leg Day & Heavy Squat Fokus",
-            type: "Strength",
-            duration: "75 min",
+            title: "Ironman Brick Session & Heavy Squat",
+            type: "Hybrid",
+            duration: "90 min",
             completed: false,
             exercises: [
-                { name: "Barbell Back Squat", sets: [ { reps: 8, weight: 120, done: true }, { reps: 8, weight: 125, done: true }, { reps: 6, weight: 130, done: false } ] },
-                { name: "Romanian Deadlift", sets: [ { reps: 10, weight: 100, done: false }, { reps: 10, weight: 100, done: false } ] },
-                { name: "Walking Lunges", sets: [ { reps: 12, weight: 24, done: false }, { reps: 12, weight: 24, done: false } ] }
-            ]
-        },
-        '2026-10-09': {
-            title: "Interval Run 8x400m Z4",
-            type: "Cardio",
-            duration: "45 min",
-            completed: false,
-            exercises: [
-                { name: "Warmup Jog", sets: [{ reps: 1, weight: 0, done: false }] },
-                { name: "400m Reps @ 3:30/km", sets: [{ reps: 8, weight: 0, done: false }] }
+                { name: "Indoor Cycling Z2 Endurance", sets: [ { reps: 1, weight: 150, done: true } ] },
+                { name: "Brick Run (Race Pace)", sets: [ { reps: 1, weight: 10, done: true } ] },
+                { name: "Barbell Back Squat", sets: [ { reps: 8, weight: 120, done: false }, { reps: 8, weight: 125, done: false } ] }
             ]
         }
     }
@@ -131,193 +108,37 @@ const i18n = {
         appName: "HYBRID AI",
         dashboard: "Dashboard",
         macroPeriodization: "Makro-Planung",
-        raceCalculator: "Wettkampf-Rechner",
         pitstopFeed: "Athleten-Pitstop",
         profile: "Mein Profil",
-        calendar: "Trainingskalender",
         boosts: "Boosts",
-        boost: "Boost",
-        boosted: "Geboostet",
-        addBoost: "Gibt diesem Post einen Boost!",
         muscleInspector: "Anatomische Muskel-Analyse",
         frontView: "Vorderansicht (Anterior)",
         backView: "Rückansicht (Posterior)",
-        volumeMetrics: "Wöchentliche Leistungskennzahlen",
-        running: "Laufen",
-        cycling: "Radfahren",
-        swimming: "Schwimmen",
-        totalTonnage: "Gesamttonnage",
         selectMusclePrompt: "Klicke auf einen Muskel für gezielte Hybrid-Übungen",
         restTimer: "Satzpause-Timer",
         startRest: "Pause starten",
         reset: "Zurücksetzen",
         newPost: "Neuen Pitstop Beitrag teilen",
-        postPlaceholder: "Teile deine Trainingseinheit, Zeiten oder Formcheck mit der Community...",
-        postButton: "Veröffentlichen",
-        raceTarget: "Wettkampfziel & Datum",
-        calculatePhase: "Makrozyklus berechnen",
-        streak: "Tage Serie",
-        primaryTarget: "Primärziel"
-    },
-    en: {
-        appName: "HYBRID AI",
-        dashboard: "Dashboard",
-        macroPeriodization: "Macro Planning",
-        raceCalculator: "Race Calculator",
-        pitstopFeed: "Athlete Pitstop",
-        profile: "My Profile",
-        calendar: "Training Calendar",
-        boosts: "Boosts",
-        boost: "Boost",
-        boosted: "Boosted",
-        addBoost: "Give this post a Boost!",
-        muscleInspector: "Anatomical Muscle Inspector",
-        frontView: "Front View (Anterior)",
-        backView: "Back View (Posterior)",
-        volumeMetrics: "Weekly Volume Metrics",
-        running: "Running",
-        cycling: "Cycling",
-        swimming: "Swimming",
-        totalTonnage: "Total Tonnage",
-        selectMusclePrompt: "Click any muscle group to view targeted hybrid exercises",
-        restTimer: "Rest Interval Timer",
-        startRest: "Start Rest",
-        reset: "Reset",
-        newPost: "Share Pitstop Update",
-        postPlaceholder: "Share your training session, PRs or recovery thoughts...",
-        postButton: "Post Update",
-        raceTarget: "Race Target & Date",
-        calculatePhase: "Calculate Macrocycle",
-        streak: "Day Streak",
-        primaryTarget: "Primary Target"
-    },
-    es: {
-        appName: "HYBRID AI",
-        dashboard: "Panel",
-        macroPeriodization: "Planificación Macro",
-        raceCalculator: "Calculadora de Carrera",
-        pitstopFeed: "Pitstop Atletas",
-        profile: "Mi Perfil",
-        calendar: "Calendario",
-        boosts: "Boosts",
-        boost: "Boost",
-        boosted: "Impulsado",
-        addBoost: "¡Da un Boost a esta publicación!",
-        muscleInspector: "Inspector Muscular Anatómico",
-        frontView: "Vista Frontal (Anterior)",
-        backView: "Vista Posterior",
-        volumeMetrics: "Métricas Semanales de Volumen",
-        running: "Carrera",
-        cycling: "Ciclismo",
-        swimming: "Natación",
-        totalTonnage: "Tonelaje Total",
-        selectMusclePrompt: "Haz clic en un músculo para ver ejercicios híbridos",
-        restTimer: "Temporizador de Descanso",
-        startRest: "Iniciar Descanso",
-        reset: "Reiniciar",
-        newPost: "Compartir en Pitstop",
-        postPlaceholder: "Comparte tu entrenamiento o rendimiento...",
-        postButton: "Publicar",
-        raceTarget: "Objetivo y Fecha",
-        calculatePhase: "Calcular Macrociclo",
-        streak: "Días Seguidos",
-        primaryTarget: "Objetivo Principal"
-    },
-    fr: {
-        appName: "HYBRID AI",
-        dashboard: "Tableau de Bord",
-        macroPeriodization: "Macro-Planification",
-        raceCalculator: "Calculateur de Course",
-        pitstopFeed: "Pitstop Athlètes",
-        profile: "Mon Profil",
-        calendar: "Calendrier",
-        boosts: "Boosts",
-        boost: "Boost",
-        boosted: "Boosté",
-        addBoost: "Donnez un Boost à ce post !",
-        muscleInspector: "Anatomie Musculaire",
-        frontView: "Vue Antérieure",
-        backView: "Vue Postérieure",
-        volumeMetrics: "Volume Hebdomadaire",
-        running: "Course",
-        cycling: "Cyclisme",
-        swimming: "Natation",
-        totalTonnage: "Tonnage Total",
-        selectMusclePrompt: "Cliquez sur un muscle pour voir les exercices",
-        restTimer: "Minuteur de Repos",
-        startRest: "Démarrer",
-        reset: "RàZ",
-        newPost: "Publier dans le Pitstop",
-        postPlaceholder: "Partagez votre séance d'entraînement...",
-        postButton: "Publier",
-        raceTarget: "Objectif & Date",
-        calculatePhase: "Calculer le Macrocycle",
-        streak: "Jours Consécutifs",
-        primaryTarget: "Objectif Principal"
+        postPlaceholder: "Teile deine Trainingseinheit, Zeiten oder Formcheck...",
+        postButton: "Veröffentlichen"
     },
     pt: {
         appName: "HYBRID AI",
         dashboard: "Painel",
         macroPeriodization: "Macroplanejamento",
-        raceCalculator: "Calculadora de Prova",
         pitstopFeed: "Pitstop de Atletas",
         profile: "Meu Perfil",
-        calendar: "Calendário",
         boosts: "Boosts",
-        boost: "Boost",
-        boosted: "Impulsionado",
-        addBoost: "Dê um Boost nesta publicação!",
         muscleInspector: "Inspetor Muscular Anatômico",
         frontView: "Vista Frontal (Anterior)",
         backView: "Vista Posterior",
-        volumeMetrics: "Métricas Semanais de Volume",
-        running: "Corrida",
-        cycling: "Ciclismo",
-        swimming: "Natação",
-        totalTonnage: "Tonelagem Total",
         selectMusclePrompt: "Clique em um músculo para ver exercícios específicos",
         restTimer: "Cronômetro de Descanso",
         startRest: "Iniciar Descanso",
         reset: "Reiniciar",
         newPost: "Compartilhar Atualização",
         postPlaceholder: "Escreva sobre seu treino de hoje...",
-        postButton: "Publicar",
-        raceTarget: "Meta de Prova & Data",
-        calculatePhase: "Calcular Macrociclo",
-        streak: "Dias Seguidos",
-        primaryTarget: "Meta Principal"
-    },
-    it: {
-        appName: "HYBRID AI",
-        dashboard: "Dashboard",
-        macroPeriodization: "Programmazione Macro",
-        raceCalculator: "Calcolatore Gara",
-        pitstopFeed: "Pitstop Atleti",
-        profile: "Il Mio Profilo",
-        calendar: "Calendario",
-        boosts: "Boosts",
-        boost: "Boost",
-        boosted: "Potenziato",
-        addBoost: "Dai un Boost a questo post!",
-        muscleInspector: "Mappa Muscolare Anatomica",
-        frontView: "Vista Anteriore",
-        backView: "Vista Posteriore",
-        volumeMetrics: "Volume Settimanale",
-        running: "Corsa",
-        cycling: "Ciclismo",
-        swimming: "Nuoto",
-        totalTonnage: "Tonnellaggio Totale",
-        selectMusclePrompt: "Clicca su un muscolo per gli esercizi dedicati",
-        restTimer: "Timer di Recupero",
-        startRest: "Avvia Recupero",
-        reset: "Azzera",
-        newPost: "Condividi nel Pitstop",
-        postPlaceholder: "Condividi i dettagli del tuo allenamento...",
-        postButton: "Pubblica",
-        raceTarget: "Obiettivo Gara & Data",
-        calculatePhase: "Calcola Macrociclo",
-        streak: "Giorni Consecutivi",
-        primaryTarget: "Obiettivo Primario"
+        postButton: "Publicar"
     }
 };
 
@@ -358,16 +179,10 @@ function t(key) {
 
             <!-- Language Switcher & User Avatar -->
             <div class="flex items-center gap-3">
-                <div class="relative">
-                    <select onchange="changeLanguage(this.value)" id="langSelect" class="bg-slate-800 border border-slate-700 text-slate-200 text-xs rounded-lg px-2.5 py-1.5 font-medium focus:ring-2 focus:ring-rose-500 focus:outline-none">
-                        <option value="de">🇩🇪 DE</option>
-                        <option value="en">🇬🇧 EN</option>
-                        <option value="es">🇪🇸 ES</option>
-                        <option value="fr">🇫🇷 FR</option>
-                        <option value="pt">🇵🇹 PT</option>
-                        <option value="it">🇮🇹 IT</option>
-                    </select>
-                </div>
+                <select onchange="changeLanguage(this.value)" id="langSelect" class="bg-slate-800 border border-slate-700 text-slate-200 text-xs rounded-lg px-2.5 py-1.5 font-medium focus:ring-2 focus:ring-rose-500 focus:outline-none">
+                    <option value="de">🇩🇪 DE</option>
+                    <option value="pt">🇵🇹 PT</option>
+                </select>
                 <div class="w-9 h-9 rounded-full bg-slate-800 border border-rose-500/40 overflow-hidden flex items-center justify-center">
                     <img id="userAvatarHeader" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=250&q=80" class="w-full h-full object-cover" alt="User">
                 </div>
@@ -387,32 +202,32 @@ function t(key) {
                     <span>Lauf-Volumen</span>
                     <i class="fa-solid fa-person-running text-rose-500"></i>
                 </div>
-                <div class="text-2xl font-bold mt-2 text-white">42.5 <span class="text-sm font-normal text-slate-400">km</span></div>
-                <div class="text-xs text-emerald-400 mt-1"><i class="fa-solid fa-arrow-trend-up"></i> +12% diese Woche</div>
+                <div class="text-2xl font-bold mt-2 text-white">45.0 <span class="text-sm font-normal text-slate-400">km</span></div>
+                <div class="text-xs text-emerald-400 mt-1"><i class="fa-solid fa-arrow-trend-up"></i> Ironman Vorbereitung</div>
             </div>
             <div class="bg-slate-900 border border-slate-800 p-4 rounded-2xl shadow-sm">
                 <div class="flex justify-between items-center text-slate-400 text-xs font-semibold uppercase">
                     <span>Rad-Volumen</span>
                     <i class="fa-solid fa-person-biking text-amber-500"></i>
                 </div>
-                <div class="text-2xl font-bold mt-2 text-white">120.0 <span class="text-sm font-normal text-slate-400">km</span></div>
-                <div class="text-xs text-emerald-400 mt-1"><i class="fa-solid fa-arrow-trend-up"></i> Plan erfüllt</div>
+                <div class="text-2xl font-bold mt-2 text-white">150.0 <span class="text-sm font-normal text-slate-400">km</span></div>
+                <div class="text-xs text-emerald-400 mt-1"><i class="fa-solid fa-arrow-trend-up"></i> Z2 Basis stabil</div>
             </div>
             <div class="bg-slate-900 border border-slate-800 p-4 rounded-2xl shadow-sm">
                 <div class="flex justify-between items-center text-slate-400 text-xs font-semibold uppercase">
-                    <span>Gesamt-Tonnage</span>
-                    <i class="fa-solid fa-dumbbell text-sky-400"></i>
+                    <span>Schwimmen</span>
+                    <i class="fa-solid fa-person-swimming text-sky-400"></i>
                 </div>
-                <div class="text-2xl font-bold mt-2 text-white">14.850 <span class="text-sm font-normal text-slate-400">kg</span></div>
-                <div class="text-xs text-rose-400 mt-1"><i class="fa-solid fa-fire"></i> High Volume Day</div>
+                <div class="text-2xl font-bold mt-2 text-white">6.2 <span class="text-sm font-normal text-slate-400">km</span></div>
+                <div class="text-xs text-sky-400 mt-1"><i class="fa-solid fa-water"></i> Technik-Fokus</div>
             </div>
             <div class="bg-slate-900 border border-slate-800 p-4 rounded-2xl shadow-sm">
                 <div class="flex justify-between items-center text-slate-400 text-xs font-semibold uppercase">
-                    <span>Boosts Erhalten</span>
-                    <i class="fa-solid fa-bolt text-rose-500"></i>
+                    <span>Kraft-Tonnage</span>
+                    <i class="fa-solid fa-dumbbell text-rose-500"></i>
                 </div>
-                <div class="text-2xl font-bold mt-2 text-white">86 <span class="text-sm font-normal text-slate-400">Boosts</span></div>
-                <div class="text-xs text-slate-400 mt-1">Aus Pitstop Feed</div>
+                <div class="text-2xl font-bold mt-2 text-white">18.5 <span class="text-sm font-normal text-slate-400">Ton</span></div>
+                <div class="text-xs text-rose-400 mt-1"><i class="fa-solid fa-fire"></i> Muskelmasse-Erhalt</div>
             </div>
         </div>
 
@@ -440,45 +255,15 @@ function t(key) {
                     <div class="flex flex-col items-center">
                         <span class="text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-2" data-i18n="frontView">Vorderansicht (Anterior)</span>
                         <svg viewBox="0 0 200 400" class="w-full max-w-[190px] h-auto drop-shadow-md">
-                            <!-- Silhouette Outline Backdrop -->
                             <g fill="#1e293b" opacity="0.3">
                                 <ellipse cx="100" cy="35" rx="16" ry="20"/>
                                 <path d="M72,60 C75,55 125,55 128,60 C145,68 152,90 152,110 L146,180 L140,220 L132,380 L100,380 L100,230 L100,230 L100,380 L68,380 L60,220 L54,180 L48,110 C48,90 55,68 72,60 Z" />
                             </g>
-
-                            <!-- Trapezius / Neck -->
-                            <path d="M88,52 L112,52 L120,62 L80,62 Z" class="muscle-path fill-slate-700" onclick="selectMuscle('Trapezius')" data-name="Trapezius"/>
-                            
-                            <!-- Pectoralis Major -->
+                            <path d="M88,52 L112,52 L120,62 L80,62 Z" class="muscle-path fill-slate-700" onclick="selectMuscle('Trapez / Nacken')" data-name="Trapez / Nacken"/>
                             <path d="M81,66 C90,66 98,70 98,88 L80,90 C72,82 72,70 81,66 Z" class="muscle-path fill-slate-600" onclick="selectMuscle('Brustmuskel (Pectoralis)')" data-name="Brustmuskel (Pectoralis)"/>
                             <path d="M119,66 C110,66 102,70 102,88 L120,90 C128,82 128,70 119,66 Z" class="muscle-path fill-slate-600" onclick="selectMuscle('Brustmuskel (Pectoralis)')" data-name="Brustmuskel (Pectoralis)"/>
-
-                            <!-- Deltoids (Front) -->
-                            <path d="M78,63 C65,68 62,82 66,95 L77,88 C76,76 78,68 78,63 Z" class="muscle-path fill-slate-600" onclick="selectMuscle('Vordere Schulter (Deltoid)')" data-name="Vordere Schulter (Deltoid)"/>
-                            <path d="M122,63 C135,68 138,82 134,95 L123,88 C124,76 122,68 122,63 Z" class="muscle-path fill-slate-600" onclick="selectMuscle('Vordere Schulter (Deltoid)')" data-name="Vordere Schulter (Deltoid)"/>
-
-                            <!-- Biceps -->
-                            <path d="M65,98 C61,110 61,126 68,138 C74,130 75,112 73,96 Z" class="muscle-path fill-slate-700" onclick="selectMuscle('Bizeps (Biceps Brachii)')" data-name="Bizeps (Biceps Brachii)"/>
-                            <path d="M135,98 C139,110 139,126 132,138 C126,130 125,112 127,96 Z" class="muscle-path fill-slate-700" onclick="selectMuscle('Bizeps (Biceps Brachii)')" data-name="Bizeps (Biceps Brachii)"/>
-
-                            <!-- Forearms / Brachioradialis -->
-                            <path d="M67,142 C59,155 56,172 61,190 L68,185 C69,168 72,152 71,142 Z" class="muscle-path fill-slate-600" onclick="selectMuscle('Unterarme')" data-name="Unterarme"/>
-                            <path d="M133,142 C141,155 144,172 139,190 L132,185 C131,168 128,152 129,142 Z" class="muscle-path fill-slate-600" onclick="selectMuscle('Unterarme')" data-name="Unterarme"/>
-
-                            <!-- Rectus Abdominis (Sixpack) -->
-                            <path d="M84,93 L116,93 L115,112 L85,112 Z M85,115 L115,115 L114,134 L86,134 Z M86,137 L114,137 L112,158 L88,158 Z" class="muscle-path fill-slate-700" onclick="selectMuscle('Bauchmuskeln (Abs)')" data-name="Bauchmuskeln (Abs)"/>
-
-                            <!-- Obliques -->
-                            <path d="M75,95 L82,95 L84,152 L73,138 Z" class="muscle-path fill-slate-800" onclick="selectMuscle('Schräge Bauchmuskeln')" data-name="Schräge Bauchmuskeln"/>
-                            <path d="M125,95 L118,95 L116,152 L127,138 Z" class="muscle-path fill-slate-800" onclick="selectMuscle('Schräge Bauchmuskeln')" data-name="Schräge Bauchmuskeln"/>
-
-                            <!-- Quadriceps (Rectus Femoris & Vastus) -->
-                            <path d="M72,175 C85,170 95,178 96,220 C90,260 76,260 70,225 C68,205 69,188 72,175 Z" class="muscle-path fill-slate-600" onclick="selectMuscle('Oberschenkel (Quadriceps)')" data-name="Oberschenkel (Quadriceps)"/>
-                            <path d="M128,175 C115,170 105,178 104,220 C110,260 124,260 130,225 C132,205 131,188 128,175 Z" class="muscle-path fill-slate-600" onclick="selectMuscle('Oberschenkel (Quadriceps)')" data-name="Oberschenkel (Quadriceps)"/>
-
-                            <!-- Tibialis & Calves (Front) -->
-                            <path d="M70,280 C78,280 82,295 80,340 C75,360 70,360 68,335 C66,310 67,290 70,280 Z" class="muscle-path fill-slate-700" onclick="selectMuscle('Waden & Schienbein')" data-name="Waden & Schienbein"/>
-                            <path d="M130,280 C122,280 118,295 120,340 C125,360 130,360 132,335 C134,310 133,290 130,280 Z" class="muscle-path fill-slate-700" onclick="selectMuscle('Waden & Schienbein')" data-name="Waden & Schienbein"/>
+                            <path d="M72,175 C85,170 95,178 96,220 C90,260 76,260 70,225 Z" class="muscle-path fill-slate-600" onclick="selectMuscle('Oberschenkel (Quadriceps)')" data-name="Oberschenkel (Quadriceps)"/>
+                            <path d="M128,175 C115,170 105,178 104,220 C110,260 124,260 130,225 Z" class="muscle-path fill-slate-600" onclick="selectMuscle('Oberschenkel (Quadriceps)')" data-name="Oberschenkel (Quadriceps)"/>
                         </svg>
                     </div>
 
@@ -486,65 +271,37 @@ function t(key) {
                     <div class="flex flex-col items-center">
                         <span class="text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-2" data-i18n="backView">Rückansicht (Posterior)</span>
                         <svg viewBox="0 0 200 400" class="w-full max-w-[190px] h-auto drop-shadow-md">
-                            <!-- Silhouette Outline Backdrop -->
                             <g fill="#1e293b" opacity="0.3">
                                 <ellipse cx="100" cy="35" rx="16" ry="20"/>
                                 <path d="M72,60 C75,55 125,55 128,60 C145,68 152,90 152,110 L146,180 L140,220 L132,380 L100,380 L100,230 L100,230 L100,380 L68,380 L60,220 L54,180 L48,110 C48,90 55,68 72,60 Z" />
                             </g>
-
-                            <!-- Trapezius (Upper Back) -->
-                            <path d="M100,52 L118,63 L100,105 L82,63 Z" class="muscle-path fill-slate-600" onclick="selectMuscle('Trapez / Nacken')" data-name="Trapez / Nacken"/>
-
-                            <!-- Rear Deltoids -->
-                            <path d="M78,63 L65,68 L63,88 L78,82 Z" class="muscle-path fill-slate-700" onclick="selectMuscle('Hintere Schulter')" data-name="Hintere Schulter"/>
-                            <path d="M122,63 L135,68 L137,88 L122,82 Z" class="muscle-path fill-slate-700" onclick="selectMuscle('Hintere Schulter')" data-name="Hintere Schulter"/>
-
-                            <!-- Triceps -->
-                            <path d="M63,90 C60,105 60,122 67,135 C73,125 74,108 76,90 Z" class="muscle-path fill-slate-600" onclick="selectMuscle('Trizeps (Triceps)')" data-name="Trizeps (Triceps)"/>
-                            <path d="M137,90 C140,105 140,122 133,135 C127,125 126,108 124,90 Z" class="muscle-path fill-slate-600" onclick="selectMuscle('Trizeps (Triceps)')" data-name="Trizeps (Triceps)"/>
-
-                            <!-- Latissimus Dorsi -->
-                            <path d="M81,100 L98,108 L95,150 L76,128 Z" class="muscle-path fill-slate-700" onclick="selectMuscle('Latissimus (Rückenbreite)')" data-name="Latissimus (Rückenbreite)"/>
-                            <path d="M119,100 L102,108 L105,150 L124,128 Z" class="muscle-path fill-slate-700" onclick="selectMuscle('Latissimus (Rückenbreite)')" data-name="Latissimus (Rückenbreite)"/>
-
-                            <!-- Lower Back / Erector Spinae -->
-                            <path d="M92,140 L108,140 L106,170 L94,170 Z" class="muscle-path fill-slate-800" onclick="selectMuscle('Unterer Rücken (Erector)')" data-name="Unterer Rücken (Erector)"/>
-
-                            <!-- Gluteus Maximus & Medius -->
                             <path d="M71,172 C80,168 98,170 98,212 C82,218 70,205 69,185 Z" class="muscle-path fill-slate-600" onclick="selectMuscle('Gesäßmuskel (Gluteus)')" data-name="Gesäßmuskel (Gluteus)"/>
                             <path d="M129,172 C120,168 102,170 102,212 C118,218 130,205 131,185 Z" class="muscle-path fill-slate-600" onclick="selectMuscle('Gesäßmuskel (Gluteus)')" data-name="Gesäßmuskel (Gluteus)"/>
-
-                            <!-- Hamstrings (Biceps Femoris) -->
                             <path d="M71,218 C82,218 96,222 95,268 C82,270 73,260 70,235 Z" class="muscle-path fill-slate-700" onclick="selectMuscle('Beinbeuger (Hamstrings)')" data-name="Beinbeuger (Hamstrings)"/>
                             <path d="M129,218 C118,218 104,222 105,268 C118,270 127,260 130,235 Z" class="muscle-path fill-slate-700" onclick="selectMuscle('Beinbeuger (Hamstrings)')" data-name="Beinbeuger (Hamstrings)"/>
-
-                            <!-- Gastrocnemius (Calves Back) -->
-                            <path d="M68,280 C78,278 84,290 82,325 C76,345 70,345 66,325 Z" class="muscle-path fill-slate-600" onclick="selectMuscle('Waden (Gastrocnemius)')" data-name="Waden (Gastrocnemius)"/>
-                            <path d="M132,280 C122,278 116,290 118,325 C124,345 130,345 134,325 Z" class="muscle-path fill-slate-600" onclick="selectMuscle('Waden (Gastrocnemius)')" data-name="Waden (Gastrocnemius)"/>
                         </svg>
                     </div>
                 </div>
 
-                <!-- Dynamic Exercise Recommendations Box -->
                 <div id="exerciseRecommendations" class="mt-4 p-3.5 bg-slate-800/60 rounded-xl border border-slate-700/60 text-xs">
                     <span class="font-bold text-rose-400"><i class="fa-solid fa-lightbulb mr-1"></i> Empfehlung:</span>
-                    <span class="text-slate-300">Wähle oben eine Muskelgruppe für abgestimmte Cardio- & Kraftübungen.</span>
+                    <span class="text-slate-300">Wähle oben eine Muskelgruppe für abgestimmte Kraft- und Ausdauer-Übungen für deinen Triathlon & Muskelaufbau.</span>
                 </div>
             </div>
 
+            <!-- Active Workout & Timer -->
             <div class="lg:col-span-5 bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl flex flex-col justify-between">
                 <div>
                     <div class="flex items-center justify-between pb-4 border-b border-slate-800">
                         <div>
-                            <span class="text-xs text-rose-500 font-bold uppercase tracking-wider">Heute's Training</span>
-                            <h3 class="text-lg font-bold text-white" id="workoutTitle">Leg Day & Heavy Squat Fokus</h3>
+                            <span class="text-xs text-rose-500 font-bold uppercase tracking-wider">Heutiges Training</span>
+                            <h3 class="text-lg font-bold text-white" id="workoutTitle">Ironman Brick Session & Heavy Squat</h3>
                         </div>
                         <span class="bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs px-2.5 py-1 rounded-full font-semibold">Aktiv</span>
                     </div>
 
-                    <!-- Exercises List -->
                     <div class="mt-4 space-y-4 custom-scrollbar max-h-[320px] overflow-y-auto pr-1" id="workoutExerciseList">
-                        <!-- Dynamic Populated Exercises -->
+                        <!-- Populated dynamically via JS -->
                     </div>
                 </div>
 
@@ -559,8 +316,8 @@ function t(key) {
                             <button onclick="startRestTimer(90)" class="bg-rose-600 hover:bg-rose-700 text-white px-3 py-1.5 rounded-lg text-xs font-bold transition-all shadow-md shadow-rose-600/30" data-i18n="startRest">
                                 Pause starten
                             </button>
-                            <button onclick="resetRestTimer()" class="bg-slate-800 hover:bg-slate-700 text-slate-300 px-3 py-1.5 rounded-lg text-xs font-semibold" data-i18n="reset">
-                                Reset
+                            <button onclick="resetRestTimer()" class="bg-slate-800 hover:bg-slate-700 text-slate-300 px-3 py-1.5 rounded-lg text-xs font-bold transition-all" data-i18n="reset">
+                                Zurücksetzen
                             </button>
                         </div>
                     </div>
@@ -569,136 +326,75 @@ function t(key) {
         </div>
     </div>
 
-    <!-- MACRO PERIODIZATION & RACE CALCULATOR VIEW -->
+    <!-- MACRO-PLANNING VIEW -->
     <div id="tab-macro" class="tab-content hidden space-y-6">
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-            
-            <div class="lg:col-span-5 bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl">
-                <h2 class="text-lg font-bold text-white mb-1 flex items-center gap-2">
-                    <i class="fa-solid fa-calculator text-rose-500"></i>
-                    <span data-i18n="raceCalculator">Wettkampf-Rechner</span>
-                </h2>
-                <p class="text-xs text-slate-400 mb-4">Berechne die optimale Phasenaufteilung für dein Haupt-Event.</p>
-
-                <form onsubmit="calculateMacrocycle(event)" class="space-y-4">
-                    <div>
-                        <label class="block text-xs font-semibold text-slate-300 mb-1">Event Typ</label>
-                        <select id="eventType" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2.5 text-sm text-slate-200 focus:ring-2 focus:ring-rose-500 outline-none">
-                            <option value="hyrox">Hyrox Competition</option>
-                            <option value="marathon">Marathon / Halbmarathon</option>
-                            <option value="triathlon">Ironman 70.3 / Triathlon</option>
-                            <option value="powerbuilding">Hybrid Strength Peak</option>
-                        </select>
-                    </div>
-
-                    <div>
-                        <label class="block text-xs font-semibold text-slate-300 mb-1" data-i18n="raceTarget">Wettkampfdatum</label>
-                        <input type="date" id="raceDate" value="2027-04-15" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2.5 text-sm text-slate-200 focus:ring-2 focus:ring-rose-500 outline-none">
-                    </div>
-
-                    <div>
-                        <label class="block text-xs font-semibold text-slate-300 mb-1" data-i18n="primaryTarget">Primärfokus</label>
-                        <select id="primaryFocus" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2.5 text-sm text-slate-200 focus:ring-2 focus:ring-rose-500 outline-none">
-                            <option value="balanced">Ausgeglichen (50/50 Kraft & Endurance)</option>
-                            <option value="endurance">Ausdauer-Priorität (70/30)</option>
-                            <option value="strength">Kraft-Priorität (70/30)</option>
-                        </select>
-                    </div>
-
-                    <button type="submit" class="w-full bg-gradient-to-r from-rose-600 to-amber-600 hover:from-rose-700 hover:to-amber-700 text-white font-bold py-2.5 rounded-xl text-sm transition-all shadow-lg shadow-rose-600/20" data-i18n="calculatePhase">
-                        Makrozyklus Berechnen
-                    </button>
-                </form>
-
-                <div id="macroResult" class="mt-5 p-4 bg-slate-950/80 border border-slate-800 rounded-xl space-y-2 hidden">
-                    <!-- Dynamic calculation preview -->
-                </div>
-            </div>
-
-            <div class="lg:col-span-7 bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl flex flex-col">
-                <div class="flex items-center justify-between mb-4">
-                    <h2 class="text-lg font-bold text-white flex items-center gap-2">
-                        <i class="fa-solid fa-calendar-days text-rose-500"></i>
-                        <span data-i18n="calendar">Trainingskalender Oktober 2026</span>
-                    </h2>
-                    <span class="text-xs bg-slate-800 text-slate-300 px-3 py-1 rounded-full font-medium">Phase: Grundlagenausdauer II</span>
-                </div>
-
-                <div class="grid grid-cols-7 gap-1.5 text-center text-xs font-bold text-slate-400 mb-2">
-                    <div>Mo</div><div>Di</div><div>Mi</div><div>Do</div><div>Fr</div><div>Sa</div><div>So</div>
-                </div>
-
-                <div id="calendarGrid" class="grid grid-cols-7 gap-1.5 flex-1">
-                    <!-- Generated Calendar Days -->
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- ATHLETEN PITSTOP FEED VIEW -->
-    <div id="tab-pitstop" class="tab-content hidden max-w-3xl mx-auto space-y-6">
-        
-        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 shadow-xl">
-            <div class="flex items-start gap-3">
-                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=250&q=80" class="w-10 h-10 rounded-full object-cover border border-rose-500/50" alt="Avatar">
-                <div class="flex-1">
-                    <textarea id="postInput" rows="3" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-sm text-slate-200 placeholder-slate-500 focus:ring-2 focus:ring-rose-500 outline-none resize-none" data-i18n="postPlaceholder" placeholder="Teile deine Trainingseinheit, Zeiten oder Formcheck mit der Community..."></textarea>
-                    
-                    <div class="flex items-center justify-between mt-3">
-                        <label class="cursor-pointer text-xs text-slate-400 hover:text-rose-400 flex items-center gap-1.5 transition-colors">
-                            <i class="fa-solid fa-image text-rose-500 text-sm"></i>
-                            <span>Bild anhängen</span>
-                            <input type="file" accept="image/*" class="hidden" onchange="handleImageUpload(event)">
-                        </label>
-                        <button onclick="submitPost()" class="bg-rose-600 hover:bg-rose-700 text-white px-4 py-1.5 rounded-lg text-xs font-bold transition-all shadow-md shadow-rose-600/30" data-i18n="postButton">
-                            Veröffentlichen
-                        </button>
-                    </div>
-                    <div id="imagePreviewContainer" class="mt-2 hidden">
-                        <img id="imagePreview" src="" class="max-h-40 rounded-lg border border-slate-700 object-cover" alt="Preview">
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Posts Feed Container -->
-        <div id="postsFeedContainer" class="space-y-4">
-            <!-- Dynamic Pitstop Feed Diffs Rendered Here -->
-        </div>
-    </div>
-
-    <!-- ATHLETEN PROFIL VIEW -->
-    <div id="tab-profile" class="tab-content hidden space-y-6">
         <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl">
-            <div class="flex flex-col sm:flex-row items-center gap-6">
-                <div class="relative">
-                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=250&q=80" class="w-24 h-24 rounded-full object-cover border-2 border-rose-500 shadow-lg shadow-rose-500/20" alt="Alex Sterling">
-                    <span class="absolute bottom-0 right-0 bg-amber-500 text-slate-950 p-1.5 rounded-full text-xs font-extrabold" title="14 Tage Streak">
-                        <i class="fa-solid fa-fire"></i>
-                    </span>
+            <h2 class="text-xl font-bold text-white mb-2 flex items-center gap-2">
+                <i class="fa-solid fa-route text-rose-500"></i>
+                <span data-i18n="macroPeriodization">Makro-Planung & Ironman Vorbereitung</span>
+            </h2>
+            <p class="text-xs text-slate-400 mb-6">Perfekt abgestimmt für Hybrid-Atheten mit Fokus auf Muskelmasse, Schwimmen, Radfahren, Laufen und Ironman-Ziele.</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-slate-950/60 p-4 rounded-xl border border-slate-800">
+                    <span class="text-xs text-rose-500 font-bold uppercase">Phase 1</span>
+                    <h4 class="text-base font-bold text-white mt-1">Base Building & Hypertrophie</h4>
+                    <p class="text-xs text-slate-400 mt-2">Aufbau von Muskelmasse und Z2 Grundlagenausdauer im Schwimmen, Radfahren und Laufen.</p>
+                    <div class="mt-4 pt-3 border-t border-slate-800 text-xs text-slate-300">Dauer: 12 Wochen</div>
                 </div>
-                <div class="text-center sm:text-left flex-1">
-                    <h2 class="text-2xl font-black text-white">Alex Sterling</h2>
-                    <p class="text-xs text-rose-400 font-semibold">@alex_hybrid • Advanced Hybrid Athlete</p>
-                    <p class="text-xs text-slate-400 mt-2 max-w-lg">Spezialisiert auf Hyrox Pro Division & Marathon Sub-3h. Fokus auf gleichzeitigen Muskelaufbau und maximale Vo2max.</p>
+                <div class="bg-slate-950/60 p-4 rounded-xl border border-slate-800">
+                    <span class="text-xs text-amber-500 font-bold uppercase">Phase 2</span>
+                    <h4 class="text-base font-bold text-white mt-1">Build & Brick Sessions</h4>
+                    <p class="text-xs text-slate-400 mt-2">Koppeltraining (Rad + Lauf), Schwellenintervalle und gleichzeitiger Erhalt der Kraftwerte.</p>
+                    <div class="mt-4 pt-3 border-t border-slate-800 text-xs text-slate-300">Dauer: 8 Wochen</div>
                 </div>
-                <div class="flex sm:flex-col gap-2">
-                    <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 text-center">
-                        <span class="block text-xs text-slate-400" data-i18n="streak">Tage Serie</span>
-                        <span class="text-lg font-bold text-amber-400"><i class="fa-solid fa-fire mr-1"></i>14 Tage</span>
-                    </div>
+                <div class="bg-slate-950/60 p-4 rounded-xl border border-slate-800">
+                    <span class="text-xs text-emerald-400 font-bold uppercase">Phase 3</span>
+                    <h4 class="text-base font-bold text-white mt-1">Peak & Tapering</h4>
+                    <p class="text-xs text-slate-400 mt-2">Volumenreduktion für maximale Frische am Renntag beim Ironman 70.3 oder Full Ironman.</p>
+                    <div class="mt-4 pt-3 border-t border-slate-800 text-xs text-slate-300">Dauer: 3 Wochen</div>
                 </div>
             </div>
         </div>
+    </div>
 
-        <!-- Weekly Volume Metrics Chart & Summary -->
+    <!-- PITSTOP FEED VIEW -->
+    <div id="tab-pitstop" class="tab-content hidden space-y-6">
         <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl">
-            <h3 class="text-lg font-bold text-white mb-4 flex items-center gap-2">
-                <i class="fa-solid fa-chart-column text-rose-500"></i>
-                <span data-i18n="volumeMetrics">Wöchentliche Leistungskennzahlen</span>
-            </h3>
-            <div class="h-64">
-                <canvas id="volumeChart"></canvas>
+            <h2 class="text-lg font-bold text-white mb-3 flex items-center gap-2">
+                <i class="fa-solid fa-fire text-rose-500"></i>
+                <span data-i18n="pitstopFeed">Athleten-Pitstop Feed</span>
+            </h2>
+            
+            <div class="mb-6 bg-slate-950/60 p-4 rounded-xl border border-slate-800">
+                <textarea id="newPostText" rows="3" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-sm text-slate-100 focus:ring-2 focus:ring-rose-500 focus:outline-none resize-none" placeholder="Teile deine Trainingseinheit, Zeiten oder Formcheck mit der Community..."></textarea>
+                <div class="flex justify-between items-center mt-3">
+                    <div class="flex gap-2 text-slate-400 text-xs">
+                        <button class="hover:text-rose-400"><i class="fa-solid fa-image mr-1"></i> Foto</button>
+                        <button class="hover:text-rose-400"><i class="fa-solid fa-chart-line mr-1"></i> Stats</button>
+                    </div>
+                    <button onclick="createPost()" class="bg-rose-600 hover:bg-rose-700 text-white px-4 py-2 rounded-xl text-xs font-bold transition-all shadow-md shadow-rose-600/30">
+                        Veröffentlichen
+                    </button>
+                </div>
+            </div>
+
+            <div id="postsContainer" class="space-y-4"></div>
+        </div>
+    </div>
+
+    <!-- PROFILE VIEW -->
+    <div id="tab-profile" class="tab-content hidden space-y-6">
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl flex flex-col md:flex-row items-center gap-6">
+            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=250&q=80" class="w-24 h-24 rounded-full border-2 border-rose-500 object-cover shadow-lg" alt="Profile">
+            <div class="text-center md:text-left flex-1">
+                <h2 class="text-2xl font-black text-white">Lucas Hybrid</h2>
+                <p class="text-xs text-rose-400 font-semibold mt-0.5">@lucas_hybrid • Hybrid Atleht & Ironman Aspirant</p>
+                <p class="text-xs text-slate-300 mt-3">Fokus auf Kombination aus schwerem Krafttraining (Muskelmasse) und ambitioniertem Ausdauersport (Laufen, Radfahren, Schwimmen).</p>
+            </div>
+            <div class="bg-slate-950/80 border border-slate-800 px-6 py-4 rounded-xl text-center">
+                <div class="text-2xl font-black text-rose-500">21</div>
+                <div class="text-[10px] uppercase tracking-wider text-slate-400 font-semibold mt-1">Tage Serie</div>
             </div>
         </div>
     </div>
@@ -707,344 +403,160 @@ function t(key) {
 
 <script>
 function switchTab(tabId) {
-    window.appState.activeTab = tabId;
     document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
-    document.getElementById('tab-' + tabId).classList.remove('hidden');
-
-    document.querySelectorAll('.nav-btn').forEach(btn => {
-        btn.classList.remove('bg-rose-600', 'text-white', 'shadow-md', 'shadow-rose-600/30');
-        btn.classList.add('text-slate-400', 'hover:text-slate-200');
+    document.querySelectorAll('.nav-btn').forEach(el => {
+        el.classList.remove('bg-rose-600', 'text-white', 'shadow-md', 'shadow-rose-600/30');
+        el.classList.add('text-slate-400', 'hover:text-white', 'hover:bg-slate-900');
     });
 
-    const activeBtn = document.getElementById('nav-' + tabId);
-    if(activeBtn) {
-        activeBtn.classList.remove('text-slate-400', 'hover:text-slate-200');
-        activeBtn.classList.add('bg-rose-600', 'text-white', 'shadow-md', 'shadow-rose-600/30');
+    document.getElementById('tab-' + tabId).classList.remove('hidden');
+    const activeNav = document.getElementById('nav-' + tabId);
+    if(activeNav) {
+        activeNav.classList.remove('text-slate-400', 'hover:text-white', 'hover:bg-slate-900');
+        activeNav.classList.add('bg-rose-600', 'text-white', 'shadow-md', 'shadow-rose-600/30');
     }
+    window.appState.activeTab = tabId;
+    if(tabId === 'pitstop') renderPosts();
+}
 
-    if(tabId === 'profile') {
-        renderVolumeChart();
+function selectMuscle(muscleName) {
+    window.appState.selectedMuscle = muscleName;
+    document.getElementById('selectedMuscleBadge').innerText = muscleName;
+    
+    document.querySelectorAll('.muscle-path').forEach(p => p.classList.remove('muscle-active'));
+    document.querySelectorAll(`[data-name="${muscleName}"]`).forEach(p => p.classList.add('muscle-active'));
+
+    const recommendations = {
+        'Brustmuskel (Pectoralis)': 'Kraft: Bankdrücken & Dips | Cardio: Schwimmen (Kraulstil für optimale Brust- & Schulterflexibilität).',
+        'Oberschenkel (Quadriceps)': 'Kraft: Kniebeugen & Bulgarian Split Squats | Cardio: Radfahren (High Cadence Intervals) & Laufen.',
+        'Beinbeuger (Hamstrings)': 'Kraft: Romanian Deadlifts | Cardio: Trail Running & Schwimm-Abstoß.',
+        'Gesäßmuskel (Gluteus)': 'Kraft: Hip Thrusts & Heavy Squats | Cardio: Starker Abdruck beim Laufen & Radfahren.',
+        'Trapez / Nacken': 'Kraft: Shrugs & Kreuzheben | Cardio: Stabile Haltung bei langen Rad-Einheiten.'
+    };
+
+    const text = recommendations[muscleName] || 'Gezielte Hybrid-Übungen: Optimal abgestimmt auf Kraftzuwachs und Ausdauerleistung.';
+    document.getElementById('exerciseRecommendations').innerHTML = `<span class="font-bold text-rose-400"><i class="fa-solid fa-bolt mr-1"></i> ${muscleName}:</span> <span class="text-slate-300">${text}</span>`;
+}
+
+function renderWorkout() {
+    const today = '2026-10-08';
+    const workout = window.appState.workouts[today];
+    if(!workout) return;
+
+    document.getElementById('workoutTitle').innerText = workout.title;
+    const listEl = document.getElementById('workoutExerciseList');
+    listEl.innerHTML = '';
+
+    workout.exercises.forEach((ex, idx) => {
+        let setsHtml = ex.sets.map((s, sIdx) => `
+            <button onclick="toggleSet(${idx}, ${sIdx})" class="px-2.5 py-1 rounded-lg text-xs font-mono font-bold transition-all border ${s.done ? 'bg-emerald-500/20 border-emerald-500/50 text-emerald-400' : 'bg-slate-800 border-slate-700 text-slate-300 hover:border-slate-500'}">
+                S${sIdx+1}: ${s.reps}x ${s.weight > 0 ? s.weight+'kg' : ''}
+            </button>
+        `).join('');
+
+        listEl.innerHTML += `
+            <div class="bg-slate-950/60 p-3 rounded-xl border border-slate-800">
+                <div class="text-xs font-bold text-white mb-2">${ex.name}</div>
+                <div class="flex flex-wrap gap-2">${setsHtml}</div>
+            </div>
+        `;
+    });
+}
+
+function toggleSet(exIdx, setIdx) {
+    const today = '2026-10-08';
+    window.appState.workouts[today].exercises[exIdx].sets[setIdx].done = !window.appState.workouts[today].exercises[exIdx].sets[setIdx].done;
+    renderWorkout();
+}
+
+let timerInterval = null;
+function startRestTimer(seconds) {
+    clearInterval(timerInterval);
+    let sec = seconds;
+    const display = document.getElementById('timerDisplay');
+    
+    timerInterval = setInterval(() => {
+        let m = Math.floor(sec / 60);
+        let s = sec % 60;
+        display.innerText = `${m < 10 ? '0':''}${m}:${s < 10 ? '0':''}${s}`;
+        if(sec <= 0) {
+            clearInterval(timerInterval);
+            display.innerText = "00:00";
+        }
+        sec--;
+    }, 1000);
+}
+
+function resetRestTimer() {
+    clearInterval(timerInterval);
+    document.getElementById('timerDisplay').innerText = "01:30";
+}
+
+function renderPosts() {
+    const container = document.getElementById('postsContainer');
+    container.innerHTML = '';
+    window.appState.posts.forEach(p => {
+        container.innerHTML += `
+            <div class="bg-slate-950/60 border border-slate-800 p-4 rounded-xl">
+                <div class="flex items-center gap-3 mb-3">
+                    <img src="${p.avatar}" class="w-9 h-9 rounded-full object-cover border border-rose-500/30" alt="Avatar">
+                    <div>
+                        <div class="text-sm font-bold text-white">${p.author} <span class="text-xs font-normal text-slate-400">${p.handle}</span></div>
+                        <div class="text-[10px] text-slate-500">${p.time}</div>
+                    </div>
+                </div>
+                <p class="text-xs text-slate-200 leading-relaxed mb-3">${p.content}</p>
+                <div class="flex items-center justify-between pt-3 border-t border-slate-800 text-xs">
+                    <button onclick="boostPost(${p.id})" class="flex items-center gap-1.5 font-semibold transition-all ${p.isBoosted ? 'text-rose-500' : 'text-slate-400 hover:text-rose-400'}">
+                        <i class="fa-solid fa-bolt"></i> <span>${p.boosts} Boosts</span>
+                    </button>
+                    <span class="text-slate-500">${p.comments.length} Kommentare</span>
+                </div>
+            </div>
+        `;
+    });
+}
+
+function boostPost(id) {
+    const post = window.appState.posts.find(p => p.id === id);
+    if(post) {
+        post.isBoosted = !post.isBoosted;
+        post.boosts += post.isBoosted ? 1 : -1;
+        renderPosts();
     }
+}
+
+function createPost() {
+    const text = document.getElementById('newPostText').value.trim();
+    if(!text) return;
+    window.appState.posts.unshift({
+        id: Date.now(),
+        author: window.appState.userProfile.name,
+        handle: window.appState.userProfile.handle,
+        avatar: window.appState.userProfile.avatar,
+        time: "Gerade eben",
+        content: text,
+        boosts: 1,
+        isBoosted: true,
+        comments: []
+    });
+    document.getElementById('newPostText').value = '';
+    renderPosts();
 }
 
 function changeLanguage(lang) {
     window.appState.lang = lang;
     document.querySelectorAll('[data-i18n]').forEach(el => {
         const key = el.getAttribute('data-i18n');
-        if(i18n[lang] && i18n[lang][key]) {
-            el.innerText = i18n[lang][key];
-        }
-    });
-    renderPitstopFeed();
-    renderWorkout();
-}
-
-function selectMuscle(muscleName) {
-    window.appState.selectedMuscle = muscleName;
-    document.querySelectorAll('.muscle-path').forEach(p => p.classList.remove('muscle-active'));
-    
-    document.querySelectorAll(`.muscle-path[data-name="${muscleName}"]`).forEach(p => {
-        p.classList.add('muscle-active');
-    });
-
-    const badge = document.getElementById('selectedMuscleBadge');
-    badge.innerText = muscleName;
-    badge.classList.remove('bg-rose-500/10', 'text-rose-400');
-    badge.classList.add('bg-rose-600', 'text-white');
-
-    const recBox = document.getElementById('exerciseRecommendations');
-    const recs = {
-        'Trapezius': 'Barbell Shrugs, Farmer Walks, Upright Rows',
-        'Brustmuskel (Pectoralis)': 'Bankdrücken 4x8, Incline Dumbbell Press, Kabel-Flyes',
-        'Vordere Schulter (Deltoid)': 'Military Press 4x6, Seitenheben, Dumbbell Overhead',
-        'Bizeps (Biceps Brachii)': 'Szatman Curls, Hammer Curls, Klimmzüge im Untergriff',
-        'Unterarme': 'Reverse Curls, Wrist Rollers, Dead Hangs',
-        'Bauchmuskeln (Abs)': 'Hanging Leg Raises, Cable Crunches, Ab-Wheel Rollouts',
-        'Schräge Bauchmuskeln': 'Russian Twists, Side Planks, Woodchoppers',
-        'Oberschenkel (Quadriceps)': 'Back Squats 4x8, Bulgarian Split Squats, Leg Extensions',
-        'Waden & Schienbein': 'Standing Calf Raises, Tibialis Raises für Lauf-Stabilität',
-        'Trapez / Nacken': 'Heavy Deadlifts, Face Pulls, Snatch-Grip High Pulls',
-        'Hintere Schulter': 'Face Pulls 4x15, Reverse Flyes, Band Pull-Aparts',
-        'Trizeps (Triceps)': 'Skullcrusher, Dips am Barren, Triceps Pushdowns',
-        'Latissimus (Rückenbreite)': 'Klimmzüge mit Zusatzgewicht, Latziehen, Langhantelrudern',
-        'Unterer Rücken (Erector)': 'Kreuzheben, Back Extensions, Good Mornings',
-        'Gesäßmuskel (Gluteus)': 'Barbell Hip Thrusts, Cable Kickbacks, Lunges',
-        'Beinbeuger (Hamstrings)': 'Romanian Deadlifts, Lying Leg Curls, Nordic Hamstring Curls',
-        'Waden (Gastrocnemius)': 'Seated Calf Raises 4x15, Donut Calf Raises'
-    };
-
-    const text = recs[muscleName] || 'Gezieltes Hypertrophie- & Kraftausdauertraining';
-    recBox.innerHTML = `<span class="font-bold text-rose-400"><i class="fa-solid fa-dumbbell mr-1"></i> ${muscleName}:</span> <span class="text-slate-200">${text}</span>`;
-}
-
-let uploadedImageBase64 = null;
-
-function handleImageUpload(event) {
-    const file = event.target.files[0];
-    if (file) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            uploadedImageBase64 = e.target.result;
-            const preview = document.getElementById('imagePreview');
-            preview.src = uploadedImageBase64;
-            document.getElementById('imagePreviewContainer').classList.remove('hidden');
-        };
-        reader.readAsDataURL(file);
-    }
-}
-
-function submitPost() {
-    const input = document.getElementById('postInput');
-    const content = input.value.trim();
-    if(!content && !uploadedImageBase64) return;
-
-    const newPostObj = {
-        id: Date.now(),
-        author: window.appState.userProfile.name,
-        handle: window.appState.userProfile.handle,
-        avatar: window.appState.userProfile.avatar,
-        time: "Gerade eben",
-        content: content,
-        image: uploadedImageBase64,
-        boosts: 0,
-        isBoosted: false,
-        comments: []
-    };
-
-    window.appState.posts.unshift(newPostObj);
-    input.value = '';
-    uploadedImageBase64 = null;
-    document.getElementById('imagePreviewContainer').classList.add('hidden');
-    renderPitstopFeed();
-}
-
-function toggleBoost(postId) {
-    const post = window.appState.posts.find(p => p.id === postId);
-    if(post) {
-        if(post.isBoosted) {
-            post.boosts--;
-            post.isBoosted = false;
-        } else {
-            post.boosts++;
-            post.isBoosted = true;
-        }
-        renderPitstopFeed();
-    }
-}
-
-function renderPitstopFeed() {
-    const container = document.getElementById('postsFeedContainer');
-    if(!container) return;
-
-    container.innerHTML = window.appState.posts.map(post => `
-        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl space-y-3">
-            <div class="flex items-center justify-between">
-                <div class="flex items-center gap-3">
-                    <img src="${post.avatar}" class="w-10 h-10 rounded-full object-cover border border-rose-500/40" alt="${post.author}">
-                    <div>
-                        <h4 class="text-sm font-bold text-white">${post.author}</h4>
-                        <span class="text-xs text-slate-400">${post.handle} • ${post.time}</span>
-                    </div>
-                </div>
-            </div>
-
-            <p class="text-sm text-slate-200 leading-relaxed">${post.content}</p>
-
-            ${post.image ? `<img src="${post.image}" class="w-full max-h-96 object-cover rounded-xl border border-slate-800" alt="Post attachment">` : ''}
-
-            <div class="flex items-center justify-between pt-3 border-t border-slate-800/80 text-xs">
-                <!-- BOOST BUTTON (REPLACED KUDOS TO AVOID COPYRIGHT ISSUES) -->
-                <button onclick="toggleBoost(${post.id})" class="flex items-center gap-2 px-3 py-1.5 rounded-lg font-semibold transition-all ${
-                    post.isBoosted 
-                    ? 'bg-rose-600/20 text-rose-400 border border-rose-500/40' 
-                    : 'bg-slate-800/60 text-slate-400 hover:text-slate-200'
-                }">
-                    <i class="fa-solid fa-bolt ${post.isBoosted ? 'text-rose-500 animate-pulse' : ''}"></i>
-                    <span>${post.boosts} ${t('boosts')}</span>
-                </button>
-
-                <div class="text-slate-400">
-                    <i class="fa-regular fa-comment mr-1"></i> ${post.comments.length} Kommentare
-                </div>
-            </div>
-        </div>
-    `).join('');
-}
-
-function renderWorkout() {
-    const todayWorkout = window.appState.workouts['2026-10-08'];
-    const container = document.getElementById('workoutExerciseList');
-    if(!container || !todayWorkout) return;
-
-    document.getElementById('workoutTitle').innerText = todayWorkout.title;
-
-    container.innerHTML = todayWorkout.exercises.map((ex, exIdx) => `
-        <div class="bg-slate-950/80 p-3.5 rounded-xl border border-slate-800/80 space-y-2">
-            <div class="font-bold text-sm text-slate-200 flex items-center justify-between">
-                <span>${ex.name}</span>
-                <span class="text-xs text-slate-500 font-normal">${ex.sets.length} Sätze</span>
-            </div>
-            <div class="space-y-1.5">
-                ${ex.sets.map((set, setIdx) => `
-                    <div class="flex items-center justify-between text-xs bg-slate-900/90 p-2 rounded-lg border border-slate-800">
-                        <span class="text-slate-400 font-mono">Satz ${setIdx + 1}</span>
-                        <div class="flex items-center gap-2">
-                            <span class="font-semibold text-white">${set.weight} kg</span>
-                            <span class="text-slate-500">x</span>
-                            <span class="font-semibold text-white">${set.reps} Reps</span>
-                        </div>
-                        <button onclick="toggleSetDone(${exIdx}, ${setIdx})" class="w-6 h-6 rounded-md flex items-center justify-center transition-all ${
-                            set.done ? 'bg-emerald-500 text-slate-950 font-bold' : 'bg-slate-800 text-slate-500 hover:text-slate-300'
-                        }">
-                            <i class="fa-solid fa-check text-xs"></i>
-                        </button>
-                    </div>
-                `).join('')}
-            </div>
-        </div>
-    `).join('');
-}
-
-function toggleSetDone(exIdx, setIdx) {
-    const workout = window.appState.workouts['2026-10-08'];
-    if(workout && workout.exercises[exIdx] && workout.exercises[exIdx].sets[setIdx]) {
-        workout.exercises[exIdx].sets[setIdx].done = !workout.exercises[exIdx].sets[setIdx].done;
-        renderWorkout();
-    }
-}
-
-function startRestTimer(seconds) {
-    clearInterval(window.appState.restTimerInterval);
-    window.appState.restTimerSeconds = seconds;
-    updateTimerDisplay();
-
-    window.appState.restTimerInterval = setInterval(() => {
-        window.appState.restTimerSeconds--;
-        updateTimerDisplay();
-        if(window.appState.restTimerSeconds <= 0) {
-            clearInterval(window.appState.restTimerInterval);
-        }
-    }, 1000);
-}
-
-function resetRestTimer() {
-    clearInterval(window.appState.restTimerInterval);
-    window.appState.restTimerSeconds = 90;
-    updateTimerDisplay();
-}
-
-function updateTimerDisplay() {
-    const s = window.appState.restTimerSeconds;
-    const mins = Math.floor(s / 60).toString().padStart(2, '0');
-    const secs = (s % 60).toString().padStart(2, '0');
-    const display = document.getElementById('timerDisplay');
-    if(display) display.innerText = `${mins}:${secs}`;
-}
-
-function calculateMacrocycle(e) {
-    e.preventDefault();
-    const eventType = document.getElementById('eventType').value;
-    const raceDateVal = document.getElementById('raceDate').value;
-    const focus = document.getElementById('primaryFocus').value;
-
-    const resultBox = document.getElementById('macroResult');
-    resultBox.classList.remove('hidden');
-
-    resultBox.innerHTML = `
-        <div class="text-xs text-rose-400 font-bold uppercase tracking-wider">Errechneter Makrozyklus</div>
-        <div class="text-sm font-semibold text-white">Ziel-Event: ${eventType.toUpperCase()} (${raceDateVal})</div>
-        <div class="grid grid-cols-3 gap-2 mt-2 pt-2 border-t border-slate-800 text-center text-xs">
-            <div class="bg-slate-900 p-2 rounded-lg">
-                <span class="block text-slate-500">Akkumulation</span>
-                <span class="font-bold text-amber-400">8 Wochen</span>
-            </div>
-            <div class="bg-slate-900 p-2 rounded-lg">
-                <span class="block text-slate-500">Intensivierung</span>
-                <span class="font-bold text-rose-400">4 Wochen</span>
-            </div>
-            <div class="bg-slate-900 p-2 rounded-lg">
-                <span class="block text-slate-500">Tapering</span>
-                <span class="font-bold text-emerald-400">2 Wochen</span>
-            </div>
-        </div>
-    `;
-}
-
-function renderCalendar() {
-    const grid = document.getElementById('calendarGrid');
-    if(!grid) return;
-
-    let html = '';
-    for(let i=1; i<=31; i++) {
-        const isToday = i === 8;
-        const hasWorkout = window.appState.workouts[`2026-10-${i.toString().padStart(2, '0')}`];
-
-        html += `
-            <div class="min-h-[64px] bg-slate-950/80 border ${isToday ? 'border-rose-500 ring-1 ring-rose-500' : 'border-slate-800/80'} rounded-xl p-1.5 flex flex-col justify-between text-left transition-all hover:border-slate-700">
-                <span class="text-[10px] font-bold ${isToday ? 'text-rose-400' : 'text-slate-500'}">${i}</span>
-                ${hasWorkout ? `
-                    <div class="bg-rose-600/20 border border-rose-500/40 text-rose-300 text-[9px] p-1 rounded font-semibold truncate">
-                        ${hasWorkout.title}
-                    </div>
-                ` : `
-                    <span class="text-[9px] text-slate-600 italic">Rest Day</span>
-                `}
-            </div>
-        `;
-    }
-    grid.innerHTML = html;
-}
-
-let volumeChartInstance = null;
-
-function renderVolumeChart() {
-    const ctx = document.getElementById('volumeChart');
-    if(!ctx) return;
-
-    if(volumeChartInstance) volumeChartInstance.destroy();
-
-    volumeChartInstance = new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: ['KW 38', 'KW 39', 'KW 40', 'KW 41 (Aktuell)'],
-            datasets: [
-                {
-                    label: 'Lauf-Distanz (km)',
-                    data: [35, 38, 40, 42.5],
-                    backgroundColor: '#f43f5e',
-                    borderRadius: 6
-                },
-                {
-                    label: 'Rad-Distanz (km)',
-                    data: [90, 105, 110, 120],
-                    backgroundColor: '#f59e0b',
-                    borderRadius: 6
-                }
-            ]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                legend: {
-                    labels: { color: '#94a3b8', font: { family: 'Inter', size: 11 } }
-                }
-            },
-            scales: {
-                x: { ticks: { color: '#64748b' }, grid: { display: false } },
-                y: { ticks: { color: '#64748b' }, grid: { color: '#1e293b' } }
-            }
-        }
+        const translation = t(key);
+        if(translation) el.innerText = translation;
     });
 }
 
-/* Initialize Default View on Window Load */
-window.onload = function() {
+document.addEventListener('DOMContentLoaded', () => {
     switchTab('dashboard');
-    renderPitstopFeed();
     renderWorkout();
-    renderCalendar();
-};
+});
 </script>
 </body>
 </html>
