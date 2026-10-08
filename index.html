@@ -189,7 +189,129 @@
         </div>
       </div>
 
-      <div id="workout-list" class="space-y-4">
+      <div id="workout-list" class="space-y-4">  
+        <!-- MUSKEL ERHOLUNGS-DIAGRAMM (HEATMAP) -->
+<div class="bg-brand-card border border-brand-border rounded-2xl p-6 space-y-6">
+  
+  <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-brand-border pb-4">
+    <div>
+      <h3 class="text-xl font-black text-white flex items-center gap-2">
+        <i class="fa-solid fa-child text-brand-green"></i> Muskel-Erholung & Interferenz-Check
+      </h3>
+      <p class="text-xs text-brand-muted mt-1">Wissenschaftlich berechneter Status basierend auf deinen letzten Einheiten.</p>
+    </div>
+
+    <!-- Status Legend -->
+    <div class="flex items-center gap-4 text-xs font-bold">
+      <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-red-500 inline-block"></span> 0-24h (Ermüdet)</span>
+      <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-yellow-400 inline-block"></span> 24-48h (Erholung)</span>
+      <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-brand-green inline-block"></span> 48h+ (Bereit)</span>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 items-center">
+    
+    <!-- SVG MUSKEL ANATOMIE MAP -->
+    <div class="lg:col-span-1 bg-brand-black p-4 rounded-xl border border-brand-border flex justify-center items-center gap-8">
+      
+      <!-- VORDERSEITE -->
+      <div class="text-center space-y-2">
+        <span class="text-[10px] uppercase font-bold text-brand-muted tracking-wider">Vorderseite</span>
+        <svg viewBox="0 0 100 200" class="w-32 h-64">
+          <!-- Schultern / Brust -->
+          <path id="muscle-chest" d="M 35 45 Q 50 40 65 45 L 60 60 Q 50 65 40 60 Z" fill="#ef4444" class="transition-colors duration-500 cursor-pointer hover:opacity-80"/>
+          <path id="muscle-shoulders" d="M 25 45 Q 35 40 35 50 L 28 65 Z M 75 45 Q 65 40 65 50 L 72 65 Z" fill="#eab308" class="transition-colors duration-500"/>
+          <!-- Abs / Core -->
+          <path id="muscle-abs" d="M 40 62 Q 50 65 60 62 L 58 90 Q 50 95 42 90 Z" fill="#a3e635" class="transition-colors duration-500"/>
+          <!-- Quads (Oberschenkel) -->
+          <path id="muscle-quads" d="M 35 98 Q 50 95 65 98 L 62 140 Q 50 142 38 140 Z" fill="#ef4444" class="transition-colors duration-500"/>
+          <!-- Schienbein/Waden vorne -->
+          <path id="muscle-calves-front" d="M 38 145 L 42 185 L 36 185 Z M 62 145 L 58 185 L 64 185 Z" fill="#a3e635" class="transition-colors duration-500"/>
+        </svg>
+      </div>
+
+      <!-- RÜCKSEITE -->
+      <div class="text-center space-y-2">
+        <span class="text-[10px] uppercase font-bold text-brand-muted tracking-wider">Rückseite</span>
+        <svg viewBox="0 0 100 200" class="w-32 h-64">
+          <!-- Oberer Rücken / Lats -->
+          <path id="muscle-back" d="M 30 45 Q 50 38 70 45 L 62 75 Q 50 80 38 75 Z" fill="#a3e635" class="transition-colors duration-500"/>
+          <!-- Glutes (Gesäss) -->
+          <path id="muscle-glutes" d="M 35 85 Q 50 80 65 85 L 63 108 Q 50 112 37 108 Z" fill="#ef4444" class="transition-colors duration-500"/>
+          <!-- Hamstrings (Oberschenkel hinten) -->
+          <path id="muscle-hamstrings" d="M 37 112 Q 50 110 63 112 L 60 145 Q 50 147 40 145 Z" fill="#eab308" class="transition-colors duration-500"/>
+          <!-- Waden hinten -->
+          <path id="muscle-calves-back" d="M 38 148 L 44 180 L 36 180 Z M 62 148 L 56 180 L 64 180 Z" fill="#ef4444" class="transition-colors duration-500"/>
+        </svg>
+      </div>
+
+    </div>
+
+    <!-- ERHOLUNGS-ANALYSE & HINWEISE -->
+    <div class="lg:col-span-2 space-y-4">
+      
+      <!-- KI Warning Card -->
+      <div class="bg-red-500/10 border border-red-500/30 rounded-xl p-4 flex items-start gap-3">
+        <i class="fa-solid fa-triangle-exclamation text-red-400 text-lg mt-0.5"></i>
+        <div class="space-y-1">
+          <h4 class="text-sm font-bold text-red-400">Interferenz-Warnung: Beine & Quads stark belastet</h4>
+          <p class="text-xs text-zinc-300">
+            Deine Quads und Waden haben nach den gestrigen Kniebeugen und dem Intervall-Lauf hohe Entzündungsmarker (0–24h Fenster). Ein intensiver Lauf heute hemmt die Erholung und steigert das Verletzungsrisiko.
+          </p>
+        </div>
+      </div>
+
+      <!-- Muscle Status Cards Grid -->
+      <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+        
+        <div class="bg-brand-black p-3 rounded-xl border border-brand-border space-y-1">
+          <div class="flex items-center justify-between text-[11px] font-bold">
+            <span class="text-white">Beine (Quads)</span>
+            <span class="text-red-400">18% (Rot)</span>
+          </div>
+          <div class="w-full bg-zinc-800 h-1.5 rounded-full overflow-hidden">
+            <div class="bg-red-500 h-full w-[18%]"></div>
+          </div>
+          <span class="text-[10px] text-brand-muted block pt-1">Noch ~30h Regeneration</span>
+        </div>
+
+        <div class="bg-brand-black p-3 rounded-xl border border-brand-border space-y-1">
+          <div class="flex items-center justify-between text-[11px] font-bold">
+            <span class="text-white">Gesäss (Glutes)</span>
+            <span class="text-yellow-400">55% (Gelb)</span>
+          </div>
+          <div class="w-full bg-zinc-800 h-1.5 rounded-full overflow-hidden">
+            <div class="bg-yellow-400 h-full w-[55%]"></div>
+          </div>
+          <span class="text-[10px] text-brand-muted block pt-1">Noch ~14h Regeneration</span>
+        </div>
+
+        <div class="bg-brand-black p-3 rounded-xl border border-brand-border space-y-1">
+          <div class="flex items-center justify-between text-[11px] font-bold">
+            <span class="text-white">Oberkörper / Lats</span>
+            <span class="text-brand-green">100% (Grün)</span>
+          </div>
+          <div class="w-full bg-zinc-800 h-1.5 rounded-full overflow-hidden">
+            <div class="bg-brand-green h-full w-full"></div>
+          </div>
+          <span class="text-[10px] text-brand-muted block pt-1">Bereit für Reize</span>
+        </div>
+
+      </div>
+
+      <!-- KI Tipp -->
+      <div class="bg-zinc-900 p-3.5 rounded-xl border border-brand-border flex items-center justify-between">
+        <div class="flex items-center gap-2 text-xs">
+          <i class="fa-solid fa-lightbulb text-brand-green"></i>
+          <span class="text-zinc-300">Empfehlung für heute: <strong>Oberkörper Kraft</strong> oder <strong>Zone 1 Velo-Rollen (45 Min)</strong>.</span>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
         <!-- Dynamischer Inhalt via JavaScript -->
       </div>
 
