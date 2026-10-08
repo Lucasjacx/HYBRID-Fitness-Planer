@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="de" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>HYBRID AI - Fitness & Endurance Planner</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            orange: '#FF5500',
+                            cyan: '#00E5FF',
+                            dark: '#0B0F17',
+                            card: '#161F2E',
+                            border: '#243044'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0B0F17;
+            color: #F3F4F6;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .glass-card {
+            background: rgba(22, 31, 46, 0.75);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .gradient-text-orange {
+            background: linear-gradient(135deg, #FF5500 0%, #FF8800 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .gradient-text-cyan {
+            background: linear-gradient(135deg, #00E5FF 0%, #0099FF 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .glow-orange {
+            box-shadow: 0 0 20px rgba(255, 85, 0, 0.3);
+        }
+        .glow-cyan {
+            box-shadow: 0 0 20px rgba(0, 229, 255, 0.25);
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0B0F17;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #243044;
+            border-radius: 9999px;
+        }
+    </style>
+</head>
+<body class="min-h-screen pb-20 md:pb-6 antialiased selection:bg-brand-orange selection:text-white">
+
+    <!-- Top Bar Navigation -->
+    <header class="sticky top-0 z-40 w-full border-b border-brand-border bg-brand-dark/90 backdrop-blur-md px-4 py-3">
+        <div class="max-w-4xl mx-auto flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-orange to-amber-500 flex items-center justify-center shadow-lg glow-orange">
+                    <i class="fa-solid font-black text-xl text-white fa-bolt"></i>
+                </div>
+                <div>
+                    <h1 class="font-extrabold text-lg tracking-tight leading-none text-white flex items-center gap-2">
+                        HYBRID <span class="text-xs px-2 py-0.5 rounded-full bg-brand-cyan/10 text-brand-cyan border border-brand-cyan/30 font-semibold">AI PRO</span>
+                    </h1>
+                    <p class="text-xs text-gray-400 font-medium">Strength & Endurance Engine</p>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-2">
+                <button id="proBadgeBtn" onclick="openPaywallModal()" class="hidden text-xs font-bold px-3 py-1.5 rounded-full bg-gradient-to-r from-brand-orange to-amber-500 text-white shadow-md hover:opacity-90 transition flex items-center gap-1.5">
+                    <i class="fa-solid fa-crown text-amber-200"></i>
+                    <span>PRO ATHLETE</span>
+                </button>
+                <button id="freeBadgeBtn" onclick="openPaywallModal()" class="text-xs font-bold px-3 py-1.5 rounded-full bg-brand-border text-gray-300 hover:text-white hover:bg-gray-700 transition flex items-center gap-1.5">
+                    <i class="fa-solid fa-lock text-brand-orange"></i>
+                    <span>Upgrade Pass</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="max-w-4xl mx-auto px-4 pt-6">
+
+        <!-- VIEW 1: ONBOARDING & PROFILE FORM -->
+        <section id="onboardingView" class="space-y-6">
+            <div class="text-center space-y-2">
+                <h2 class="text-2xl sm:text-3xl font-black tracking-tight text-white">
+                    Erstelle deinen <span class="gradient-text-orange">Hybrid-Trainingsplan</span>
+                </h2>
+                <p class="text-sm text-gray-400 max-w-lg mx-auto">
+                    Kombiniere gezielten Muskelaufbau mit Ironman-, Marathon- oder Ausdauertraining – perfekt angepasst an deinen vollen Alltag.
+                </p>
+            </div>
+
+            <form id="onboardingForm" onsubmit="handleFormSubmit(event)" class="glass-card rounded-2xl p-5 sm:p-6 space-y-5 border border-brand-border">
+                
+                <!-- Athlete Goal -->
+                <div class="space-y-2">
+                    <label class="block text-xs font-bold uppercase tracking-wider text-brand-cyan">1. Dein Hauptziel (Athleten-Profil)</label>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <label class="relative flex items-center p-3.5 rounded-xl border border-brand-border bg-brand-dark/50 cursor-pointer hover:border-brand-orange/50 transition group">
+                            <input type="radio" name="goal" value="Hybrid Ironman 70.3 / Full" checked class="peer text-brand-orange focus:ring-0">
+                            <div class="ml-3">
+                                <span class="block text-sm font-bold text-white group-hover:text-brand-orange transition">Hybrid Ironman (70.3 / Full)</span>
+                                <span class="block text-xs text-gray-400">Gym + Laufen, Radfahren & Schwimmen</span>
+                            </div>
+                        </label>
+                        <label class="relative flex items-center p-3.5 rounded-xl border border-brand-border bg-brand-dark/50 cursor-pointer hover:border-brand-orange/50 transition group">
+                            <input type="radio" name="goal" value="Hybrid Runner (Hypertrophy + Half-Marathon)" class="peer text-brand-orange focus:ring-0">
+                            <div class="ml-3">
+                                <span class="block text-sm font-bold text-white group-hover:text-brand-orange transition">Hybrid Runner</span>
+                                <span class="block text-xs text-gray-400">Maximaler Muskelaufbau + 21k/42k Laufen</span>
+                            </div>
+                        </label>
+                        <label class="relative flex items-center p-3.5 rounded-xl border border-brand-border bg-brand-dark/50 cursor-pointer hover:border-brand-orange/50 transition group">
+                            <input type="radio" name="goal" value="Powerbuilding + HIIT Conditioning" class="peer text-brand-orange focus:ring-0">
+                            <div class="ml-3">
+                                <span class="block text-sm font-bold text-white group-hover:text-brand-orange transition">Powerbuilding & Cardio</span>
+                                <span class="block text-xs text-gray-400">Schwere Lifts + V02Max Kondition</span>
+                            </div>
+                        </label>
+                        <label class="relative flex items-center p-3.5 rounded-xl border border-brand-border bg-brand-dark/50 cursor-pointer hover:border-brand-orange/50 transition group">
+                            <input type="radio" name="goal" value="General Hybrid Athleticism" class="peer text-brand-orange focus:ring-0">
+                            <div class="ml-3">
+                                <span class="block text-sm font-bold text-white group-hover:text-brand-orange transition">Allround Hybrid Athlet</span>
+                                <span class="block text-xs text-gray-400">Ausgewogene Fitness & Athletik</span>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Schedule & Constraints -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div class="space-y-2">
+                        <label class="block text-xs font-bold uppercase tracking-wider text-brand-cyan">2. Verfuegbare Tage / Woche</label>
+                        <select id="daysPerWeek" class="w-full bg-brand-dark border border-brand-border rounded-xl p-3 text-sm text-white focus:outline-none focus:border-brand-orange">
+                            <option value="4 Tage (Fokus auf Effizienz)">4 Tage (Effizienter Lehrlings-/Arbeitsplan)</option>
+                            <option value="5 Tage (Optimales Hybrid-Split)" selected>5 Tage (Empfohlen für Hybrid)</option>
+                            <option value="6 Tage (Höhere Belastung / Ironman)">6 Tage (Intensiv / Triathlon Fokus)</option>
+                        </select>
+                    </div>
+
+                    <div class="space-y-2">
+                        <label class="block text-xs font-bold uppercase tracking-wider text-brand-cyan">3. Equipment</label>
+                        <select id="equipment" class="w-full bg-brand-dark border border-brand-border rounded-xl p-3 text-sm text-white focus:outline-none focus:border-brand-orange">
+                            <option value="Volles Gym + Strasse/Velo">Volles Gym + Strasse/Velo (Optimal)</option>
+                            <option value="Home Gym (Kurzhanteln/Rack) + Laufen">Home Gym + Laufen</option>
+                            <option value="Eigengewicht + Outdoor Cardio">Eigengewicht + Outdoor Cardio</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Experience Level -->
+                <div class="space-y-2">
+                    <label class="block text-xs font-bold uppercase tracking-wider text-brand-cyan">4. Erfahungslevel</label>
+                    <div class="grid grid-cols-3 gap-2">
+                        <button type="button" onclick="setExperience('Einsteiger')" id="exp-Einsteiger" class="exp-btn py-2.5 px-3 rounded-xl border border-brand-border text-xs font-bold text-gray-300 hover:bg-brand-dark transition">Einsteiger</button>
+                        <button type="button" onclick="setExperience('Fortgeschritten')" id="exp-Fortgeschritten" class="exp-btn py-2.5 px-3 rounded-xl border border-brand-orange bg-brand-orange/20 text-xs font-bold text-brand-orange transition">Fortgeschritten</button>
+                        <button type="button" onclick="setExperience('Pro / Erfahren')" id="exp-Pro / Erfahren" class="exp-btn py-2.5 px-3 rounded-xl border border-brand-border text-xs font-bold text-gray-300 hover:bg-brand-dark transition">Pro Athlet</button>
+                    </div>
+                </div>
+
+                <!-- Gemini API Key Input (Optional) -->
+                <div class="p-4 rounded-xl bg-brand-dark/80 border border-brand-border space-y-2">
+                    <div class="flex items-center justify-between">
+                        <label for="apiKeyInput" class="text-xs font-bold text-gray-300 flex items-center gap-1.5">
+                            <i class="fa-solid fa-key text-brand-orange"></i>
+                            Google Gemini API Key <span class="text-gray-500 font-normal">(Optional)</span>
+                        </label>
+                        <a href="https://aistudio.google.com/" target="_blank" class="text-[10px] text-brand-cyan hover:underline">Key holen &rarr;</a>
+                    </div>
+                    <input type="password" id="apiKeyInput" placeholder="AIzaSy... (Leer lassen fuer Offline-Engine)" class="w-full bg-brand-card border border-brand-border rounded-lg p-2.5 text-xs text-white placeholder-gray-600 focus:outline-none focus:border-brand-orange">
+                    <p class="text-[11px] text-gray-500">Ohne Key nutzt die App eine vorbereitete intelligente Hybrid-Engine.</p>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" class="w-full py-4 rounded-xl bg-gradient-to-r from-brand-orange to-amber-500 text-white font-extrabold text-sm sm:text-base tracking-wide shadow-lg glow-orange hover:opacity-95 transition flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                    <span>KI-TRAININGSPLAN GENERIEREN</span>
+                </button>
+            </form>
+        </section>
+
+        <!-- LOADING SCREEN VIEW -->
+        <section id="loadingView" class="hidden my-12 text-center space-y-6">
+            <div class="relative w-24 h-24 mx-auto flex items-center justify-center">
+                <div class="absolute inset-0 rounded-full border-4 border-brand-border border-t-brand-orange animate-spin"></div>
+                <div class="absolute inset-2 rounded-full border-4 border-brand-border border-b-brand-cyan animate-spin" style="animation-direction: reverse; animation-duration: 1.5s;"></div>
+                <i class="fa-solid fa-bolt text-3xl text-brand-orange animate-pulse"></i>
+            </div>
+            
+            <div class="space-y-2">
+                <h3 class="text-xl font-extrabold text-white">Gemini KI berechnet deinen Plan...</h3>
+                <p id="loadingStatusText" class="text-xs text-gray-400 max-w-sm mx-auto">Berechne Ermuedungs-Verteilung für Beine (Lauf-Pace vs. Leg Day)...</p>
+            </div>
+
+            <div class="w-full max-w-md mx-auto bg-brand-card h-2 rounded-full overflow-hidden border border-brand-border">
+                <div id="loadingProgressBar" class="bg-gradient-to-r from-brand-orange to-brand-cyan h-full w-0 transition-all duration-300"></div>
+            </div>
+        </section>
+
+        <!-- VIEW 2: DASHBOARD & WEEKLY PLAN TRACKER -->
+        <section id="dashboardView" class="hidden space-y-6">
+            
+            <!-- Plan Header Info -->
+            <div class="glass-card rounded-2xl p-5 border border-brand-border flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div>
+                    <div class="flex items-center gap-2">
+                        <span class="text-xs font-bold uppercase tracking-wider text-brand-orange px-2.5 py-0.5 rounded-full bg-brand-orange/10 border border-brand-orange/20">Aktiv Plan</span>
+                        <span id="displayGoal" class="text-xs text-gray-400 font-medium">Hybrid Ironman</span>
+                    </div>
+                    <h2 class="text-xl font-black text-white mt-1" id="displayPlanTitle">Wochenplan & Routine</h2>
+                    <p class="text-xs text-gray-400 mt-0.5" id="displayConstraints">5 Tage/Woche • Gym + Outdoor</p>
+                </div>
+
+                <div class="flex items-center gap-2">
+                    <button onclick="regeneratePlan()" class="px-3.5 py-2 rounded-xl bg-brand-card border border-brand-border text-xs font-bold text-gray-300 hover:text-white hover:border-brand-orange transition flex items-center gap-1.5">
+                        <i class="fa-solid fa-rotate-right text-brand-orange"></i>
+                        <span>Anpassen</span>
+                    </button>
+                    <button onclick="resetProfile()" class="px-3 py-2 rounded-xl bg-brand-card border border-brand-border text-xs font-bold text-gray-400 hover:text-red-400 transition">
+                        <i class="fa-solid fa-trash-can"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Weekly Progress Overview -->
+            <div class="glass-card rounded-2xl p-5 border border-brand-border space-y-3">
+                <div class="flex items-center justify-between text-xs">
+                    <span class="font-bold text-gray-300 uppercase tracking-wider">Wochen-Fortschritt</span>
+                    <span id="progressPercent" class="font-black text-brand-cyan">0% Abgeschlossen</span>
+                </div>
+                <div class="w-full bg-brand-dark h-3 rounded-full overflow-hidden border border-brand-border">
+                    <div id="progressBar" class="bg-gradient-to-r from-brand-orange via-amber-500 to-brand-cyan h-full w-0 transition-all duration-500"></div>
+                </div>
+                <div class="flex justify-between text-[11px] text-gray-400 pt-1">
+                    <span id="completedWorkoutsText">0 von 7 Einheiten absolviert</span>
+                    <span class="text-brand-orange font-semibold"><i class="fa-solid fa-fire mr-1"></i>Regeneration im Fokus</span>
+                </div>
+            </div>
+
+            <!-- 7-Day Schedule Cards -->
+            <div class="space-y-3">
+                <h3 class="text-sm font-extrabold uppercase tracking-wider text-gray-400 flex items-center justify-between">
+                    <span>7-Tage Trainings-Routine</span>
+                    <span class="text-xs text-brand-cyan font-normal">Klicke zum Abhaken</span>
+                </h3>
+
+                <div id="daysList" class="space-y-3">
+                    <!-- Dynamic Day Cards Generated Here -->
+                </div>
+            </div>
+
+        </section>
+    </main>
+
+    <!-- PAYWALL / PRO PASS MODAL (STRIPE LIKE) -->
+    <div id="paywallModal" class="fixed inset-0 z-50 hidden bg-black/80 backdrop-blur-md flex items-center justify-center p-4">
+        <div class="glass-card max-w-md w-full rounded-3xl p-6 border border-brand-orange/40 relative shadow-2xl glow-orange space-y-5 animate-in fade-in zoom-in duration-200">
+            <button onclick="closePaywallModal()" class="absolute top-4 right-4 w-8 h-8 rounded-full bg-brand-card border border-brand-border flex items-center justify-center text-gray-400 hover:text-white">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <div class="text-center space-y-2 pt-2">
+                <div class="w-14 h-14 rounded-2xl bg-gradient-to-tr from-brand-orange to-amber-500 mx-auto flex items-center justify-center shadow-lg">
+                    <i class="fa-solid fa-crown text-2xl text-white"></i>
+                </div>
+                <h3 class="text-2xl font-black text-white tracking-tight">HYBRID PRO PASS</h3>
+                <p class="text-xs text-gray-300">Schalte die volle KI-Leistung für deinen Traum-Athletenkörper frei.</p>
+            </div>
+
+            <!-- Price Badge -->
+            <div class="text-center py-3 bg-brand-dark/80 rounded-2xl border border-brand-border">
+                <div class="flex items-baseline justify-center gap-1">
+                    <span class="text-xs font-bold text-gray-400">CHF</span>
+                    <span class="text-3xl font-black text-white">4.90</span>
+                    <span class="text-xs font-bold text-gray-400">/ Monat</span>
+                </div>
+                <span class="inline-block mt-1 text-[10px] uppercase font-extrabold tracking-wider px-2 py-0.5 rounded-full bg-brand-cyan/10 text-brand-cyan">Jederzeit kündbar</span>
+            </div>
+
+            <!-- Pro Features -->
+            <ul class="space-y-2.5 text-xs text-gray-200">
+                <li class="flex items-center gap-2.5">
+                    <i class="fa-solid fa-circle-check text-brand-cyan text-sm"></i>
+                    <span>Unbegrenzte KI-Plan-Generierungen mit Gemini Pro</span>
+                </li>
+                <li class="flex items-center gap-2.5">
+                    <i class="fa-solid fa-circle-check text-brand-cyan text-sm"></i>
+                    <span>Echtzeit-Anpassung bei Muskelkater & Ermüdung</span>
+                </li>
+                <li class="flex items-center gap-2.5">
+                    <i class="fa-solid fa-circle-check text-brand-cyan text-sm"></i>
+                    <span>Garmin & Strava Zonen-Export (Pace / Watt / HF)</span>
+                </li>
+                <li class="flex items-center gap-2.5">
+                    <i class="fa-solid fa-circle-check text-brand-cyan text-sm"></i>
+                    <span>Integrierter Makro- & Kalorienrechner für Hybrid</span>
+                </li>
+            </ul>
+
+            <!-- Stripe Simulation Button -->
+            <div class="space-y-2 pt-2">
+                <button onclick="simulateSubscription()" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-brand-orange to-amber-500 text-white font-black text-sm tracking-wide shadow-lg glow-orange hover:opacity-95 transition">
+                    7 TAGE KOSTENLOS TESTEN
+                </button>
+                <p class="text-[10px] text-center text-gray-500">Sichere Abwicklung über Stripe. Keine Abbuchung in der Testphase.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- APP STATE ---
+        let appState = {
+            profile: null,
+            plan: null,
+            completedDays: [],
+            isPro: false,
+            experience: 'Fortgeschritten'
+        };
+
+        // Storage Key
+        const STORAGE_KEY = 'hybrid_ai_planner_data_v1';
+
+        // --- INITIALIZATION ---
+        window.onload = function() {
+            loadFromLocalStorage();
+            updateProUI();
+            
+            if (appState.plan && appState.plan.days) {
+                showDashboard();
+            } else {
+                showOnboarding();
+            }
+        };
+
+        // --- EXPERIENCE SELECTOR ---
+        function setExperience(exp) {
+            appState.experience = exp;
+            document.querySelectorAll('.exp-btn').forEach(btn => {
+                btn.classList.remove('border-brand-orange', 'bg-brand-orange/20', 'text-brand-orange');
+                btn.classList.add('border-brand-border', 'text-gray-300');
+            });
+            const activeBtn = document.getElementById(`exp-${exp}`);
+            if(activeBtn) {
+                activeBtn.classList.add('border-brand-orange', 'bg-brand-orange/20', 'text-brand-orange');
+                activeBtn.classList.remove('border-brand-border', 'text-gray-300');
+            }
+        }
+
+        // --- FORM HANDLING & API GENERATION ---
+        async function handleFormSubmit(e) {
+            e.preventDefault();
+            
+            const goal = document.querySelector('input[name="goal"]:checked').value;
+            const daysPerWeek = document.getElementById('daysPerWeek').value;
+            const equipment = document.getElementById('equipment').value;
+            const apiKey = document.getElementById('apiKeyInput').value.trim();
+
+            appState.profile = { goal, daysPerWeek, equipment, experience: appState.experience };
+            
+            // Show Loading
+            document.getElementById('onboardingView').classList.add('hidden');
+            document.getElementById('loadingView').classList.remove('hidden');
+
+            const progressBar = document.getElementById('loadingProgressBar');
+            const statusText = document.getElementById('loadingStatusText');
+
+            // Simulate progress animation
+            let progress = 10;
+            progressBar.style.width = `${progress}%`;
+
+            const interval = setInterval(() => {
+                progress += 15;
+                if (progress > 85) clearInterval(interval);
+                progressBar.style.width = `${progress}%`;
+                if(progress === 40) statusText.innerText = "Berechne Beinstruktur (Laufen vs. Kniebeugen)...";
+                if(progress === 70) statusText.innerText = "Optimiere V02Max und Erholungs-Fenster...";
+            }, 300);
+
+            try {
+                let generatedPlan = null;
+                if (apiKey) {
+                    generatedPlan = await fetchGeminiPlan(apiKey, appState.profile);
+                }
+                
+                // Fallback to Intelligent Mock Engine if no key or error
+                if (!generatedPlan) {
+                    await new Promise(r => setTimeout(r, 1500)); // Smooth feel
+                    generatedPlan = generateMockHybridPlan(appState.profile);
+                }
+
+                appState.plan = generatedPlan;
+                appState.completedDays = [];
+                saveToLocalStorage();
+
+                clearInterval(interval);
+                progressBar.style.width = '100%';
+
+                setTimeout(() => {
+                    document.getElementById('loadingView').classList.add('hidden');
+                    showDashboard();
+                }, 400);
+
+            } catch (err) {
+                console.error("Plan generation error:", err);
+                alert("Fehler bei der Generierung. Die Offline-Engine wird genutzt.");
+                appState.plan = generateMockHybridPlan(appState.profile);
+                saveToLocalStorage();
+                document.getElementById('loadingView').classList.add('hidden');
+                showDashboard();
+            }
+        }
+
+        // --- GEMINI API INTEGRATION ---
+        async function fetchGeminiPlan(apiKey, profile) {
+            const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
+
+            const systemInstruction = "Du bist ein Weltklasse-Coach für Hybrid-Athletik (Kombination aus Muskelaufbau/Bodybuilding und Ausdauersport wie Ironman, Marathon, Radfahren). Erstelle strukturierte Pläne im sauberen JSON Format.";
+
+            const userPrompt = `Erstelle einen sauberen 7-Tage Hybrid-Trainingsplan auf Deutsch für einen Athleten mit folgendem Profil:
+            - Ziel: ${profile.goal}
+            - Tage/Woche: ${profile.daysPerWeek}
+            - Equipment: ${profile.equipment}
+            - Erfassung: ${profile.experience}
+
+            Gib AUSSCHLIESSLICH ein gültiges JSON-Objekt zurück mit folgender Struktur (ohne Markdown Codeblocks):
+            {
+              "title": "Titel des Plans",
+              "days": [
+                {
+                  "dayNumber": 1,
+                  "dayName": "Montag",
+                  "type": "Kraft" oder "Cardio" oder "Hybrid" oder "Rest",
+                  "title": "Name der Einheit",
+                  "focus": "z.B. Upper Body Hypertrophy & Zone 2 Run",
+                  "duration": "75 Min",
+                  "intensity": "RPE 7-8",
+                  "exercises": ["Übung 1 (4x8-10)", "Übung 2 (3x12)", "Lauf: 6km Zone 2"]
+                }
+              ]
+            }`;
+
+            const payload = {
+                contents: [{ parts: [{ text: userPrompt }] }],
+                systemInstruction: { parts: [{ text: systemInstruction }] },
+                generationConfig: {
+                    responseMimeType: "application/json"
+                }
+            };
+
+            const response = await fetch(endpoint, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+
+            if (!response.ok) throw new Error("Gemini API Error");
+
+            const data = await response.json();
+            const jsonText = data.candidates?.[0]?.content?.parts?.[0]?.text;
+            return JSON.parse(jsonText);
+        }
+
+        // --- INTELLIGENT MOCK HYBRID PLAN GENERATOR ---
+        function generateMockHybridPlan(profile) {
+            return {
+                title: `Hybrid Plan: ${profile.goal.split('(')[0]}`,
+                days: [
+                    {
+                        dayNumber: 1,
+                        dayName: "Montag",
+                        type: "Kraft",
+                        title: "Push Heavy & Core Strength",
+                        focus: "Brust, Schultern, Trizeps + Rumpf-Stabilität",
+                        duration: "60 Min",
+                        intensity: "RPE 8",
+                        exercises: [
+                            "Bankdrücken Langhantel (4 Satz x 6-8 Wdh)",
+                            "Schrägbank Kurzhantel (3 Satz x 10 Wdh)",
+                            "Militärpresse / Schulterdrücken (3 Satz x 8 Wdh)",
+                            "Dips am Barren (3 Satz x Max)",
+                            "Plank & Hanging Leg Raises (3 Satz x 45 Sek)"
+                        ]
+                    },
+                    {
+                        dayNumber: 2,
+                        dayName: "Dienstag",
+                        type: "Cardio",
+                        title: "Zone 2 Base Run (Grundlagenausdauer)",
+                        focus: "Fettverbrennung & Kapillarisierung",
+                        duration: "50 Min",
+                        intensity: "Zone 2 (Pace 5:30 - 6:00 min/km)",
+                        exercises: [
+                            "10 Min Einlaufen & Dynamisches Dehnen",
+                            "35 Min Durchgehender Lauf (Pulsbereich 135-148 bpm)",
+                            "5 Min Auslaufen & Wade Dehnen"
+                        ]
+                    },
+                    {
+                        dayNumber: 3,
+                        dayName: "Mittwoch",
+                        type: "Kraft",
+                        title: "Pull & Posterior Chain",
+                        focus: "Rücken, Bizeps & Hintere Oberschenkel",
+                        duration: "65 Min",
+                        intensity: "RPE 8.5",
+                        exercises: [
+                            "Klimmzüge mit Zusatzgewicht (4 Satz x 6 Wdh)",
+                            "Rumänisches Kreuzheben / RDL (4 Satz x 8 Wdh)",
+                            "LH-Rudern vorgeneigt (3 Satz x 10 Wdh)",
+                            "Hammer Curls (3 Satz x 12 Wdh)",
+                            "Face Pulls für Schultergesundheit (4 Satz x 15 Wdh)"
+                        ]
+                    },
+                    {
+                        dayNumber: 4,
+                        dayName: "Donnerstag",
+                        type: "Cardio",
+                        title: "VO2Max Intervall-Session (Velo oder Laufen)",
+                        focus: "Sauerstoffaufnahme & Laktatschwelle",
+                        duration: "45 Min",
+                        intensity: "RPE 9 (Hoch)",
+                        exercises: [
+                            "10 Min Warm-up (Geringer Widerstand)",
+                            "5x (3 Min All-Out Sprint / 2 Min Locker)",
+                            "10 Min Cool-Down & Rollen (Blackroll)"
+                        ]
+                    },
+                    {
+                        dayNumber: 5,
+                        dayName: "Freitag",
+                        type: "Kraft",
+                        title: "Hybrid Leg Day & Hypertrophie",
+                        focus: "Quads, Waden & Explosivkraft",
+                        duration: "55 Min",
+                        intensity: "RPE 8",
+                        exercises: [
+                            "Kniebeugen / Squats (4 Satz x 6 Wdh)",
+                            "Ausfallschritte / Lunges (3 Satz x 10 pro Bein)",
+                            "Beinstrecker Maschine (3 Satz x 12 Wdh)",
+                            "Wadenheben stehend (4 Satz x 15 Wdh)"
+                        ]
+                    },
+                    {
+                        dayNumber: 6,
+                        dayName: "Samstag",
+                        type: "Hybrid",
+                        title: "Brick-Session / Long Run & Schwimmen",
+                        focus: "Mentale Härte & Ausdauer-Volumen",
+                        duration: "90-120 Min",
+                        intensity: "Zone 2 - 3",
+                        exercises: [
+                            "Option A: 14km - 18km Langer Lauf (Endurance Pace)",
+                            "Option B (Ironman): 40km Velo + direkt 5km Koppellauf",
+                            "Anschliessend: Elektrolyte & Protein-Shake"
+                        ]
+                    },
+                    {
+                        dayNumber: 7,
+                        dayName: "Sonntag",
+                        type: "Rest",
+                        title: "Aktive Regeneration & Mobility",
+                        focus: "Zentralnervensystem & Muskel-Erholung",
+                        duration: "30 Min",
+                        intensity: "Sehr Leicht",
+                        exercises: [
+                            "30 Min Spaziergang an der frischen Luft",
+                            "Ganzkörper-Mobility & Hüftöffner",
+                            "Sauna / Kalt duschen & Schlaf-Fokus"
+                        ]
+                    }
+                ]
+            };
+        }
+
+        // --- DASHBOARD RENDER LOGIC ---
+        function showDashboard() {
+            document.getElementById('onboardingView').classList.add('hidden');
+            document.getElementById('loadingView').classList.add('hidden');
+            document.getElementById('dashboardView').classList.remove('hidden');
+
+            const plan = appState.plan;
+            const profile = appState.profile || {};
+
+            document.getElementById('displayPlanTitle').innerText = plan.title || "Hybrid Wochenplan";
+            document.getElementById('displayGoal').innerText = profile.goal ? profile.goal.split('(')[0] : "Hybrid Athlet";
+            document.getElementById('displayConstraints').innerText = `${profile.daysPerWeek || '5 Tage'} • ${profile.equipment || 'Gym'}`;
+
+            renderDayCards();
+            updateProgress();
+        }
+
+        function renderDayCards() {
+            const container = document.getElementById('daysList');
+            container.innerHTML = '';
+
+            appState.plan.days.forEach(day => {
+                const isCompleted = appState.completedDays.includes(day.dayNumber);
+
+                // Type Icon & Colors
+                let badgeBg = "bg-blue-500/10 text-blue-400 border-blue-500/30";
+                let iconClass = "fa-dumbbell";
+
+                if (day.type === "Cardio") {
+                    badgeBg = "bg-brand-orange/10 text-brand-orange border-brand-orange/30";
+                    iconClass = "fa-person-running";
+                } else if (day.type === "Hybrid") {
+                    badgeBg = "bg-brand-cyan/10 text-brand-cyan border-brand-cyan/30";
+                    iconClass = "fa-bolt";
+                } else if (day.type === "Rest") {
+                    badgeBg = "bg-emerald-500/10 text-emerald-400 border-emerald-500/30";
+                    iconClass = "fa-bed";
+                }
+
+                const cardHtml = `
+                    <div class="glass-card rounded-2xl p-4 sm:p-5 border ${isCompleted ? 'border-emerald-500/50 bg-emerald-950/20' : 'border-brand-border'} transition duration-200">
+                        <div class="flex items-start justify-between gap-3 cursor-pointer" onclick="toggleDayComplete(${day.dayNumber})">
+                            <div class="flex items-center gap-3">
+                                <div class="w-7 h-7 rounded-full border-2 ${isCompleted ? 'bg-emerald-500 border-emerald-500 text-white' : 'border-gray-500 text-transparent'} flex items-center justify-center transition">
+                                    <i class="fa-solid fa-check text-xs"></i>
+                                </div>
+                                <div>
+                                    <div class="flex items-center gap-2">
+                                        <span class="text-xs font-black text-gray-300 uppercase">${day.dayName}</span>
+                                        <span class="text-[10px] font-bold px-2 py-0.5 rounded-full border ${badgeBg} flex items-center gap-1">
+                                            <i class="fa-solid ${iconClass}"></i> ${day.type}
+                                        </span>
+                                    </div>
+                                    <h4 class="text-base font-extrabold text-white mt-0.5 ${isCompleted ? 'line-through text-gray-400' : ''}">${day.title}</h4>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <span class="text-xs font-bold text-gray-400 block">${day.duration}</span>
+                                <span class="text-[10px] text-brand-cyan font-semibold">${day.intensity}</span>
+                            </div>
+                        </div>
+
+                        <!-- Exercises Details -->
+                        <div class="mt-4 pt-3 border-t border-brand-border/60 space-y-2">
+                            <p class="text-xs text-gray-400 font-medium"><i class="fa-solid fa-bullseye text-brand-orange mr-1"></i> <strong>Fokus:</strong> ${day.focus}</p>
+                            <ul class="space-y-1.5 pt-1">
+                                ${day.exercises.map(ex => `
+                                    <li class="text-xs text-gray-300 flex items-start gap-2">
+                                        <i class="fa-solid fa-angle-right text-brand-orange text-[10px] mt-1"></i>
+                                        <span>${ex}</span>
+                                    </li>
+                                `).join('')}
+                            </ul>
+                        </div>
+                    </div>
+                `;
+                container.innerHTML += cardHtml;
+            });
+        }
+
+        function toggleDayComplete(dayNum) {
+            const index = appState.completedDays.indexOf(dayNum);
+            if (index > -1) {
+                appState.completedDays.splice(index, 1);
+            } else {
+                appState.completedDays.push(dayNum);
+            }
+            saveToLocalStorage();
+            renderDayCards();
+            updateProgress();
+        }
+
+        function updateProgress() {
+            const total = appState.plan ? appState.plan.days.length : 7;
+            const completed = appState.completedDays.length;
+            const percent = Math.round((completed / total) * 100);
+
+            document.getElementById('progressBar').style.width = `${percent}%`;
+            document.getElementById('progressPercent').innerText = `${percent}% Abgeschlossen`;
+            document.getElementById('completedWorkoutsText').innerText = `${completed} von ${total} Einheiten absolviert`;
+        }
+
+        // --- NAVIGATION & PAYWALL LOGIC ---
+        function showOnboarding() {
+            document.getElementById('dashboardView').classList.add('hidden');
+            document.getElementById('loadingView').classList.add('hidden');
+            document.getElementById('onboardingView').classList.remove('hidden');
+        }
+
+        function regeneratePlan() {
+            if (confirm("Möchtest du deinen aktuellen Plan anpassen oder neu generieren?")) {
+                showOnboarding();
+            }
+        }
+
+        function resetProfile() {
+            if (confirm("Möchtest du deinen gespeicherten Plan wirklich löschen?")) {
+                localStorage.removeItem(STORAGE_KEY);
+                appState.plan = null;
+                appState.completedDays = [];
+                showOnboarding();
+            }
+        }
+
+        function openPaywallModal() {
+            document.getElementById('paywallModal').classList.remove('hidden');
+        }
+
+        function closePaywallModal() {
+            document.getElementById('paywallModal').classList.add('hidden');
+        }
+
+        function simulateSubscription() {
+            appState.isPro = true;
+            saveToLocalStorage();
+            updateProUI();
+            closePaywallModal();
+            alert("Willkommen beim HYBRID PRO PASS! 7-Tage Testphase gestartet.");
+        }
+
+        function updateProUI() {
+            if (appState.isPro) {
+                document.getElementById('proBadgeBtn').classList.remove('hidden');
+                document.getElementById('freeBadgeBtn').classList.add('hidden');
+            } else {
+                document.getElementById('proBadgeBtn').classList.add('hidden');
+                document.getElementById('freeBadgeBtn').classList.remove('hidden');
+            }
+        }
+
+        // --- LOCALSTORAGE PERSISTENCE ---
+        function saveToLocalStorage() {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(appState));
+        }
+
+        function loadFromLocalStorage() {
+            const saved = localStorage.getItem(STORAGE_KEY);
+            if (saved) {
+                try {
+                    const parsed = JSON.parse(saved);
+                    appState = { ...appState, ...parsed };
+                } catch(e) {
+                    console.error("Failed to load state", e);
+                }
+            }
+        }
+    </script>
+</body>
+</html>
