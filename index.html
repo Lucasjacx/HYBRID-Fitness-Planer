@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>HYBRID AI | Performance & Endurance Planner</title>
+  <title>HYBRID AI | Performance, Endurance & Community</title>
   
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -38,32 +38,28 @@
   </script>
 
   <style>
-    body {
-      background-color: #09090b;
-      color: #f4f4f5;
-    }
+    body { background-color: #09090b; color: #f4f4f5; }
+    .glow-effect { box-shadow: 0 0 25px -5px rgba(163, 230, 53, 0.2); }
     
-    .glow-effect {
-      box-shadow: 0 0 25px -5px rgba(163, 230, 53, 0.2);
-    }
-    
-    ::-webkit-scrollbar {
-      width: 6px;
-    }
-    ::-webkit-scrollbar-track {
-      background: #09090b;
-    }
-    ::-webkit-scrollbar-thumb {
-      background: #27272a;
-      border-radius: 4px;
-    }
-    ::-webkit-scrollbar-thumb:hover {
-      background: #a3e635;
-    }
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #09090b; }
+    ::-webkit-scrollbar-thumb { background: #27272a; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #a3e635; }
 
-    input[type="time"]::-webkit-calendar-picker-indicator {
+    input[type="time"]::-webkit-calendar-picker-indicator,
+    input[type="date"]::-webkit-calendar-picker-indicator {
       filter: invert(0.8) sepia(1) saturate(5) hue-rotate(45deg);
       cursor: pointer;
+    }
+    
+    .muscle-group {
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+    .muscle-group:hover {
+      filter: brightness(1.3);
+      stroke: #ffffff;
+      stroke-width: 0.5px;
     }
   </style>
 </head>
@@ -71,7 +67,7 @@
 
   <!-- NAVIGATION BAR -->
   <header class="border-b border-brand-border bg-brand-black/90 backdrop-blur sticky top-0 z-50">
-    <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
+    <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between gap-2">
       <div class="flex items-center gap-3">
         <div class="w-9 h-9 rounded-xl bg-brand-green flex items-center justify-center text-black font-black text-xl tracking-tighter">
           H
@@ -79,19 +75,32 @@
         <span class="font-black text-xl tracking-wider text-white">HYBRID<span class="text-brand-green">AI</span></span>
       </div>
 
-      <nav class="hidden md:flex items-center gap-8 text-sm font-semibold text-brand-muted">
+      <nav class="hidden md:flex items-center gap-6 text-sm font-semibold text-brand-muted">
         <button onclick="switchTab('generator')" id="nav-generator" class="text-brand-green flex items-center gap-2 hover:text-white transition">
-          <i class="fa-solid fa-sliders"></i> Planer
+          <i class="fa-solid fa-sliders"></i> <span id="txt-nav-planer">Planer</span>
         </button>
         <button onclick="switchTab('schedule')" id="nav-schedule" class="flex items-center gap-2 hover:text-white transition">
-          <i class="fa-solid fa-calendar-days"></i> Tagesplaner & Export
+          <i class="fa-solid fa-calendar-days"></i> <span id="txt-nav-schedule">Tagesplaner & Erholung</span>
+        </button>
+        <button onclick="switchTab('community')" id="nav-community" class="flex items-center gap-2 hover:text-white transition">
+          <i class="fa-solid fa-users"></i> <span id="txt-nav-community">Community</span>
         </button>
         <button onclick="switchTab('pro')" id="nav-pro" class="flex items-center gap-2 hover:text-white transition">
-          <i class="fa-solid fa-bolt text-brand-green"></i> Pro Abo
+          <i class="fa-solid fa-bolt text-brand-green"></i> <span id="txt-nav-pro">Pro Abo</span>
         </button>
       </nav>
 
       <div class="flex items-center gap-3">
+        <!-- SPRACHAUSWAHL DROPDOWN -->
+        <select id="language-select" onchange="changeLanguage(this.value)" class="bg-brand-black border border-brand-border text-white text-xs font-bold rounded-lg px-2.5 py-2 focus:outline-none focus:border-brand-green cursor-pointer">
+          <option value="de">DE</option>
+          <option value="en">EN</option>
+          <option value="es">ES</option>
+          <option value="fr">FR</option>
+          <option value="pt">PT</option>
+          <option value="it">IT</option>
+        </select>
+
         <button onclick="switchTab('pro')" class="px-4 py-2 bg-brand-green hover:bg-brand-greenHover text-black text-xs font-extrabold uppercase tracking-wider rounded-lg transition glow-effect">
           Pro Upgrade
         </button>
@@ -102,57 +111,91 @@
   <!-- MAIN CONTAINER -->
   <main class="max-w-6xl mx-auto px-4 py-8 flex-1 w-full space-y-8">
 
-    <!-- TAB 1: GENERATOR -->
+    <!-- TAB 1: GENERATOR MIT WETTKAMPF-PLANUNG -->
     <section id="tab-generator" class="space-y-8">
       
       <div class="text-center max-w-2xl mx-auto space-y-3">
         <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-green/10 border border-brand-green/20 text-brand-green text-xs font-bold uppercase tracking-wider">
-          <i class="fa-solid fa-fire"></i> Kein Einheitsbrei. 100% Hybrid.
+          <i class="fa-solid fa-trophy"></i> Periodisierung & Macro-Planning
         </div>
-        <h1 class="text-3xl md:text-5xl font-black text-white tracking-tight">
+        <h1 id="hero-title" class="text-3xl md:text-5xl font-black text-white tracking-tight">
           Dein Training. Deine Zeiten.<br><span class="text-brand-green">Maximale Performance.</span>
         </h1>
-        <p class="text-brand-muted text-sm md:text-base">
-          Verbinde Kraftaufbau und Ausdauer in einem klaren Wochenraster. Passe die Trainingszeit flexibel an deinen Tagesablauf an und exportiere sie direkt in deinen Apple oder Google Kalender.
+        <p id="hero-desc" class="text-brand-muted text-sm md:text-base">
+          Verbinde Kraftaufbau und Ausdauer in einem klaren Wochenraster. Passe die Trainingszeit flexibel an deinen Tagesablauf an.
         </p>
       </div>
 
       <!-- TRAILER VIDEO -->
       <div class="max-w-3xl mx-auto rounded-2xl overflow-hidden border border-brand-border shadow-2xl glow-effect">
-        <video autoplay loop muted playsinline class="w-full h-auto max-h-[350px] object-cover">
+        <video autoplay loop muted playsinline class="w-full h-auto max-h-[300px] object-cover">
           <source src="HYBRID TRAINING VID.mp4" type="video/mp4">
           Dein Browser unterstützt kein Video.
         </video>
       </div>
 
+      <!-- FORMULAR CARD -->
       <div class="bg-brand-card border border-brand-border rounded-2xl p-6 md:p-8 max-w-3xl mx-auto space-y-6 shadow-2xl">
         
-        <div class="space-y-2">
-          <label class="text-xs font-bold uppercase tracking-wider text-brand-muted block">1. Hauptziel definieren</label>
-          <select id="goal" class="w-full bg-brand-black border border-brand-border text-white text-sm rounded-xl p-3 focus:outline-none focus:border-brand-green transition">
-            <option value="Ironman 70.3 / Triathlon">Ironman 70.3 / Triathlon + Krafterhalt</option>
-            <option value="Hybrid (Muskelaufbau + Laufen)">Hybrid (Masse aufbauen & Fast 5k/10k Laufen)</option>
-            <option value="Marathon + Gym">Marathon Vorbereitung + 3x Gym</option>
-            <option value="Allround Ausdauer & Athlethik">Allround Fit (Kraft, Biken, Schwimmen & Laufen)</option>
-          </select>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="space-y-2">
+            <label id="lbl-race-date" class="text-xs font-bold uppercase tracking-wider text-brand-muted block"><i class="fa-solid fa-flag-checkered text-brand-green"></i> 1. Wettkampf-Datum (Tag A)</label>
+            <input type="date" id="race-date" onchange="calculatePhases()" class="w-full bg-brand-black border border-brand-border text-white text-sm rounded-xl p-3 focus:outline-none focus:border-brand-green transition">
+          </div>
+
+          <div class="space-y-2">
+            <label id="lbl-goal" class="text-xs font-bold uppercase tracking-wider text-brand-muted block">2. Event-Typ</label>
+            <select id="goal" class="w-full bg-brand-black border border-brand-border text-white text-sm rounded-xl p-3 focus:outline-none focus:border-brand-green transition">
+              <option value="Ironman 70.3 / Triathlon">Ironman 70.3 / Mitteldistanz</option>
+              <option value="Ironman Full">Ironman Langdistanz</option>
+              <option value="Marathon">Marathon / Halbmarathon</option>
+              <option value="Hybrid Race">HYROX / Hybrid-Wettkampf</option>
+            </select>
+          </div>
+        </div>
+
+        <div id="phase-preview" class="bg-brand-black p-4 rounded-xl border border-brand-border space-y-3 hidden">
+          <span class="text-xs font-bold uppercase text-brand-green tracking-wider block"><i class="fa-solid fa-timeline"></i> Berechnete Macro-Phasen</span>
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center text-xs">
+            <div class="p-2 bg-zinc-900 rounded-lg border border-zinc-800">
+              <span class="text-brand-muted block text-[10px]">PHASE 1</span>
+              <strong class="text-white block">Grundlage (Base)</strong>
+              <span id="p1-weeks" class="text-brand-green text-[10px]">-- Wochen</span>
+            </div>
+            <div class="p-2 bg-zinc-900 rounded-lg border border-zinc-800">
+              <span class="text-brand-muted block text-[10px]">PHASE 2</span>
+              <strong class="text-white block">Aufbau (Build)</strong>
+              <span id="p2-weeks" class="text-brand-green text-[10px]">-- Wochen</span>
+            </div>
+            <div class="p-2 bg-zinc-900 rounded-lg border border-zinc-800">
+              <span class="text-brand-muted block text-[10px]">PHASE 3</span>
+              <strong class="text-white block">Peak & Deload</strong>
+              <span id="p3-weeks" class="text-brand-green text-[10px]">-- Wochen</span>
+            </div>
+            <div class="p-2 bg-zinc-900 rounded-lg border border-zinc-800">
+              <span class="text-brand-muted block text-[10px]">PHASE 4</span>
+              <strong class="text-white block">Tapering (Abbau)</strong>
+              <span id="p4-weeks" class="text-brand-green text-[10px]">2 Wochen</span>
+            </div>
+          </div>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div class="space-y-2">
-            <label class="text-xs font-bold uppercase tracking-wider text-brand-muted block">2. Einheiten pro Woche</label>
+            <label class="text-xs font-bold uppercase tracking-wider text-brand-muted block">3. Einheiten pro Woche</label>
             <select id="days" class="w-full bg-brand-black border border-brand-border text-white text-sm rounded-xl p-3 focus:outline-none focus:border-brand-green transition">
-              <option value="4 Tage">4 Einheiten (Ideal für vollen Kalender)</option>
-              <option value="5 Tage" selected>5 Einheiten (Ausgewogenes Hybrid-Level)</option>
-              <option value="6 Tage">6 Einheiten (High Performance)</option>
+              <option value="4 Tage">4 Einheiten (Vollbeschäftigt)</option>
+              <option value="5 Tage" selected>5 Einheiten (Standard Hybrid)</option>
+              <option value="6 Tage">6 Einheiten (Performance Focus)</option>
             </select>
           </div>
 
           <div class="space-y-2">
-            <label class="text-xs font-bold uppercase tracking-wider text-brand-muted block">3. Ausdauer-Fokus</label>
+            <label class="text-xs font-bold uppercase tracking-wider text-brand-muted block">4. Fokus-Ausdauer</label>
             <select id="endurance" class="w-full bg-brand-black border border-brand-border text-white text-sm rounded-xl p-3 focus:outline-none focus:border-brand-green transition">
-              <option value="Laufen & Radfahren">Laufen + Biken (Road/Gravel)</option>
-              <option value="Triathlon (Schwimmen, Rad, Laufen)">Triathlon (Schwimmen, Rad, Laufen)</option>
-              <option value="Nur Laufen">Reines Lauftraining</option>
+              <option value="Triathlon">Triathlon (Schwimmen, Velo, Laufen)</option>
+              <option value="Duathlon">Duathlon (Velo, Laufen)</option>
+              <option value="Laufen">Laufen + Kraft</option>
             </select>
           </div>
         </div>
@@ -165,26 +208,26 @@
       </div>
     </section>
 
-    <!-- TAB 2: TAGESPLANER & ERHOLUNGSMONITOR -->
+    <!-- TAB 2: TAGESPLANER & DETAILLIERTE MUSKEL-ANATOMIE -->
     <section id="tab-schedule" class="hidden space-y-6">
       
       <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-brand-card p-6 rounded-2xl border border-brand-border">
         <div>
           <h2 class="text-2xl font-black text-white flex items-center gap-2">
-            <i class="fa-solid fa-calendar-day text-brand-green"></i> Dein Tages- & Wochenplan
+            <i class="fa-solid fa-calendar-day text-brand-green"></i> Wochen- & Tagesablauf
           </h2>
-          <p class="text-xs text-brand-muted mt-1">Passe die Uhrzeit deiner Einheiten an. Der Endzeitpunkt wird automatisch berechnet.</p>
+          <p class="text-xs text-brand-muted mt-1">Passe die Uhrzeiten flexibel an. Die Endzeiten werden automatisch kalkuliert.</p>
         </div>
       </div>
 
-      <!-- MUSKEL ERHOLUNGS-DIAGRAMM -->
+      <!-- DETAILLIERTE ANATOMIE MUSKEL-MAP -->
       <div class="bg-brand-card border border-brand-border rounded-2xl p-6 space-y-6">
         <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-brand-border pb-4">
           <div>
             <h3 class="text-xl font-black text-white flex items-center gap-2">
-              <i class="fa-solid fa-child text-brand-green"></i> Muskel-Erholung & Interferenz-Check
+              <i class="fa-solid fa-child text-brand-green"></i> Präzisions-Muskelstatus & Interferenz
             </h3>
-            <p class="text-xs text-brand-muted mt-1">Wissenschaftlich berechneter Status basierend auf deinen letzten Einheiten.</p>
+            <p class="text-xs text-brand-muted mt-1">Detaillierte Erholungsberechnung für spezifische Muskelgruppen.</p>
           </div>
 
           <div class="flex items-center gap-4 text-xs font-bold">
@@ -195,36 +238,48 @@
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 items-center">
-          <div class="lg:col-span-1 bg-brand-black p-4 rounded-xl border border-brand-border flex justify-center items-center gap-8">
+          
+          <div class="lg:col-span-1 bg-brand-black p-4 rounded-xl border border-brand-border flex justify-center items-center gap-6">
+            
+            <!-- VORDERSEITE -->
             <div class="text-center space-y-2">
               <span class="text-[10px] uppercase font-bold text-brand-muted tracking-wider">Vorderseite</span>
-              <svg viewBox="0 0 100 200" class="w-28 h-56">
-                <path d="M 35 45 Q 50 40 65 45 L 60 60 Q 50 65 40 60 Z" fill="#a3e635" />
-                <path d="M 25 45 Q 35 40 35 50 L 28 65 Z M 75 45 Q 65 40 65 50 L 72 65 Z" fill="#a3e635" />
-                <path d="M 40 62 Q 50 65 60 62 L 58 90 Q 50 95 42 90 Z" fill="#a3e635" />
-                <path d="M 35 98 Q 50 95 65 98 L 62 140 Q 50 142 38 140 Z" fill="#ef4444" />
-                <path d="M 38 145 L 42 185 L 36 185 Z M 62 145 L 58 185 L 64 185 Z" fill="#eab308" />
+              <svg viewBox="0 0 100 200" class="w-32 h-64">
+                <path class="muscle-group" d="M 36 42 Q 50 39 64 42 L 62 58 Q 50 62 38 58 Z" fill="#a3e635" title="Brust"/>
+                <path class="muscle-group" d="M 24 42 Q 34 38 34 48 L 26 60 Z M 76 42 Q 66 38 66 48 L 74 60 Z" fill="#a3e635" title="Schultern"/>
+                <path class="muscle-group" d="M 25 62 L 32 62 L 30 80 L 23 78 Z M 75 62 L 68 62 L 70 80 L 77 78 Z" fill="#a3e635" title="Bizeps"/>
+                <path class="muscle-group" d="M 40 64 Q 50 66 60 64 L 58 74 Q 50 76 42 74 Z" fill="#a3e635"/>
+                <path class="muscle-group" d="M 41 76 Q 50 78 59 76 L 57 86 Q 50 88 43 86 Z" fill="#a3e635"/>
+                <path class="muscle-group" d="M 34 98 Q 48 95 48 140 L 36 138 Z" fill="#ef4444" title="Quads"/>
+                <path class="muscle-group" d="M 52 95 Q 66 98 64 138 L 52 140 Z" fill="#ef4444" title="Quads"/>
+                <path class="muscle-group" d="M 37 144 L 42 185 L 35 185 Z M 63 144 L 58 185 L 65 185 Z" fill="#eab308" title="Schienbein"/>
               </svg>
             </div>
 
+            <!-- RÜCKSEITE -->
             <div class="text-center space-y-2">
               <span class="text-[10px] uppercase font-bold text-brand-muted tracking-wider">Rückseite</span>
-              <svg viewBox="0 0 100 200" class="w-28 h-56">
-                <path d="M 30 45 Q 50 38 70 45 L 62 75 Q 50 80 38 75 Z" fill="#a3e635" />
-                <path d="M 35 85 Q 50 80 65 85 L 63 108 Q 50 112 37 108 Z" fill="#eab308" />
-                <path d="M 37 112 Q 50 110 63 112 L 60 145 Q 50 147 40 145 Z" fill="#ef4444" />
-                <path d="M 38 148 L 44 180 L 36 180 Z M 62 148 L 56 180 L 64 180 Z" fill="#eab308" />
+              <svg viewBox="0 0 100 200" class="w-32 h-64">
+                <path class="muscle-group" d="M 38 35 Q 50 30 62 35 L 66 46 Q 50 42 34 46 Z" fill="#a3e635" title="Trapez"/>
+                <path class="muscle-group" d="M 32 48 Q 50 44 68 48 L 60 76 Q 50 80 40 76 Z" fill="#a3e635" title="Latissimus"/>
+                <path class="muscle-group" d="M 23 60 L 30 60 L 28 80 L 21 78 Z M 77 60 L 70 60 L 72 80 L 79 78 Z" fill="#a3e635" title="Trizeps"/>
+                <path class="muscle-group" d="M 42 78 Q 50 80 58 78 L 56 94 Q 50 96 44 94 Z" fill="#a3e635"/>
+                <path class="muscle-group" d="M 34 96 Q 50 90 66 96 L 64 118 Q 50 122 36 118 Z" fill="#eab308" title="Gluteus"/>
+                <path class="muscle-group" d="M 36 122 Q 48 120 48 152 L 38 150 Z" fill="#ef4444" title="Hamstrings"/>
+                <path class="muscle-group" d="M 52 120 Q 64 122 62 150 L 52 152 Z" fill="#ef4444" title="Hamstrings"/>
+                <path class="muscle-group" d="M 37 155 L 43 186 L 35 186 Z M 63 155 L 57 186 L 65 186 Z" fill="#eab308" title="Waden"/>
               </svg>
             </div>
+
           </div>
 
           <div class="lg:col-span-2 space-y-4">
             <div class="bg-red-500/10 border border-red-500/30 rounded-xl p-4 flex items-start gap-3">
               <i class="fa-solid fa-triangle-exclamation text-red-400 text-lg mt-0.5"></i>
               <div class="space-y-1">
-                <h4 class="text-sm font-bold text-red-400">Interferenz-Warnung: Beine & Quads stark belastet</h4>
+                <h4 class="text-sm font-bold text-red-400">Interferenz-Warnung: Beine & Quads (18% Erholt)</h4>
                 <p class="text-xs text-zinc-300">
-                  Deine Quads haben nach den gestrigen Kniebeugen hohe Entzündungsmarker (0–24h Fenster). Ein intensiver Lauf heute hemmt die Erholung.
+                  Die Oberschenkel-Vorderseite (Quads) weist hohe mikroskopische Gewebeschäden auf. Heute kein Lauf mit Höhenmetern oder schweren Kniebeugen empfohlen.
                 </p>
               </div>
             </div>
@@ -232,8 +287,8 @@
             <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
               <div class="bg-brand-black p-3 rounded-xl border border-brand-border space-y-1">
                 <div class="flex items-center justify-between text-[11px] font-bold">
-                  <span class="text-white">Beine (Quads)</span>
-                  <span class="text-red-400">18% (Rot)</span>
+                  <span class="text-white">Quads (Oberschenkel)</span>
+                  <span class="text-red-400">18%</span>
                 </div>
                 <div class="w-full bg-zinc-800 h-1.5 rounded-full overflow-hidden">
                   <div class="bg-red-500 h-full w-[18%]"></div>
@@ -242,221 +297,49 @@
 
               <div class="bg-brand-black p-3 rounded-xl border border-brand-border space-y-1">
                 <div class="flex items-center justify-between text-[11px] font-bold">
-                  <span class="text-white">Ischiocrurale</span>
-                  <span class="text-yellow-400">45% (Gelb)</span>
+                  <span class="text-white">Hamstrings (Hinten)</span>
+                  <span class="text-red-400">25%</span>
                 </div>
                 <div class="w-full bg-zinc-800 h-1.5 rounded-full overflow-hidden">
-                  <div class="bg-yellow-400 h-full w-[45%]"></div>
+                  <div class="bg-red-500 h-full w-[25%]"></div>
                 </div>
               </div>
 
               <div class="bg-brand-black p-3 rounded-xl border border-brand-border space-y-1">
                 <div class="flex items-center justify-between text-[11px] font-bold">
-                  <span class="text-white">Oberkörper</span>
-                  <span class="text-brand-green">100% (Grün)</span>
+                  <span class="text-white">Gluteus (Gesäss)</span>
+                  <span class="text-yellow-400">55%</span>
+                </div>
+                <div class="w-full bg-zinc-800 h-1.5 rounded-full overflow-hidden">
+                  <div class="bg-yellow-400 h-full w-[55%]"></div>
+                </div>
+              </div>
+
+              <div class="bg-brand-black p-3 rounded-xl border border-brand-border space-y-1">
+                <div class="flex items-center justify-between text-[11px] font-bold">
+                  <span class="text-white">Waden & Schienbein</span>
+                  <span class="text-yellow-400">60%</span>
+                </div>
+                <div class="w-full bg-zinc-800 h-1.5 rounded-full overflow-hidden">
+                  <div class="bg-yellow-400 h-full w-[60%]"></div>
+                </div>
+              </div>
+
+              <div class="bg-brand-black p-3 rounded-xl border border-brand-border space-y-1">
+                <div class="flex items-center justify-between text-[11px] font-bold">
+                  <span class="text-white">Brust & Schultern</span>
+                  <span class="text-brand-green">100%</span>
                 </div>
                 <div class="w-full bg-zinc-800 h-1.5 rounded-full overflow-hidden">
                   <div class="bg-brand-green h-full w-full"></div>
                 </div>
               </div>
-            </div>
-          </div>
-        </div>
-      </div>
 
-      <div id="workout-list" class="space-y-4"></div>
-
-    </section>
-
-    <!-- TAB 3: PRO ABO -->
-    <section id="tab-pro" class="hidden space-y-8 max-w-4xl mx-auto">
-      <div class="text-center space-y-3">
-        <h2 class="text-3xl md:text-4xl font-black text-white">Hol Dir Den Vollständigen Vorsprung</h2>
-        <p class="text-brand-muted text-sm max-w-xl mx-auto">Unlimitierte KI-Generierung, automatische Strava-Synchronisation und erweiterte Puls- Zonen-Analyse für deine Einheiten.</p>
-      </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4">
-        <div class="bg-brand-card border border-brand-border rounded-2xl p-6 flex flex-col justify-between space-y-6">
-          <div class="space-y-4">
-            <span class="text-xs font-bold text-brand-muted uppercase tracking-wider">Monatlich Flexibel</span>
-            <div class="flex items-baseline gap-1">
-              <span class="text-4xl font-black text-white">CHF 4.90</span>
-              <span class="text-xs text-brand-muted">/ Monat</span>
-            </div>
-            <ul class="space-y-3 text-xs text-zinc-300 pt-2">
-              <li class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-green"></i> Alle Trainingspläne unlimitiert anpassen</li>
-              <li class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-green"></i> Kalender Export (Apple / Google)</li>
-              <li class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-green"></i> Jedeszeit monatlich kündbar</li>
-            </ul>
-          </div>
-          <button onclick="alert('Stripe Testmodus aktiv.')" class="w-full py-3 bg-zinc-800 hover:bg-zinc-700 text-white font-bold text-xs uppercase tracking-wider rounded-xl transition border border-brand-border">
-            7 Tage Gratis Testen
-          </button>
-        </div>
-
-        <div class="bg-brand-card border-2 border-brand-green rounded-2xl p-6 flex flex-col justify-between space-y-6 relative glow-effect">
-          <div class="space-y-4">
-            <span class="text-xs font-bold text-brand-green uppercase tracking-wider">Jahres-Pass</span>
-            <div class="flex items-baseline gap-1">
-              <span class="text-4xl font-black text-white">CHF 39.00</span>
-              <span class="text-xs text-brand-muted">/ Jahr</span>
-            </div>
-            <ul class="space-y-3 text-xs text-zinc-300 pt-2">
-              <li class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-green"></i> Alles aus dem Monats-Abo</li>
-              <li class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-green"></i> Strava & Garmin Sync (Beta)</li>
-              <li class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-green"></i> Watt & Pulszonen-Rechner</li>
-            </ul>
-          </div>
-
-          <button onclick="alert('Stripe Testmodus aktiv.')" class="w-full py-3 bg-brand-green hover:bg-brand-greenHover text-black font-black text-xs uppercase tracking-wider rounded-xl transition">
-            Jahres-Pass Aktivieren
-          </button>
-        </div>
-      </div>
-    </section>
-
-  </main>
-
-  <footer class="border-t border-brand-border py-6 bg-brand-black text-center text-xs text-brand-muted">
-    <p>HYBRID AI &copy; 2026 – Gefertigt für Athleten. Passt sich deinem Kalender an.</p>
-  </footer>
-
-  <script>
-    let currentWorkouts = [
-      { id: 1, day: 'Montag', type: 'Kraft', title: 'Oberkörper & Rumpfstabilität', duration: 50, startTime: '07:00', desc: 'Bankdrücken, Klimmzüge, Schulterdrücken + Core Stability' },
-      { id: 2, day: 'Dienstag', type: 'Ausdauer', title: 'Grundlagenausdauer Laufen (Zone 2)', duration: 45, startTime: '18:00', desc: 'Ruhiger Lauf im flachen Gelände. Puls strikt in Zone 2 halten.' },
-      { id: 3, day: 'Mittwoch', type: 'Kraft', title: 'Unterkörper / Beine & Po', duration: 55, startTime: '07:00', desc: 'Kniebeugen, Rumänisches Kreuzheben, Ausfallschritte' },
-      { id: 4, day: 'Donnerstag', type: 'Ausdauer', title: 'Rennrad / ERG-Intervall', duration: 60, startTime: '17:30', desc: '15 Min Warmup, 4x5 Min Schwellen-Intervalle, 15 Min Cool Down' },
-      { id: 5, day: 'Freitag', type: 'Rest', title: 'Regeneration & Mobility', duration: 20, startTime: '08:00', desc: 'Foam Rolling und aktives Dehnen für Hüfte und Fußgelenke' }
-    ];
-
-    function switchTab(tabName) {
-      document.getElementById('tab-generator').classList.add('hidden');
-      document.getElementById('tab-schedule').classList.add('hidden');
-      document.getElementById('tab-pro').classList.add('hidden');
-
-      document.getElementById('nav-generator').classList.remove('text-brand-green');
-      document.getElementById('nav-schedule').classList.remove('text-brand-green');
-      document.getElementById('nav-pro').classList.remove('text-brand-green');
-
-      document.getElementById(`tab-${tabName}`).classList.remove('hidden');
-      document.getElementById(`nav-${tabName}`).classList.add('text-brand-green');
-
-      if(tabName === 'schedule') {
-        renderWorkouts();
-      }
-    }
-
-    function getEndTime(startTimeStr, durationMinutes) {
-      if(!startTimeStr || durationMinutes === 0) return startTimeStr;
-      const [hours, mins] = startTimeStr.split(':').map(Number);
-      const startDate = new Date();
-      startDate.setHours(hours, mins, 0);
-      const endDate = new Date(startDate.getTime() + durationMinutes * 60000);
-      const endHours = String(endDate.getHours()).padStart(2, '0');
-      const endMins = String(endDate.getMinutes()).padStart(2, '0');
-      return `${endHours}:${endMins}`;
-    }
-
-    function renderWorkouts() {
-      const container = document.getElementById('workout-list');
-      container.innerHTML = '';
-
-      currentWorkouts.forEach((w, index) => {
-        const endTime = getEndTime(w.startTime, w.duration);
-        
-        let badgeColor = 'bg-zinc-800 text-zinc-300';
-        if(w.type === 'Kraft') badgeColor = 'bg-blue-500/10 text-blue-400 border border-blue-500/20';
-        if(w.type === 'Ausdauer') badgeColor = 'bg-brand-green/10 text-brand-green border border-brand-green/20';
-
-        const card = document.createElement('div');
-        card.className = 'bg-brand-card border border-brand-border rounded-2xl p-5 flex flex-col md:flex-row md:items-center justify-between gap-4 hover:border-zinc-700 transition';
-
-        card.innerHTML = `
-          <div class="space-y-2 flex-1">
-            <div class="flex items-center gap-3">
-              <span class="text-xs font-black uppercase text-brand-muted tracking-wider">${w.day}</span>
-              <span class="px-2.5 py-0.5 rounded-md text-[10px] font-bold uppercase ${badgeColor}">${w.type}</span>
-              <span class="text-xs text-zinc-500"><i class="fa-regular fa-clock"></i> ${w.duration} Min</span>
-            </div>
-            <h3 class="text-lg font-bold text-white">${w.title}</h3>
-            <p class="text-xs text-brand-muted">${w.desc}</p>
-          </div>
-
-          <div class="flex flex-wrap items-center gap-3 pt-3 md:pt-0 border-t md:border-t-0 border-brand-border">
-            <div class="flex items-center gap-2 bg-brand-black px-3 py-2 rounded-xl border border-brand-border">
-              <i class="fa-solid fa-clock text-brand-green text-xs"></i>
-              <input type="time" value="${w.startTime}" onchange="updateWorkoutTime(${index}, this.value)" class="bg-transparent text-white text-xs font-bold focus:outline-none">
-              <span class="text-xs text-brand-muted">- ${endTime}</span>
-            </div>
-
-            <button onclick="exportSingleIcs(${index})" class="p-2.5 bg-zinc-800 hover:bg-zinc-700 text-white rounded-xl text-xs border border-brand-border transition" title="Apple Kalender">
-              <i class="fa-brands fa-apple"></i>
-            </button>
-
-            <button onclick="exportGoogleCalendar(${index})" class="p-2.5 bg-zinc-800 hover:bg-zinc-700 text-white rounded-xl text-xs border border-brand-border transition" title="Google Kalender">
-              <i class="fa-brands fa-google"></i>
-            </button>
-          </div>
-        `;
-
-        container.appendChild(card);
-      });
-    }
-
-    function updateWorkoutTime(index, newTime) {
-      currentWorkouts[index].startTime = newTime;
-      renderWorkouts();
-    }
-
-    function exportGoogleCalendar(index) {
-      const w = currentWorkouts[index];
-      const endTime = getEndTime(w.startTime, w.duration);
-      const now = new Date();
-      const dateStr = now.toISOString().replace(/-|:|\.\d\d\d/g, "").substring(0, 8);
-      const startIso = `${dateStr}T${w.startTime.replace(':', '')}00`;
-      const endIso = `${dateStr}T${endTime.replace(':', '')}00`;
-      const title = encodeURIComponent(`[HYBRID AI] ${w.title}`);
-      const details = encodeURIComponent(`${w.desc}\n\nDauer: ${w.duration} Min`);
-      const url = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${startIso}/${endIso}&details=${details}`;
-      window.open(url, '_blank');
-    }
-
-    function exportSingleIcs(index) {
-      const w = currentWorkouts[index];
-      const endTime = getEndTime(w.startTime, w.duration);
-      const now = new Date();
-      const year = now.getFullYear();
-      const month = String(now.getMonth() + 1).padStart(2, '0');
-      const day = String(now.getDate()).padStart(2, '0');
-      const dtStart = `${year}${month}${day}T${w.startTime.replace(':', '')}00`;
-      const dtEnd = `${year}${month}${day}T${endTime.replace(':', '')}00`;
-
-      const icsContent = `BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//HYBRID AI Fitness//DE\nBEGIN:VEVENT\nSUMMARY:[HYBRID AI] ${w.title}\nDESCRIPTION:${w.desc}\nDTSTART:${dtStart}\nDTEND:${dtEnd}\nEND:VEVENT\nEND:VCALENDAR`;
-      downloadFile(icsContent, `training-${w.day.toLowerCase()}.ics`, 'text/calendar');
-    }
-
-    function downloadFile(content, fileName, mimeType) {
-      const blob = new Blob([content], { type: mimeType });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = fileName;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
-    }
-
-    function generatePlan() {
-      const btn = document.getElementById('btn-generate');
-      btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Erstelle Plan...`;
-
-      setTimeout(() => {
-        btn.innerHTML = `<i class="fa-solid fa-wand-magic-sparkles text-lg"></i> <span>Plan Erstellen & In Den Kalender Schieben</span>`;
-        switchTab('schedule');
-      }, 800);
-    }
-  </script>
-</body>
-</html>
+              <div class="bg-brand-black p-3 rounded-xl border border-brand-border space-y-1">
+                <div class="flex items-center justify-between text-[11px] font-bold">
+                  <span class="text-white">Rücken & Lats</span>
+                  <span class="text-brand-green">100%</span>
+                </div>
+                <div class="w-full bg-zinc-800 h-1.5 rounded-full overflow-hidden">
+                  <div class="bg-brand-green h-full w-full"></div>
+                </div>
