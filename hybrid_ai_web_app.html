@@ -1,0 +1,1901 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HYBRID AI | Performance, Endurance & Athleten-Pitstop</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Inter Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              black: '#09090b',
+              card: '#121215',
+              border: '#27272a',
+              green: '#a3e635',
+              greenHover: '#84cc16',
+              greenGlow: 'rgba(163, 230, 53, 0.15)',
+              muted: '#a1a1aa'
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body { background-color: #09090b; color: #f4f4f5; }
+    .glow-effect { box-shadow: 0 0 25px -5px rgba(163, 230, 53, 0.2); }
+    
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #09090b; }
+    ::-webkit-scrollbar-thumb { background: #27272a; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #a3e635; }
+
+    input[type="time"]::-webkit-calendar-picker-indicator,
+    input[type="date"]::-webkit-calendar-picker-indicator {
+      filter: invert(0.8) sepia(1) saturate(5) hue-rotate(45deg);
+      cursor: pointer;
+    }
+    
+    .muscle-group {
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+    .muscle-group:hover {
+      filter: brightness(1.3);
+      stroke: #ffffff;
+      stroke-width: 0.5px;
+    }
+  </style>
+</head>
+<body class="font-sans antialiased min-h-screen flex flex-col justify-between selection:bg-brand-green selection:text-black">
+
+  <!-- NAVIGATION BAR -->
+  <header class="border-b border-brand-border bg-brand-black/90 backdrop-blur sticky top-0 z-50">
+    <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between gap-2">
+      <div class="flex items-center gap-3 cursor-pointer" onclick="switchTab('generator')">
+        <div class="w-9 h-9 rounded-xl bg-brand-green flex items-center justify-center text-black font-black text-xl tracking-tighter">
+          H
+        </div>
+        <span class="font-black text-xl tracking-wider text-white">HYBRID<span class="text-brand-green">AI</span></span>
+      </div>
+
+      <nav class="hidden md:flex items-center gap-6 text-sm font-semibold text-brand-muted">
+        <button onclick="switchTab('generator')" id="nav-generator" class="text-brand-green flex items-center gap-2 hover:text-white transition">
+          <i class="fa-solid fa-sliders"></i> <span id="txt-nav-planer">Planer</span>
+        </button>
+        <button onclick="switchTab('schedule')" id="nav-schedule" class="flex items-center gap-2 hover:text-white transition">
+          <i class="fa-solid fa-calendar-days"></i> <span id="txt-nav-schedule">Tagesplaner & Erholung</span>
+        </button>
+        <button onclick="switchTab('community')" id="nav-community" class="flex items-center gap-2 hover:text-white transition">
+          <i class="fa-solid fa-gauge-high text-brand-green"></i> <span id="txt-nav-community">Athleten-Pitstop</span>
+        </button>
+        <button onclick="switchTab('profile')" id="nav-profile" class="flex items-center gap-2 hover:text-white transition">
+          <i class="fa-solid fa-user text-brand-green"></i> <span id="txt-nav-profile">Profil</span>
+        </button>
+        <button onclick="switchTab('pro')" id="nav-pro" class="flex items-center gap-2 hover:text-white transition">
+          <i class="fa-solid fa-bolt text-brand-green"></i> <span id="txt-nav-pro">Pro Abo</span>
+        </button>
+      </nav>
+
+      <div class="flex items-center gap-3">
+        <!-- SPRACHAUSWAHL DROPDOWN -->
+        <select id="language-select" onchange="changeLanguage(this.value)" class="bg-brand-black border border-brand-border text-white text-xs font-bold rounded-lg px-2.5 py-2 focus:outline-none focus:border-brand-green cursor-pointer">
+          <option value="de">DE</option>
+          <option value="en">EN</option>
+          <option value="es">ES</option>
+          <option value="fr">FR</option>
+          <option value="pt">PT</option>
+          <option value="it">IT</option>
+        </select>
+
+        <button onclick="switchTab('pro')" class="px-4 py-2 bg-brand-green hover:bg-brand-greenHover text-black text-xs font-extrabold uppercase tracking-wider rounded-lg transition glow-effect">
+          Pro Upgrade
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN CONTAINER -->
+  <main class="max-w-6xl mx-auto px-4 py-8 flex-1 w-full space-y-8">
+
+    <!-- TAB 1: GENERATOR MIT WETTKAMPF-PLANUNG -->
+    <section id="tab-generator" class="space-y-8">
+      
+      <div class="text-center max-w-2xl mx-auto space-y-3">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-green/10 border border-brand-green/20 text-brand-green text-xs font-bold uppercase tracking-wider">
+          <i class="fa-solid fa-trophy"></i> Periodisierung & Macro-Planning
+        </div>
+        <h1 id="hero-title" class="text-3xl md:text-5xl font-black text-white tracking-tight">
+          Dein Training. Deine Zeiten.<br><span class="text-brand-green">Maximale Performance.</span>
+        </h1>
+        <p id="hero-desc" class="text-brand-muted text-sm md:text-base">
+          Verbinde Kraftaufbau und Ausdauer in einem klaren Wochenraster. Passe die Trainingszeit flexibel an deinen Tagesablauf an.
+        </p>
+      </div>
+
+      <!-- TRAILER VIDEO -->
+      <div class="max-w-3xl mx-auto rounded-2xl overflow-hidden border border-brand-border shadow-2xl glow-effect">
+        <video autoplay loop muted playsinline class="w-full h-auto max-h-[300px] object-cover">
+          <source src="trailer.mp4" type="video/mp4">
+          Dein Browser unterstützt kein Video.
+        </video>
+      </div>
+
+      <!-- FORMULAR CARD -->
+      <div class="bg-brand-card border border-brand-border rounded-2xl p-6 md:p-8 max-w-3xl mx-auto space-y-6 shadow-2xl">
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="space-y-2">
+            <label id="lbl-race-date" class="text-xs font-bold uppercase tracking-wider text-brand-muted block"><i class="fa-solid fa-flag-checkered text-brand-green"></i> 1. Wettkampf-Datum (Tag A)</label>
+            <input type="date" id="race-date" onchange="calculatePhases()" class="w-full bg-brand-black border border-brand-border text-white text-sm rounded-xl p-3 focus:outline-none focus:border-brand-green transition">
+          </div>
+
+          <div class="space-y-2">
+            <label id="lbl-goal" class="text-xs font-bold uppercase tracking-wider text-brand-muted block">2. Event-Typ</label>
+            <select id="goal" class="w-full bg-brand-black border border-brand-border text-white text-sm rounded-xl p-3 focus:outline-none focus:border-brand-green transition">
+              <option value="Ironman 70.3 / Triathlon">Ironman 70.3 / Mitteldistanz</option>
+              <option value="Ironman Full">Ironman Langdistanz</option>
+              <option value="Marathon">Marathon / Halbmarathon</option>
+              <option value="Hybrid Race">HYROX / Hybrid-Wettkampf</option>
+            </select>
+          </div>
+        </div>
+
+        <div id="phase-preview" class="bg-brand-black p-4 rounded-xl border border-brand-border space-y-3 hidden">
+          <span class="text-xs font-bold uppercase text-brand-green tracking-wider block"><i class="fa-solid fa-timeline"></i> Berechnete Macro-Phasen</span>
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center text-xs">
+            <div class="p-2 bg-zinc-900 rounded-lg border border-zinc-800">
+              <span class="text-brand-muted block text-[10px]">PHASE 1</span>
+              <strong class="text-white block" id="txt-phase-base">Grundlage (Base)</strong>
+              <span id="p1-weeks" class="text-brand-green text-[10px]">-- Wochen</span>
+            </div>
+            <div class="p-2 bg-zinc-900 rounded-lg border border-zinc-800">
+              <span class="text-brand-muted block text-[10px]">PHASE 2</span>
+              <strong class="text-white block" id="txt-phase-build">Aufbau (Build)</strong>
+              <span id="p2-weeks" class="text-brand-green text-[10px]">-- Wochen</span>
+            </div>
+            <div class="p-2 bg-zinc-900 rounded-lg border border-zinc-800">
+              <span class="text-brand-muted block text-[10px]">PHASE 3</span>
+              <strong class="text-white block" id="txt-phase-peak">Peak & Deload</strong>
+              <span id="p3-weeks" class="text-brand-green text-[10px]">-- Wochen</span>
+            </div>
+            <div class="p-2 bg-zinc-900 rounded-lg border border-zinc-800">
+              <span class="text-brand-muted block text-[10px]">PHASE 4</span>
+              <strong class="text-white block" id="txt-phase-taper">Tapering (Abbau)</strong>
+              <span id="p4-weeks" class="text-brand-green text-[10px]">2 Wochen</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="space-y-2">
+            <label id="lbl-sessions" class="text-xs font-bold uppercase tracking-wider text-brand-muted block">3. Einheiten pro Woche</label>
+            <select id="days" class="w-full bg-brand-black border border-brand-border text-white text-sm rounded-xl p-3 focus:outline-none focus:border-brand-green transition">
+              <option value="4 Tage">4 Einheiten (Vollbeschäftigt)</option>
+              <option value="5 Tage" selected>5 Einheiten (Standard Hybrid)</option>
+              <option value="6 Tage">6 Einheiten (Performance Focus)</option>
+            </select>
+          </div>
+
+          <div class="space-y-2">
+            <label id="lbl-endurance" class="text-xs font-bold uppercase tracking-wider text-brand-muted block">4. Fokus-Ausdauer</label>
+            <select id="endurance" class="w-full bg-brand-black border border-brand-border text-white text-sm rounded-xl p-3 focus:outline-none focus:border-brand-green transition">
+              <option value="Triathlon">Triathlon (Schwimmen, Velo, Laufen)</option>
+              <option value="Duathlon">Duathlon (Velo, Laufen)</option>
+              <option value="Laufen">Laufen + Kraft</option>
+            </select>
+          </div>
+        </div>
+
+        <button onclick="generatePlan()" id="btn-generate" class="w-full py-4 bg-brand-green hover:bg-brand-greenHover text-black font-black uppercase tracking-wider rounded-xl transition glow-effect flex items-center justify-center gap-3">
+          <i class="fa-solid fa-wand-magic-sparkles text-lg"></i>
+          <span>Plan Erstellen & In Den Kalender Schieben</span>
+        </button>
+
+      </div>
+    </section>
+
+    <!-- TAB 2: TAGESPLANER & DETAILLIERTE MUSKEL-ANATOMIE -->
+    <section id="tab-schedule" class="hidden space-y-6">
+      
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-brand-card p-6 rounded-2xl border border-brand-border">
+        <div>
+          <h2 id="txt-schedule-title" class="text-2xl font-black text-white flex items-center gap-2">
+            <i class="fa-solid fa-calendar-day text-brand-green"></i> Wochen- & Tagesablauf
+          </h2>
+          <p id="txt-schedule-subtitle" class="text-xs text-brand-muted mt-1">Klicke auf ein Training, um Details zu öffnen, Übungen anzupassen, Zeit automatisch zu berechnen und Sätze zu tracken.</p>
+        </div>
+      </div>
+
+      <!-- DETAILLIERTE ANATOMIE MUSKEL-MAP -->
+      <div class="bg-brand-card border border-brand-border rounded-2xl p-6 space-y-6">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-brand-border pb-4">
+          <div>
+            <h3 id="txt-anatomy-title" class="text-xl font-black text-white flex items-center gap-2">
+              <i class="fa-solid fa-child text-brand-green"></i> Präzisions-Muskelstatus & Interferenz
+            </h3>
+            <p id="txt-anatomy-subtitle" class="text-xs text-brand-muted mt-1">Detaillierte Erholungsberechnung für spezifische Muskelgruppen.</p>
+          </div>
+
+          <div class="flex items-center gap-4 text-xs font-bold">
+            <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-red-500 inline-block"></span> 0-24h (Ermüdet)</span>
+            <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-yellow-400 inline-block"></span> 24-48h (Erholung)</span>
+            <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-brand-green inline-block"></span> 48h+ (Bereit)</span>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 items-center">
+          
+          <div class="lg:col-span-1 bg-brand-black p-4 rounded-xl border border-brand-border flex justify-center items-center gap-6">
+            
+            <!-- VORDERSEITE -->
+            <div class="text-center space-y-2">
+              <span id="txt-front" class="text-[10px] uppercase font-bold text-brand-muted tracking-wider">Vorderseite</span>
+              <svg viewBox="0 0 100 200" class="w-32 h-64">
+                <path class="muscle-group" d="M 36 42 Q 50 39 64 42 L 62 58 Q 50 62 38 58 Z" fill="#a3e635" title="Brust"/>
+                <path class="muscle-group" d="M 24 42 Q 34 38 34 48 L 26 60 Z M 76 42 Q 66 38 66 48 L 74 60 Z" fill="#a3e635" title="Schultern"/>
+                <path class="muscle-group" d="M 25 62 L 32 62 L 30 80 L 23 78 Z M 75 62 L 68 62 L 70 80 L 77 78 Z" fill="#a3e635" title="Bizeps"/>
+                <path class="muscle-group" d="M 40 64 Q 50 66 60 64 L 58 74 Q 50 76 42 74 Z" fill="#a3e635"/>
+                <path class="muscle-group" d="M 41 76 Q 50 78 59 76 L 57 86 Q 50 88 43 86 Z" fill="#a3e635"/>
+                <path class="muscle-group" d="M 34 98 Q 48 95 48 140 L 36 138 Z" fill="#ef4444" title="Quads"/>
+                <path class="muscle-group" d="M 52 95 Q 66 98 64 138 L 52 140 Z" fill="#ef4444" title="Quads"/>
+                <path class="muscle-group" d="M 37 144 L 42 185 L 35 185 Z M 63 144 L 58 185 L 65 185 Z" fill="#eab308" title="Schienbein"/>
+              </svg>
+            </div>
+
+            <!-- RÜCKSEITE -->
+            <div class="text-center space-y-2">
+              <span id="txt-back" class="text-[10px] uppercase font-bold text-brand-muted tracking-wider">Rückseite</span>
+              <svg viewBox="0 0 100 200" class="w-32 h-64">
+                <path class="muscle-group" d="M 38 35 Q 50 30 62 35 L 66 46 Q 50 42 34 46 Z" fill="#a3e635" title="Trapez"/>
+                <path class="muscle-group" d="M 32 48 Q 50 44 68 48 L 60 76 Q 50 80 40 76 Z" fill="#a3e635" title="Latissimus"/>
+                <path class="muscle-group" d="M 23 60 L 30 60 L 28 80 L 21 78 Z M 77 60 L 70 60 L 72 80 L 79 78 Z" fill="#a3e635" title="Trizeps"/>
+                <path class="muscle-group" d="M 42 78 Q 50 80 58 78 L 56 94 Q 50 96 44 94 Z" fill="#a3e635"/>
+                <path class="muscle-group" d="M 34 96 Q 50 90 66 96 L 64 118 Q 50 122 36 118 Z" fill="#eab308" title="Gluteus"/>
+                <path class="muscle-group" d="M 36 122 Q 48 120 48 152 L 38 150 Z" fill="#ef4444" title="Hamstrings"/>
+                <path class="muscle-group" d="M 52 120 Q 64 122 62 150 L 52 152 Z" fill="#ef4444" title="Hamstrings"/>
+                <path class="muscle-group" d="M 37 155 L 43 186 L 35 186 Z M 63 155 L 57 186 L 65 186 Z" fill="#eab308" title="Waden"/>
+              </svg>
+            </div>
+
+          </div>
+
+          <div class="lg:col-span-2 space-y-4">
+            <div class="bg-red-500/10 border border-red-500/30 rounded-xl p-4 flex items-start gap-3">
+              <i class="fa-solid fa-triangle-exclamation text-red-400 text-lg mt-0.5"></i>
+              <div class="space-y-1">
+                <h4 id="txt-interference-title" class="text-sm font-bold text-red-400">Interferenz-Warnung: Beine & Quads (18% Erholt)</h4>
+                <p id="txt-interference-desc" class="text-xs text-zinc-300">
+                  Die Oberschenkel-Vorderseite (Quads) weist hohe mikroskopische Gewebeschäden auf. Heute kein Lauf mit Höhenmetern oder schweren Kniebeugen empfohlen.
+                </p>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+              <div class="bg-brand-black p-3 rounded-xl border border-brand-border space-y-1">
+                <div class="flex items-center justify-between text-[11px] font-bold">
+                  <span class="text-white">Quads</span>
+                  <span class="text-red-400">18%</span>
+                </div>
+                <div class="w-full bg-zinc-800 h-1.5 rounded-full overflow-hidden">
+                  <div class="bg-red-500 h-full w-[18%]"></div>
+                </div>
+              </div>
+
+              <div class="bg-brand-black p-3 rounded-xl border border-brand-border space-y-1">
+                <div class="flex items-center justify-between text-[11px] font-bold">
+                  <span class="text-white">Hamstrings</span>
+                  <span class="text-red-400">25%</span>
+                </div>
+                <div class="w-full bg-zinc-800 h-1.5 rounded-full overflow-hidden">
+                  <div class="bg-red-500 h-full w-[25%]"></div>
+                </div>
+              </div>
+
+              <div class="bg-brand-black p-3 rounded-xl border border-brand-border space-y-1">
+                <div class="flex items-center justify-between text-[11px] font-bold">
+                  <span class="text-white">Gluteus</span>
+                  <span class="text-yellow-400">55%</span>
+                </div>
+                <div class="w-full bg-zinc-800 h-1.5 rounded-full overflow-hidden">
+                  <div class="bg-yellow-400 h-full w-[55%]"></div>
+                </div>
+              </div>
+
+              <div class="bg-brand-black p-3 rounded-xl border border-brand-border space-y-1">
+                <div class="flex items-center justify-between text-[11px] font-bold">
+                  <span class="text-white">Waden / Calves</span>
+                  <span class="text-yellow-400">60%</span>
+                </div>
+                <div class="w-full bg-zinc-800 h-1.5 rounded-full overflow-hidden">
+                  <div class="bg-yellow-400 h-full w-[60%]"></div>
+                </div>
+              </div>
+
+              <div class="bg-brand-black p-3 rounded-xl border border-brand-border space-y-1">
+                <div class="flex items-center justify-between text-[11px] font-bold">
+                  <span class="text-white">Brust / Chest</span>
+                  <span class="text-brand-green">100%</span>
+                </div>
+                <div class="w-full bg-zinc-800 h-1.5 rounded-full overflow-hidden">
+                  <div class="bg-brand-green h-full w-full"></div>
+                </div>
+              </div>
+
+              <div class="bg-brand-black p-3 rounded-xl border border-brand-border space-y-1">
+                <div class="flex items-center justify-between text-[11px] font-bold">
+                  <span class="text-white">Rücken / Back</span>
+                  <span class="text-brand-green">100%</span>
+                </div>
+                <div class="w-full bg-zinc-800 h-1.5 rounded-full overflow-hidden">
+                  <div class="bg-brand-green h-full w-full"></div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+
+      <div id="workout-list" class="space-y-4"></div>
+
+    </section>
+
+    <!-- TAB 3: ATHLETEN-PITSTOP / COMMUNITY FEED WITH PHOTO UPLOADS -->
+    <section id="tab-community" class="hidden space-y-8 max-w-4xl mx-auto">
+      
+      <div class="text-center max-w-xl mx-auto space-y-2">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-green/10 border border-brand-green/20 text-brand-green text-xs font-bold uppercase tracking-wider">
+          <i class="fa-solid fa-gauge-high"></i> <span id="lbl-pitstop-badge">Athleten-Pitstop</span>
+        </div>
+        <h2 id="lbl-pitstop-title" class="text-3xl font-black text-white">Athleten-Pitstop Feed</h2>
+        <p id="txt-community-sub" class="text-brand-muted text-xs">Tausche dich mit anderen Athleten über Workouts, Zeiten, Fotos & Wettkampf-Erfahrungen aus.</p>
+      </div>
+
+      <!-- BEITRAG ERSTELLEN BOX MIT BILD-UPLOAD -->
+      <div class="bg-brand-card border border-brand-border rounded-2xl p-5 space-y-4 shadow-xl">
+        <div class="flex flex-wrap items-center gap-3">
+          <div class="w-10 h-10 rounded-full bg-brand-green flex items-center justify-center text-black font-extrabold text-sm">
+            DU
+          </div>
+          <input type="text" id="post-author" placeholder="Dein Name" value="Lucas" class="bg-brand-black border border-brand-border text-white text-xs rounded-xl p-2.5 focus:outline-none focus:border-brand-green w-48">
+          <select id="post-category" class="bg-brand-black border border-brand-border text-white text-xs rounded-xl p-2.5 focus:outline-none focus:border-brand-green flex-1">
+            <option value="Ironman 70.3">Ironman 70.3 Training</option>
+            <option value="Lauf-Session">Lauf-Session / Pace</option>
+            <option value="Kraft / Gym">Kraft / Gym Session</option>
+            <option value="Wettkampf-Tipp">Wettkampf-Tipp / Talk</option>
+          </select>
+        </div>
+
+        <textarea id="post-content" rows="3" placeholder="Was hast du heute trainiert? Lade ein Foto hoch oder teile deine Zeiten im Pitstop..." class="w-full bg-brand-black border border-brand-border text-white text-xs rounded-xl p-3 focus:outline-none focus:border-brand-green resize-none placeholder:text-zinc-600"></textarea>
+
+        <!-- BILD-ATTACHMENT FORMULAR -->
+        <div class="space-y-2 bg-brand-black/60 p-3 rounded-xl border border-brand-border">
+          <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
+            <div class="flex items-center gap-2">
+              <label for="post-image-file" class="px-3 py-2 bg-zinc-800 hover:bg-zinc-700 text-brand-green border border-brand-border rounded-xl text-xs font-bold cursor-pointer transition flex items-center gap-2">
+                <i class="fa-solid fa-camera"></i> <span id="lbl-upload-photo">Foto hochladen</span>
+              </label>
+              <input type="file" id="post-image-file" accept="image/*" onchange="handleImageSelect(event)" class="hidden">
+              <span id="file-name-display" class="text-[11px] text-brand-muted truncate max-w-[150px]">Kein Bild gewählt</span>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <span class="text-[10px] text-zinc-500 font-bold uppercase">oder Bild-URL:</span>
+              <input type="text" id="post-image-url" placeholder="https://..." onchange="handleUrlInput(this.value)" class="bg-brand-black border border-brand-border text-white text-xs rounded-lg p-1.5 focus:outline-none focus:border-brand-green w-40">
+            </div>
+          </div>
+
+          <!-- IMAGE PREVIEW -->
+          <div id="image-preview-container" class="relative hidden mt-2">
+            <img id="image-preview" src="" alt="Vorschau" class="max-h-48 rounded-xl border border-brand-border object-cover w-full">
+            <button onclick="removeSelectedImage()" class="absolute top-2 right-2 w-7 h-7 bg-black/80 hover:bg-red-600 text-white rounded-full flex items-center justify-center text-xs transition">
+              <i class="fa-solid fa-xmark"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="flex justify-between items-center pt-1">
+          <span class="text-[10px] text-brand-muted"><i class="fa-solid fa-shield-halved text-brand-green"></i> Athleten-Pitstop verified</span>
+          <button onclick="addCommunityPost()" class="px-5 py-2.5 bg-brand-green hover:bg-brand-greenHover text-black font-extrabold text-xs uppercase rounded-xl transition glow-effect flex items-center gap-2">
+            <i class="fa-solid fa-paper-plane"></i> <span id="lbl-btn-post">Im Pitstop Posten</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- FEED POSTS CONTAINER -->
+      <div id="community-feed" class="space-y-4"></div>
+
+    </section>
+
+    <!-- TAB 4: ATHLETEN-PROFIL (DEDICATED PROFILE SECTION) -->
+    <section id="tab-profile" class="hidden space-y-8 max-w-5xl mx-auto">
+      
+      <!-- ATHLETE HEADER CARD -->
+      <div class="bg-brand-card border border-brand-border rounded-2xl p-6 md:p-8 space-y-6 shadow-2xl relative overflow-hidden">
+        <div class="absolute -top-10 -right-10 w-48 h-48 bg-brand-green/10 rounded-full blur-3xl pointer-events-none"></div>
+        
+        <div class="flex flex-col md:flex-row items-center md:items-start justify-between gap-6">
+          <div class="flex flex-col sm:flex-row items-center gap-5 text-center sm:text-left">
+            <div class="relative">
+              <div class="w-24 h-24 rounded-2xl bg-gradient-to-tr from-brand-green to-emerald-400 p-1">
+                <img id="profile-avatar-img" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80" alt="Avatar" class="w-full h-full object-cover rounded-xl border-2 border-brand-black" onerror="this.src='https://placehold.co/300x300/121215/a3e635?text=Lucas'">
+              </div>
+              <span class="absolute -bottom-2 -right-2 bg-brand-black text-brand-green border border-brand-border text-[10px] font-black px-2 py-0.5 rounded-md">
+                HYBRID PRO
+              </span>
+            </div>
+
+            <div class="space-y-1.5">
+              <div class="flex items-center justify-center sm:justify-start gap-2">
+                <h2 id="profile-name-display" class="text-2xl font-black text-white">Lucas Vance</h2>
+                <i class="fa-solid fa-circle-check text-brand-green" title="Verifizierter Athlet"></i>
+              </div>
+              <p id="profile-tagline" class="text-xs text-brand-green font-bold">Hybrid Triathlet & Strength Athlete</p>
+              
+              <!-- EDITABLE BIO -->
+              <div class="pt-1">
+                <p id="profile-bio-text" class="text-xs text-zinc-300 max-w-md italic">
+                  "Fokus auf Ironman 70.3 Rapperswil 2026. Kombiniere 5-Tage Kraft- und Ausdauerblöcke mit strukturierter Erholungsanalyse."
+                </p>
+                <button onclick="editBioPrompt()" class="text-[10px] text-brand-muted hover:text-brand-green transition mt-1 underline flex items-center gap-1 mx-auto sm:mx-0">
+                  <i class="fa-solid fa-pen"></i> <span id="lbl-edit-story">Bio / Story anpassen</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- FOLLOWERS & WORKOUT STATS BADGES -->
+          <div class="flex items-center gap-4 bg-brand-black/80 border border-brand-border p-4 rounded-xl">
+            <div class="text-center px-2">
+              <span id="profile-followers-count" class="block text-xl font-black text-white">428</span>
+              <span id="lbl-followers" class="text-[10px] text-brand-muted uppercase font-bold tracking-wider">Follower</span>
+            </div>
+            <div class="w-px h-8 bg-brand-border"></div>
+            <div class="text-center px-2">
+              <span id="profile-following-count" class="block text-xl font-black text-white">192</span>
+              <span id="lbl-following" class="text-[10px] text-brand-muted uppercase font-bold tracking-wider">Folgt</span>
+            </div>
+            <div class="w-px h-8 bg-brand-border"></div>
+            <div class="text-center px-2">
+              <span id="profile-total-workouts" class="block text-xl font-black text-brand-green">154</span>
+              <span id="lbl-workouts-badge" class="text-[10px] text-brand-muted uppercase font-bold tracking-wider">Workouts</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- WEEKLY VOLUME & DISTANCE METRICS DASHBOARD -->
+      <div class="bg-brand-card border border-brand-border rounded-2xl p-6 space-y-4">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-brand-border pb-3">
+          <div>
+            <h3 id="lbl-volume-title" class="text-lg font-black text-white flex items-center gap-2">
+              <i class="fa-solid fa-chart-line text-brand-green"></i> Wochenvolumen & Aktivität
+            </h3>
+            <p id="lbl-volume-subtitle" class="text-xs text-brand-muted">Zusammenfassung deiner Distanzen und bewegten Gewichte der aktuellen Woche.</p>
+          </div>
+          <span class="text-xs font-extrabold text-brand-green bg-brand-green/10 border border-brand-green/20 px-3 py-1 rounded-full w-fit">
+            Score: 94% Aktiv
+          </span>
+        </div>
+
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+          
+          <div class="bg-brand-black p-4 rounded-xl border border-brand-border space-y-1">
+            <span id="lbl-run-km" class="text-[10px] uppercase font-bold text-brand-muted block"><i class="fa-solid fa-person-running text-brand-green"></i> Laufen (Km)</span>
+            <span id="stat-run-km" class="text-2xl font-black text-white">38.5 km</span>
+            <div class="w-full bg-zinc-800 h-1 rounded-full overflow-hidden mt-2">
+              <div class="bg-brand-green h-full w-[78%]"></div>
+            </div>
+          </div>
+
+          <div class="bg-brand-black p-4 rounded-xl border border-brand-border space-y-1">
+            <span id="lbl-bike-km" class="text-[10px] uppercase font-bold text-brand-muted block"><i class="fa-solid fa-person-biking text-blue-400"></i> Velo / Rad (Km)</span>
+            <span id="stat-bike-km" class="text-2xl font-black text-white">125.0 km</span>
+            <div class="w-full bg-zinc-800 h-1 rounded-full overflow-hidden mt-2">
+              <div class="bg-blue-400 h-full w-[85%]"></div>
+            </div>
+          </div>
+
+          <div class="bg-brand-black p-4 rounded-xl border border-brand-border space-y-1">
+            <span id="lbl-swim-km" class="text-[10px] uppercase font-bold text-brand-muted block"><i class="fa-solid fa-person-swimming text-teal-400"></i> Schwimmen (Km)</span>
+            <span id="stat-swim-km" class="text-2xl font-black text-white">4.2 km</span>
+            <div class="w-full bg-zinc-800 h-1 rounded-full overflow-hidden mt-2">
+              <div class="bg-teal-400 h-full w-[60%]"></div>
+            </div>
+          </div>
+
+          <div class="bg-brand-black p-4 rounded-xl border border-brand-border space-y-1">
+            <span id="lbl-weight-vol" class="text-[10px] uppercase font-bold text-brand-muted block"><i class="fa-solid fa-dumbbell text-purple-400"></i> Kraft-Volumen</span>
+            <span id="stat-weight-vol" class="text-2xl font-black text-white">14'250 kg</span>
+            <div class="w-full bg-zinc-800 h-1 rounded-full overflow-hidden mt-2">
+              <div class="bg-purple-400 h-full w-[90%]"></div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- INTERACTIVE MONTHLY TRAINING CALENDAR -->
+      <div class="bg-brand-card border border-brand-border rounded-2xl p-6 space-y-4">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-brand-border pb-4">
+          <div>
+            <h3 id="lbl-calendar-title" class="text-lg font-black text-white flex items-center gap-2">
+              <i class="fa-solid fa-calendar-days text-brand-green"></i> Monats-Trainingskalender
+            </h3>
+            <p id="lbl-calendar-sub" class="text-xs text-brand-muted">Klicke auf einen hervorgehobenen Tag, um direkt zum Workout zu springen.</p>
+          </div>
+
+          <div class="flex items-center gap-2">
+            <span class="text-xs font-bold text-white bg-zinc-800 px-3 py-1.5 rounded-lg border border-brand-border">
+              Oktober 2026
+            </span>
+            <button onclick="switchTab('schedule')" class="px-3 py-1.5 bg-brand-green/10 hover:bg-brand-green/20 text-brand-green border border-brand-green/30 text-xs font-bold rounded-lg transition">
+              <i class="fa-solid fa-arrow-right"></i> Zum Tagesplaner
+            </button>
+          </div>
+        </div>
+
+        <!-- MONTH GRID CALENDAR -->
+        <div class="space-y-2">
+          <!-- Calendar Weekday Header -->
+          <div class="grid grid-cols-7 gap-1 text-center text-[11px] font-bold text-brand-muted uppercase">
+            <div>Mo</div><div>Di</div><div>Mi</div><div>Do</div><div>Fr</div><div>Sa</div><div>So</div>
+          </div>
+
+          <!-- Calendar Days Grid (Oktober 2026 Sample Grid) -->
+          <div class="grid grid-cols-7 gap-1 text-xs">
+            <!-- Blank Offset Days for October 2026 (Starts on Thursday = 3 blanks) -->
+            <div class="p-2 bg-brand-black/30 rounded-lg text-zinc-700">28</div>
+            <div class="p-2 bg-brand-black/30 rounded-lg text-zinc-700">29</div>
+            <div class="p-2 bg-brand-black/30 rounded-lg text-zinc-700">30</div>
+
+            <!-- Days 1 to 13 -->
+            <div class="p-2 bg-brand-black rounded-lg text-zinc-400">1</div>
+            <div class="p-2 bg-brand-black rounded-lg text-zinc-400">2</div>
+            <div class="p-2 bg-brand-black rounded-lg text-zinc-400">3</div>
+            <div class="p-2 bg-brand-black rounded-lg text-zinc-400">4</div>
+            <div class="p-2 bg-brand-black rounded-lg text-zinc-400">5</div>
+            <div class="p-2 bg-brand-black rounded-lg text-zinc-400">6</div>
+            <div class="p-2 bg-brand-black rounded-lg text-zinc-400">7</div>
+            <div class="p-2 bg-brand-black rounded-lg text-zinc-400">8</div>
+            <div class="p-2 bg-brand-black rounded-lg text-zinc-400">9</div>
+            <div class="p-2 bg-brand-black rounded-lg text-zinc-400">10</div>
+            <div class="p-2 bg-brand-black rounded-lg text-zinc-400">11</div>
+            <div class="p-2 bg-brand-black rounded-lg text-zinc-400">12</div>
+            <div class="p-2 bg-brand-black rounded-lg text-zinc-400">13</div>
+
+            <!-- Highlighted Day 14 (Workout Event) -->
+            <div onclick="jumpToWorkoutFromCalendar(0)" class="p-2 bg-brand-green/20 border border-brand-green rounded-lg text-white font-black cursor-pointer hover:bg-brand-green/30 transition relative group" title="Klicken für Workout Oberkörper">
+              14
+              <span class="block text-[8px] text-brand-green font-normal truncate">Oberkörper</span>
+              <div class="absolute bottom-1 right-1 w-1.5 h-1.5 bg-brand-green rounded-full"></div>
+            </div>
+
+            <!-- Highlighted Day 15 -->
+            <div onclick="jumpToWorkoutFromCalendar(1)" class="p-2 bg-blue-500/20 border border-blue-500 rounded-lg text-white font-black cursor-pointer hover:bg-blue-500/30 transition relative group" title="Klicken für Lauf-Session">
+              15
+              <span class="block text-[8px] text-blue-400 font-normal truncate">Zone 2 Lauf</span>
+              <div class="absolute bottom-1 right-1 w-1.5 h-1.5 bg-blue-400 rounded-full"></div>
+            </div>
+
+            <!-- Highlighted Day 16 -->
+            <div onclick="jumpToWorkoutFromCalendar(2)" class="p-2 bg-purple-500/20 border border-purple-500 rounded-lg text-white font-black cursor-pointer hover:bg-purple-500/30 transition relative group">
+              16
+              <span class="block text-[8px] text-purple-400 font-normal truncate">Unterkörper</span>
+            </div>
+
+            <!-- Highlighted Day 17 -->
+            <div onclick="jumpToWorkoutFromCalendar(3)" class="p-2 bg-brand-green/20 border border-brand-green rounded-lg text-white font-black cursor-pointer hover:bg-brand-green/30 transition relative group">
+              17
+              <span class="block text-[8px] text-brand-green font-normal truncate">ERG-Velo</span>
+            </div>
+
+            <!-- Remaining Days -->
+            <div class="p-2 bg-brand-black rounded-lg text-zinc-400">18</div>
+            <div class="p-2 bg-brand-black rounded-lg text-zinc-400">19</div>
+            <div class="p-2 bg-brand-black rounded-lg text-zinc-400">20</div>
+            <div class="p-2 bg-brand-black rounded-lg text-zinc-400">21</div>
+            <div class="p-2 bg-brand-black rounded-lg text-zinc-400">22</div>
+            <div class="p-2 bg-brand-black rounded-lg text-zinc-400">23</div>
+            <div class="p-2 bg-brand-black rounded-lg text-zinc-400">24</div>
+            <div class="p-2 bg-brand-black rounded-lg text-zinc-400">25</div>
+            <div class="p-2 bg-brand-black rounded-lg text-zinc-400">26</div>
+            <div class="p-2 bg-brand-black rounded-lg text-zinc-400">27</div>
+            <div class="p-2 bg-brand-black rounded-lg text-zinc-400">28</div>
+            <div class="p-2 bg-brand-black rounded-lg text-zinc-400">29</div>
+            <div class="p-2 bg-brand-black rounded-lg text-zinc-400">30</div>
+            <div class="p-2 bg-brand-black rounded-lg text-zinc-400">31</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PERSONAL PITSTOP POSTS FEED -->
+      <div class="bg-brand-card border border-brand-border rounded-2xl p-6 space-y-4">
+        <div class="flex items-center justify-between border-b border-brand-border pb-3">
+          <h3 id="lbl-my-posts-title" class="text-lg font-black text-white flex items-center gap-2">
+            <i class="fa-solid fa-newspaper text-brand-green"></i> Meine Pitstop Beiträge
+          </h3>
+          <button onclick="switchTab('community')" class="text-xs text-brand-green font-bold hover:underline">
+            + Neuer Pitstop Beitrag
+          </button>
+        </div>
+
+        <div id="profile-posts-container" class="space-y-4"></div>
+      </div>
+
+    </section>
+
+    <!-- TAB 5: PRO ABO -->
+    <section id="tab-pro" class="hidden space-y-8 max-w-4xl mx-auto">
+      <div class="text-center space-y-3">
+        <h2 id="txt-pro-title" class="text-3xl md:text-4xl font-black text-white">Hol Dir Den Vollständigen Vorsprung</h2>
+        <p id="txt-pro-desc" class="text-brand-muted text-sm max-w-xl mx-auto">Unlimitierte KI-Generierung, automatische Strava-Synchronisation und erweiterte Puls- Zonen-Analyse für deine Einheiten.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4">
+        <div class="bg-brand-card border border-brand-border rounded-2xl p-6 flex flex-col justify-between space-y-6">
+          <div class="space-y-4">
+            <span class="text-xs font-bold text-brand-muted uppercase tracking-wider">Monatlich Flexibel</span>
+            <div class="flex items-baseline gap-1">
+              <span class="text-4xl font-black text-white">CHF 4.90</span>
+              <span class="text-xs text-brand-muted">/ Monat</span>
+            </div>
+            <ul class="space-y-3 text-xs text-zinc-300 pt-2">
+              <li class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-green"></i> Alle Trainingspläne unlimitiert anpassen</li>
+              <li class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-green"></i> Kalender Export (Apple / Google)</li>
+              <li class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-green"></i> Jedeszeit monatlich kündbar</li>
+            </ul>
+          </div>
+          <button onclick="alert('Stripe Testmodus aktiv.')" class="w-full py-3 bg-zinc-800 hover:bg-zinc-700 text-white font-bold text-xs uppercase tracking-wider rounded-xl transition border border-brand-border">
+            7 Tage Gratis Testen
+          </button>
+        </div>
+
+        <div class="bg-brand-card border-2 border-brand-green rounded-2xl p-6 flex flex-col justify-between space-y-6 relative glow-effect">
+          <div class="space-y-4">
+            <span class="text-xs font-bold text-brand-green uppercase tracking-wider">Jahres-Pass</span>
+            <div class="flex items-baseline gap-1">
+              <span class="text-4xl font-black text-white">CHF 39.00</span>
+              <span class="text-xs text-brand-muted">/ Jahr</span>
+            </div>
+            <ul class="space-y-3 text-xs text-zinc-300 pt-2">
+              <li class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-green"></i> Alles aus dem Monats-Abo</li>
+              <li class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-green"></i> Strava & Garmin Sync (Beta)</li>
+              <li class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-green"></i> Watt & Pulszonen-Rechner</li>
+            </ul>
+          </div>
+
+          <button onclick="alert('Stripe Testmodus aktiv.')" class="w-full py-3 bg-brand-green hover:bg-brand-greenHover text-black font-black text-xs uppercase tracking-wider rounded-xl transition">
+            Jahres-Pass Aktivieren
+          </button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- WORKOUT DETAIL & INTERACTIVE EXERCISE EDITOR MODAL -->
+  <div id="workout-modal" class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-brand-card border border-brand-border rounded-2xl w-full max-w-3xl max-h-[90vh] flex flex-col overflow-hidden shadow-2xl">
+      
+      <!-- Modal Header -->
+      <div class="p-5 border-b border-brand-border flex items-center justify-between bg-brand-black/50">
+        <div>
+          <div class="flex items-center gap-2">
+            <span id="modal-day-badge" class="px-2 py-0.5 bg-brand-green/10 text-brand-green border border-brand-green/20 rounded text-[10px] font-bold uppercase">Montag</span>
+            <span id="modal-type-badge" class="px-2 py-0.5 bg-blue-500/10 text-blue-400 border border-blue-500/20 rounded text-[10px] font-bold uppercase">Kraft</span>
+          </div>
+          <h2 id="modal-title" class="text-xl font-black text-white mt-1">Oberkörper & Rumpfstabilität</h2>
+        </div>
+        <button onclick="closeWorkoutModal()" class="w-8 h-8 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-zinc-400 hover:text-white flex items-center justify-center transition">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <!-- Modal Body (Scrollable) -->
+      <div class="p-6 overflow-y-auto space-y-6 flex-1">
+        
+        <!-- Time & Duration Summary -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 bg-brand-black p-4 rounded-xl border border-brand-border text-center">
+          <div>
+            <span id="lbl-modal-duration" class="text-[10px] uppercase font-bold text-brand-muted block">Kalkulierte Dauer</span>
+            <span id="modal-duration-display" class="text-lg font-black text-brand-green">50 Min</span>
+          </div>
+          <div>
+            <span id="lbl-modal-exercise-count" class="text-[10px] uppercase font-bold text-brand-muted block">Anzahl Übungen</span>
+            <span id="modal-exercise-count" class="text-lg font-black text-white">4 Übungen</span>
+          </div>
+          <div>
+            <span id="lbl-modal-estimated-burn" class="text-[10px] uppercase font-bold text-brand-muted block">Kalorien (Geschätzt)</span>
+            <span id="modal-calories" class="text-lg font-black text-white">~ 420 kcal</span>
+          </div>
+        </div>
+
+        <!-- SET PAUSE TIMER PANEL -->
+        <div class="bg-brand-black/70 border border-brand-border p-4 rounded-xl flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl bg-brand-green/10 border border-brand-green/30 flex items-center justify-center text-brand-green">
+              <i class="fa-solid fa-stopwatch text-lg"></i>
+            </div>
+            <div>
+              <h4 id="lbl-timer-title" class="text-xs font-bold text-white">Satz-Pause Timer</h4>
+              <p id="lbl-timer-subtitle" class="text-[11px] text-brand-muted">Starte den Timer nach jedem Satz für optimale Regeneration.</p>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-3">
+            <span id="timer-display" class="font-mono text-2xl font-black text-brand-green tracking-wider">01:30</span>
+            <div class="flex items-center gap-1">
+              <button id="btn-timer-toggle" onclick="toggleTimer()" class="px-3 py-1.5 bg-brand-green hover:bg-brand-greenHover text-black text-xs font-extrabold rounded-lg transition">
+                Start
+              </button>
+              <button onclick="resetTimer(90)" class="px-2.5 py-1.5 bg-zinc-800 hover:bg-zinc-700 text-white text-xs font-bold rounded-lg transition">
+                90s
+              </button>
+              <button onclick="resetTimer(60)" class="px-2.5 py-1.5 bg-zinc-800 hover:bg-zinc-700 text-white text-xs font-bold rounded-lg transition">
+                60s
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Exercises List & Tracker -->
+        <div class="space-y-4">
+          <div class="flex items-center justify-between">
+            <h3 id="lbl-exercises-heading" class="text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2">
+              <i class="fa-solid fa-list-check text-brand-green"></i> Übungsplan & Satz-Tracker
+            </h3>
+            <button onclick="addNewExercisePrompt()" class="px-3 py-1.5 bg-brand-green/10 hover:bg-brand-green/20 text-brand-green border border-brand-green/30 text-xs font-bold rounded-lg transition flex items-center gap-1.5">
+              <i class="fa-solid fa-plus"></i> <span id="btn-add-exercise-txt">Übung Hinzufügen</span>
+            </button>
+          </div>
+
+          <div id="modal-exercises-container" class="space-y-4"></div>
+        </div>
+
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="p-4 border-t border-brand-border bg-brand-black/80 flex items-center justify-between">
+        <span class="text-[11px] text-brand-muted"><i class="fa-solid fa-floppy-disk text-brand-green"></i> Änderungen werden sofort gespeichert</span>
+        <button onclick="closeWorkoutModal()" class="px-5 py-2 bg-brand-green hover:bg-brand-greenHover text-black font-extrabold text-xs uppercase rounded-xl transition">
+          Speichern & Schließen
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <footer class="border-t border-brand-border py-6 bg-brand-black text-center text-xs text-brand-muted">
+    <p>HYBRID AI &copy; 2026 – Gefertigt für Athleten. Athleten-Pitstop, Profil & Wochenplaner.</p>
+  </footer>
+
+  <!-- JAVASCRIPT LOGIC -->
+  <script>
+    let currentLang = 'de';
+    let timerInterval = null;
+    let timerSeconds = 90;
+    let timerRunning = false;
+    let activeWorkoutIndex = null;
+    let currentSelectedImage = null;
+
+    // Multilingual Dictionary
+    const translations = {
+      de: {
+        heroTitle: 'Dein Training. Deine Zeiten.<br><span class="text-brand-green">Maximale Performance.</span>',
+        heroDesc: 'Verbinde Kraftaufbau und Ausdauer in einem klaren Wochenraster. Passe die Trainingszeit flexibel an deinen Tagesablauf an.',
+        btnGenerate: 'Plan Erstellen & In Den Kalender Schieben',
+        navPlaner: 'Planer',
+        navSchedule: 'Tagesplaner & Erholung',
+        navCommunity: 'Athleten-Pitstop',
+        navProfile: 'Profil',
+        navPro: 'Pro Abo',
+        lblRaceDate: '1. Wettkampf-Datum (Tag A)',
+        lblGoal: '2. Event-Typ',
+        lblSessions: '3. Einheiten pro Woche',
+        lblEndurance: '4. Fokus-Ausdauer',
+        phaseBase: 'Grundlage (Base)',
+        phaseBuild: 'Aufbau (Build)',
+        phasePeak: 'Peak & Deload',
+        phaseTaper: 'Tapering (Abbau)',
+        scheduleTitle: 'Wochen- & Tagesablauf',
+        scheduleSubtitle: 'Klicke auf ein Training, um Details zu öffnen, Übungen anzupassen, Zeit automatisch zu berechnen und Sätze zu tracken.',
+        anatomyTitle: 'Präzisions-Muskelstatus & Interferenz',
+        anatomySubtitle: 'Detaillierte Erholungsberechnung für spezifische Muskelgruppen.',
+        front: 'Vorderseite',
+        back: 'Rückseite',
+        interferenceTitle: 'Interferenz-Warnung: Beine & Quads (18% Erholt)',
+        interferenceDesc: 'Die Oberschenkel-Vorderseite (Quads) weist hohe mikroskopische Gewebeschäden auf. Heute kein Lauf mit Höhenmetern oder schweren Kniebeugen empfohlen.',
+        pitstopTitle: 'Athleten-Pitstop Feed',
+        pitstopSub: 'Tausche dich mit anderen Athleten über Workouts, Zeiten, Fotos & Wettkampf-Erfahrungen aus.',
+        lblUploadPhoto: 'Foto hochladen',
+        lblBtnPost: 'Im Pitstop Posten',
+        proTitle: 'Hol Dir Den Vollständigen Vorsprung',
+        proDesc: 'Unlimitierte KI-Generierung, automatische Strava-Synchronisation und erweiterte Puls- Zonen-Analyse für deine Einheiten.',
+        lblModalDuration: 'Kalkulierte Dauer',
+        lblModalExerciseCount: 'Anzahl Übungen',
+        lblModalEstimatedBurn: 'Kalorien (Geschätzt)',
+        lblTimerTitle: 'Satz-Pause Timer',
+        lblTimerSubtitle: 'Starte den Timer nach jedem Satz für optimale Regeneration.',
+        lblExercisesHeading: 'Übungsplan & Satz-Tracker',
+        btnAddExercise: 'Übung Hinzufügen',
+        lblEditStory: 'Bio / Story anpassen',
+        lblFollowers: 'Follower',
+        lblFollowing: 'Folgt',
+        lblWorkoutsBadge: 'Workouts',
+        lblVolumeTitle: 'Wochenvolumen & Aktivität',
+        lblVolumeSubtitle: 'Zusammenfassung deiner Distanzen und bewegten Gewichte der aktuellen Woche.',
+        lblRunKm: 'Laufen (Km)',
+        lblBikeKm: 'Velo / Rad (Km)',
+        lblSwimKm: 'Schwimmen (Km)',
+        lblWeightVol: 'Kraft-Volumen',
+        lblCalendarTitle: 'Monats-Trainingskalender',
+        lblCalendarSub: 'Klicke auf einen hervorgehobenen Tag, um direkt zum Workout zu springen.',
+        lblMyPostsTitle: 'Meine Pitstop Beiträge',
+        days: {
+          Montag: 'Montag', Dienstag: 'Dienstag', Mittwoch: 'Mittwoch', Donnerstag: 'Donnerstag', Freitag: 'Freitag', Samstag: 'Samstag', Sonntag: 'Sonntag'
+        },
+        workouts: [
+          {
+            title: 'Oberkörper & Rumpfstabilität',
+            type: 'Kraft',
+            desc: 'Bankdrücken, Klimmzüge, Schulterdrücken + Core Stability',
+            exercises: [
+              { name: 'Bankdrücken (Bench Press)', sets: 4, reps: '8-10', targetWeight: '80kg', loggedSets: [{ reps: 8, weight: 80 }, { reps: 8, weight: 80 }, { reps: 8, weight: 80 }, { reps: 8, weight: 80 }] },
+              { name: 'Klimmzüge (Pull-ups)', sets: 4, reps: '8-10', targetWeight: 'Körpergewicht', loggedSets: [{ reps: 8, weight: 0 }, { reps: 8, weight: 0 }, { reps: 8, weight: 0 }, { reps: 8, weight: 0 }] },
+              { name: 'Schulterdrücken (Overhead Press)', sets: 3, reps: '10-12', targetWeight: '50kg', loggedSets: [{ reps: 10, weight: 50 }, { reps: 10, weight: 50 }, { reps: 10, weight: 50 }] },
+              { name: 'Plank / Unterarmstütz', sets: 3, reps: '60 Sek', targetWeight: 'BW', loggedSets: [{ reps: 60, weight: 0 }, { reps: 60, weight: 0 }, { reps: 60, weight: 0 }] }
+            ]
+          },
+          {
+            title: 'Grundlagenausdauer Laufen (Zone 2)',
+            type: 'Ausdauer',
+            desc: 'Ruhiger Lauf im flachen Gelände. Puls strikt in Zone 2 halten.',
+            exercises: [
+              { name: 'Zone 2 Grundlagenlauf', sets: 1, reps: '45 Min', targetWeight: 'Pace 5:30/km', loggedSets: [{ reps: 45, weight: 0 }] },
+              { name: 'Lauf-ABC & Steigerungsläufe', sets: 4, reps: '100m', targetWeight: 'Sprint', loggedSets: [{ reps: 100, weight: 0 }, { reps: 100, weight: 0 }] }
+            ]
+          },
+          {
+            title: 'Unterkörper / Beine & Po',
+            type: 'Kraft',
+            desc: 'Kniebeugen, Rumänisches Kreuzheben, Ausfallschritte',
+            exercises: [
+              { name: 'Kniebeugen (Barbell Squat)', sets: 4, reps: '6-8', targetWeight: '100kg', loggedSets: [{ reps: 8, weight: 100 }, { reps: 8, weight: 100 }, { reps: 6, weight: 100 }] },
+              { name: 'Rumänisches Kreuzheben (RDL)', sets: 3, reps: '10-12', targetWeight: '80kg', loggedSets: [{ reps: 10, weight: 80 }, { reps: 10, weight: 80 }] },
+              { name: 'Walking Lunges (Ausfallschritte)', sets: 3, reps: '12 Schritte', targetWeight: '20kg', loggedSets: [{ reps: 12, weight: 20 }, { reps: 12, weight: 20 }] }
+            ]
+          },
+          {
+            title: 'Rennrad / ERG-Intervall',
+            type: 'Ausdauer',
+            desc: '15 Min Warmup, 4x5 Min Schwellen-Intervalle, 15 Min Cool Down',
+            exercises: [
+              { name: 'Aufwärmen (Warmup)', sets: 1, reps: '15 Min', targetWeight: '150 Watt', loggedSets: [{ reps: 15, weight: 150 }] },
+              { name: 'Schwellen-Intervalle (4x5 Min)', sets: 4, reps: '5 Min', targetWeight: '280 Watt', loggedSets: [{ reps: 5, weight: 280 }, { reps: 5, weight: 280 }] },
+              { name: 'Ausrollen (Cool Down)', sets: 1, reps: '15 Min', targetWeight: '120 Watt', loggedSets: [{ reps: 15, weight: 120 }] }
+            ]
+          },
+          {
+            title: 'Regeneration & Mobility',
+            type: 'Rest',
+            desc: 'Foam Rolling und aktives Dehnen für Hüfte und Fußgelenke',
+            exercises: [
+              { name: 'Foam Rolling (Faszienrolle)', sets: 1, reps: '10 Min', targetWeight: 'Sanft', loggedSets: [{ reps: 10, weight: 0 }] },
+              { name: 'Hüftöffner & Mobility Flow', sets: 1, reps: '10 Min', targetWeight: 'Dehnung', loggedSets: [{ reps: 10, weight: 0 }] }
+            ]
+          }
+        ]
+      },
+      en: {
+        heroTitle: 'Your Training. Your Time.<br><span class="text-brand-green">Maximum Performance.</span>',
+        heroDesc: 'Combine strength building and endurance into a clear weekly schedule.',
+        btnGenerate: 'Generate Plan & Export To Calendar',
+        navPlaner: 'Planner',
+        navSchedule: 'Daily Planner & Recovery',
+        navCommunity: 'Athletes Pitstop',
+        navProfile: 'Profile',
+        navPro: 'Pro Plan',
+        lblRaceDate: '1. Race Date (Day A)',
+        lblGoal: '2. Event Type',
+        lblSessions: '3. Sessions per Week',
+        lblEndurance: '4. Endurance Focus',
+        phaseBase: 'Base Phase',
+        phaseBuild: 'Build Phase',
+        phasePeak: 'Peak & Deload',
+        phaseTaper: 'Tapering',
+        scheduleTitle: 'Weekly & Daily Schedule',
+        scheduleSubtitle: 'Click on any workout to open details, adjust exercises, auto-calculate time, and track sets.',
+        anatomyTitle: 'Precision Muscle Status & Interference',
+        anatomySubtitle: 'Detailed recovery analysis for specific muscle groups.',
+        front: 'Front View',
+        back: 'Back View',
+        interferenceTitle: 'Interference Warning: Legs & Quads (18% Recovered)',
+        interferenceDesc: 'Front thigh muscles show high micro-damage.',
+        pitstopTitle: 'Athletes Pitstop Feed',
+        pitstopSub: 'Share photos, race times, and insights with fellow hybrid athletes.',
+        lblUploadPhoto: 'Upload Photo',
+        lblBtnPost: 'Post to Pitstop',
+        proTitle: 'Get The Full Advantage',
+        proDesc: 'Unlimited AI generation and automatic Strava sync.',
+        lblModalDuration: 'Calculated Duration',
+        lblModalExerciseCount: 'Number of Exercises',
+        lblModalEstimatedBurn: 'Est. Calories Burned',
+        lblTimerTitle: 'Set Rest Timer',
+        lblTimerSubtitle: 'Start timer after every set for optimal recovery.',
+        lblExercisesHeading: 'Exercise Plan & Set Tracker',
+        btnAddExercise: 'Add Exercise',
+        lblEditStory: 'Edit Bio / Story',
+        lblFollowers: 'Followers',
+        lblFollowing: 'Following',
+        lblWorkoutsBadge: 'Workouts',
+        lblVolumeTitle: 'Weekly Volume & Activity',
+        lblVolumeSubtitle: 'Summary of your distances and weight volume this week.',
+        lblRunKm: 'Running (Km)',
+        lblBikeKm: 'Cycling (Km)',
+        lblSwimKm: 'Swimming (Km)',
+        lblWeightVol: 'Weight Volume',
+        lblCalendarTitle: 'Monthly Training Calendar',
+        lblCalendarSub: 'Click on a highlighted day to jump directly to the workout.',
+        lblMyPostsTitle: 'My Pitstop Posts',
+        days: { Montag: 'Monday', Dienstag: 'Tuesday', Mittwoch: 'Wednesday', Donnerstag: 'Thursday', Freitag: 'Friday', Samstag: 'Saturday', Sonntag: 'Sunday' },
+        workouts: []
+      },
+      es: {
+        heroTitle: 'Tu Entrenamiento. Tus Horarios.<br><span class="text-brand-green">Rendimiento Máximo.</span>',
+        heroDesc: 'Combina el desarrollo de fuerza y la resistencia en un plan semanal claro.',
+        btnGenerate: 'Crear Plan y Exportar al Calendario',
+        navPlaner: 'Planificador',
+        navSchedule: 'Plan Diario y Recuperación',
+        navCommunity: 'Pitstop Atletas',
+        navProfile: 'Perfil',
+        navPro: 'Suscripción Pro',
+        lblRaceDate: '1. Fecha de Competición (Día A)',
+        lblGoal: '2. Tipo de Evento',
+        lblSessions: '3. Sesiones por Semana',
+        lblEndurance: '4. Enfoque de Resistencia',
+        phaseBase: 'Fase Base',
+        phaseBuild: 'Fase de Construcción',
+        phasePeak: 'Pico y Descarga',
+        phaseTaper: 'Afilamiento (Taper)',
+        scheduleTitle: 'Plan Semanal y Diario',
+        scheduleSubtitle: 'Haz clic en un entrenamiento para abrir detalles y registrar series.',
+        anatomyTitle: 'Estado Muscular de Precisión',
+        anatomySubtitle: 'Cálculo detallado de recuperación por grupo muscular.',
+        front: 'Vista Frontal',
+        back: 'Vista Posterior',
+        interferenceTitle: 'Advertencia de Interferencia: Piernas (18% Recuperado)',
+        interferenceDesc: 'Cuádriceps fatigados. Se recomienda evitar sentadillas pesadas hoy.',
+        pitstopTitle: 'Pitstop de Atletas',
+        pitstopSub: 'Comparte fotos, tiempos e impresiones con otros atletas.',
+        lblUploadPhoto: 'Subir Foto',
+        lblBtnPost: 'Publicar en Pitstop',
+        proTitle: 'Obtén la Ventaja Completa',
+        proDesc: 'Generación IA ilimitada y sincronización con Strava.',
+        lblModalDuration: 'Duración Calculada',
+        lblModalExerciseCount: 'Número de Ejercicios',
+        lblModalEstimatedBurn: 'Calorías Estimadas',
+        lblTimerTitle: 'Temporizador de Descanso',
+        lblTimerSubtitle: 'Inicia el temporizador tras cada serie.',
+        lblExercisesHeading: 'Plan de Ejercicios y Registro',
+        btnAddExercise: 'Añadir Ejercicio',
+        lblEditStory: 'Editar Bio / Historia',
+        lblFollowers: 'Seguidores',
+        lblFollowing: 'Siguiendo',
+        lblWorkoutsBadge: 'Entrenamientos',
+        lblVolumeTitle: 'Volumen Semanal y Actividad',
+        lblVolumeSubtitle: 'Resumen de tus distancias y peso movido esta semana.',
+        lblRunKm: 'Carrera (Km)',
+        lblBikeKm: 'Ciclismo (Km)',
+        lblSwimKm: 'Natación (Km)',
+        lblWeightVol: 'Volumen de Fuerza',
+        lblCalendarTitle: 'Calendario Mensual de Entrenamientos',
+        lblCalendarSub: 'Haz clic en un día destacado para ir al entrenamiento.',
+        lblMyPostsTitle: 'Mis Publicaciones en Pitstop',
+        days: { Montag: 'Lunes', Dienstag: 'Martes', Mittwoch: 'Miércoles', Donnerstag: 'Jueves', Freitag: 'Viernes', Samstag: 'Sábado', Sonntag: 'Domingo' },
+        workouts: []
+      },
+      fr: {
+        heroTitle: 'Votre Entraînement. Vos Horaires.<br><span class="text-brand-green">Performance Maximale.</span>',
+        heroDesc: 'Combinez le renforcement musculaire et l endurance.',
+        btnGenerate: 'Créer le Plan et Exporter au Calendrier',
+        navPlaner: 'Planificateur',
+        navSchedule: 'Planning & Récupération',
+        navCommunity: 'Pitstop Athlètes',
+        navProfile: 'Profil',
+        navPro: 'Abonnement Pro',
+        lblRaceDate: '1. Date de la Compétition (Jour A)',
+        lblGoal: '2. Type d Événement',
+        lblSessions: '3. Séances par Semaine',
+        lblEndurance: '4. Focus Endurance',
+        phaseBase: 'Phase de Base',
+        phaseBuild: 'Phase de Développement',
+        phasePeak: 'Pic & Décharge',
+        phaseTaper: 'Affûtage (Taper)',
+        scheduleTitle: 'Planning Hebdomadaire & Quotidien',
+        scheduleSubtitle: 'Cliquez sur une séance pour modifier les exercices.',
+        anatomyTitle: 'Statut Musculaire de Précision',
+        anatomySubtitle: 'Analyse détaillée de la récupération musculaire.',
+        front: 'Face Avant',
+        back: 'Face Arrière',
+        interferenceTitle: 'Avertissement d Interférence: Jambes (18% Récupéré)',
+        interferenceDesc: 'Quadriceps fatigués. Évitez les squats lourds aujourd hui.',
+        pitstopTitle: 'Pitstop des Athlètes',
+        pitstopSub: 'Partagez vos photos et retours d expérience.',
+        lblUploadPhoto: 'Ajouter une Photo',
+        lblBtnPost: 'Publier dans le Pitstop',
+        proTitle: 'Passez au Niveau Supérieur',
+        proDesc: 'Génération IA illimitée et synchro Strava.',
+        lblModalDuration: 'Durée Calculée',
+        lblModalExerciseCount: 'Nombre d Exercices',
+        lblModalEstimatedBurn: 'Calories Estimées',
+        lblTimerTitle: 'Minuteur de Repos',
+        lblTimerSubtitle: 'Lancez le minuteur après chaque série.',
+        lblExercisesHeading: 'Plan d Exercices & Suivi',
+        btnAddExercise: 'Ajouter un Exercice',
+        lblEditStory: 'Modifier Bio / Bio',
+        lblFollowers: 'Abonnés',
+        lblFollowing: 'Abonnements',
+        lblWorkoutsBadge: 'Séances',
+        lblVolumeTitle: 'Volume Hebdomadaire & Activité',
+        lblVolumeSubtitle: 'Résumé de vos distances et charges soulevées cette semaine.',
+        lblRunKm: 'Course (Km)',
+        lblBikeKm: 'Cyclisme (Km)',
+        lblSwimKm: 'Natation (Km)',
+        lblWeightVol: 'Volume de Force',
+        lblCalendarTitle: 'Calendrier Mensuel',
+        lblCalendarSub: 'Cliquez sur un jour en surbrillance pour ouvrir l entraînement.',
+        lblMyPostsTitle: 'Mes Posts Pitstop',
+        days: { Montag: 'Lundi', Dienstag: 'Mardi', Mittwoch: 'Mercredi', Donnerstag: 'Jeudi', Freitag: 'Vendredi', Samstag: 'Samedi', Sonntag: 'Dimanche' },
+        workouts: []
+      },
+      pt: {
+        heroTitle: 'Teu Treino. Teus Horários.<br><span class="text-brand-green">Desempenho Máximo.</span>',
+        heroDesc: 'Combina ganho de força e resistência num plano semanal claro.',
+        btnGenerate: 'Criar Plano e Exportar para o Calendário',
+        navPlaner: 'Planeador',
+        navSchedule: 'Agenda Diária e Recuperação',
+        navCommunity: 'Pitstop Atletas',
+        navProfile: 'Perfil',
+        navPro: 'Plano Pro',
+        lblRaceDate: '1. Data da Prova (Dia A)',
+        lblGoal: '2. Tipo de Evento',
+        lblSessions: '3. Sessões por Semana',
+        lblEndurance: '4. Foco de Resistência',
+        phaseBase: 'Fase Base',
+        phaseBuild: 'Fase de Construção',
+        phasePeak: 'Pico & Polimento',
+        phaseTaper: 'Polimento (Taper)',
+        scheduleTitle: 'Agenda Semanal e Diária',
+        scheduleSubtitle: 'Clica num treino para editar exercícios e registar séries.',
+        anatomyTitle: 'Estado Muscular de Precisão',
+        anatomySubtitle: 'Análise detalhada da recuperação muscular.',
+        front: 'Vista Frontal',
+        back: 'Vista Traseira',
+        interferenceTitle: 'Aviso de Interferência: Pernas (18% Recuperado)',
+        interferenceDesc: 'Quadríceps fadigados.',
+        pitstopTitle: 'Pitstop de Atletas',
+        pitstopSub: 'Partilha fotos, tempos e dicas no Pitstop.',
+        lblUploadPhoto: 'Carregar Foto',
+        lblBtnPost: 'Publicar no Pitstop',
+        proTitle: 'Obtém a Vantagem Total',
+        proDesc: 'Geração IA ilimitada e sincronização Strava.',
+        lblModalDuration: 'Duração Calculada',
+        lblModalExerciseCount: 'Número de Exercícios',
+        lblModalEstimatedBurn: 'Calorias Estimadas',
+        lblTimerTitle: 'Temporizador de Descanso',
+        lblTimerSubtitle: 'Inicia o temporizador após cada série.',
+        lblExercisesHeading: 'Plano de Exercícios e Registo',
+        btnAddExercise: 'Adicionar Exercício',
+        lblEditStory: 'Editar Bio / História',
+        lblFollowers: 'Seguidores',
+        lblFollowing: 'A Seguir',
+        lblWorkoutsBadge: 'Treinos',
+        lblVolumeTitle: 'Volume Semanal e Atividade',
+        lblVolumeSubtitle: 'Resumo das tuas distâncias e volume de carga esta semana.',
+        lblRunKm: 'Corrida (Km)',
+        lblBikeKm: 'Ciclismo (Km)',
+        lblSwimKm: 'Natação (Km)',
+        lblWeightVol: 'Volume de Carga',
+        lblCalendarTitle: 'Calendário Mensal de Treinos',
+        lblCalendarSub: 'Clica num dia destacado para ir ao treino.',
+        lblMyPostsTitle: 'Minhas Publicações Pitstop',
+        days: { Montag: 'Segunda', Dienstag: 'Terça', Mittwoch: 'Quarta', Donnerstag: 'Quinta', Freitag: 'Sexta', Samstag: 'Sábado', Sonntag: 'Domingo' },
+        workouts: []
+      },
+      it: {
+        heroTitle: 'Il Tuo Allenamento. I Tuoi Orari.<br><span class="text-brand-green">Massima Performance.</span>',
+        heroDesc: 'Unisci forza e resistenza in una pianificazione settimanale chiara.',
+        btnGenerate: 'Crea Piano ed Esporta nel Calendario',
+        navPlaner: 'Pianificatore',
+        navSchedule: 'Piano Giornaliero e Recupero',
+        navCommunity: 'Pitstop Atleti',
+        navProfile: 'Profilo',
+        navPro: 'Abbonamento Pro',
+        lblRaceDate: '1. Data della Gara (Giorno A)',
+        lblGoal: '2. Tipo di Evento',
+        lblSessions: '3. Sessioni a Settimana',
+        lblEndurance: '4. Focus Resistenza',
+        phaseBase: 'Fase Base',
+        phaseBuild: 'Fase di Costruzione',
+        phasePeak: 'Picco e Scarico',
+        phaseTaper: 'Tapering',
+        scheduleTitle: 'Programma Settimanale e Giornaliero',
+        scheduleSubtitle: 'Clicca su un allenamento per aprire i dettagli.',
+        anatomyTitle: 'Stato Muscolare di Precisione',
+        anatomySubtitle: 'Analisi dettagliata del recupero muscolare.',
+        front: 'Visto Frontal',
+        back: 'Visto Posteriore',
+        interferenceTitle: 'Avviso Interferenza: Gambe (18% Recuperato)',
+        interferenceDesc: 'Quadricipiti affaticati. Oggi evita squat pesanti.',
+        pitstopTitle: 'Pitstop degli Atleti',
+        pitstopSub: 'Condividi foto, tempi ed esperienze.',
+        lblUploadPhoto: 'Carica Foto',
+        lblBtnPost: 'Pubblica nel Pitstop',
+        proTitle: 'Ottieni il Vantaggio Completo',
+        proDesc: 'Generazione IA illimitata e sincronizzazione Strava.',
+        lblModalDuration: 'Durata Calcolata',
+        lblModalExerciseCount: 'Numero di Esercizi',
+        lblModalEstimatedBurn: 'Calorie Stimate',
+        lblTimerTitle: 'Timer Pausa Serie',
+        lblTimerSubtitle: 'Avvia il timer dopo ogni serie.',
+        lblExercisesHeading: 'Piano Esercizi e Tracciamento',
+        btnAddExercise: 'Aggiungi Esercizio',
+        lblEditStory: 'Modifica Bio / Storia',
+        lblFollowers: 'Follower',
+        lblFollowing: 'Seguiti',
+        lblWorkoutsBadge: 'Allenamenti',
+        lblVolumeTitle: 'Volume Settimanale e Attività',
+        lblVolumeSubtitle: 'Riepilogo delle tue distanze e del peso sollevato questa settimana.',
+        lblRunKm: 'Corsa (Km)',
+        lblBikeKm: 'Ciclismo (Km)',
+        lblSwimKm: 'Nuoto (Km)',
+        lblWeightVol: 'Volume Forza',
+        lblCalendarTitle: 'Calendario Mensile Allenamenti',
+        lblCalendarSub: 'Clicca su un giorno in evidenza per aprire l allenamento.',
+        lblMyPostsTitle: 'I Miei Post nel Pitstop',
+        days: { Montag: 'Lunedì', Dienstag: 'Martedì', Mittwoch: 'Mercoledì', Donnerstag: 'Giovedì', Freitag: 'Venerdì', Samstag: 'Sábado', Sonntag: 'Domenica' },
+        workouts: []
+      }
+    };
+
+    // Global Interactive Workouts State
+    let currentWorkouts = [
+      { id: 1, rawDay: 'Montag', startTime: '07:00', duration: 50, ...JSON.parse(JSON.stringify(translations.de.workouts[0])) },
+      { id: 2, rawDay: 'Dienstag', startTime: '18:00', duration: 45, ...JSON.parse(JSON.stringify(translations.de.workouts[1])) },
+      { id: 3, rawDay: 'Mittwoch', startTime: '07:00', duration: 55, ...JSON.parse(JSON.stringify(translations.de.workouts[2])) },
+      { id: 4, rawDay: 'Donnerstag', startTime: '17:30', duration: 60, ...JSON.parse(JSON.stringify(translations.de.workouts[3])) },
+      { id: 5, rawDay: 'Freitag', startTime: '08:00', duration: 20, ...JSON.parse(JSON.stringify(translations.de.workouts[4])) }
+    ];
+
+    // Demo Posts with Images in Athleten-Pitstop
+    let communityPosts = [
+      {
+        id: 1,
+        author: 'Lucas Vance',
+        category: 'Ironman 70.3',
+        time: 'Vor 2 Stunden',
+        content: 'Heute morgen 90km auf dem Zeitfahrvelo im Regen absolviert. Die Formkurve für Rapperswil stimmt! Wie regeneriert ihr nach so langen Einheiten am besten bezüglich Beinkraft?',
+        image: 'https://images.unsplash.com/photo-1517649763962-0c623266010b?auto=format&fit=crop&w=800&q=80',
+        kudos: 18,
+        comments: [
+          { author: 'Sarah B.', text: 'Direkt Protein-Shake + 20 Min Beine hochlegen! Wirkt Wunder.' }
+        ]
+      },
+      {
+        id: 2,
+        author: 'Elena K.',
+        category: 'Kraft / Gym',
+        time: 'Vor 5 Stunden',
+        content: 'Schwere Kniebeugen (4x6 @ 110kg) direkt am Tag vor den Intervall-Läufen gemacht. Die Erholungs-Analyse in der App hatte Recht – Quads sind komplett rot! Nächstes Mal halte ich den 24h Abstand ein.',
+        image: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=800&q=80',
+        kudos: 25,
+        comments: []
+      }
+    ];
+
+    function changeLanguage(langKey) {
+      currentLang = langKey;
+      const t = translations[langKey] || translations['de'];
+      
+      document.getElementById('hero-title').innerHTML = t.heroTitle || translations.de.heroTitle;
+      document.getElementById('hero-desc').innerHTML = t.heroDesc || translations.de.heroDesc;
+      document.getElementById('btn-generate').querySelector('span').innerText = t.btnGenerate || translations.de.btnGenerate;
+      
+      document.getElementById('txt-nav-planer').innerText = t.navPlaner || translations.de.navPlaner;
+      document.getElementById('txt-nav-schedule').innerText = t.navSchedule || translations.de.navSchedule;
+      document.getElementById('txt-nav-community').innerText = t.navCommunity || translations.de.navCommunity;
+      document.getElementById('txt-nav-profile').innerText = t.navProfile || translations.de.navProfile;
+      document.getElementById('txt-nav-pro').innerText = t.navPro || translations.de.navPro;
+      
+      document.getElementById('lbl-race-date').innerHTML = `<i class="fa-solid fa-flag-checkered text-brand-green"></i> ${t.lblRaceDate || translations.de.lblRaceDate}`;
+      document.getElementById('lbl-goal').innerText = t.lblGoal || translations.de.lblGoal;
+      document.getElementById('lbl-sessions').innerText = t.lblSessions || translations.de.lblSessions;
+      document.getElementById('lbl-endurance').innerText = t.lblEndurance || translations.de.lblEndurance;
+
+      document.getElementById('txt-phase-base').innerText = t.phaseBase || translations.de.phaseBase;
+      document.getElementById('txt-phase-build').innerText = t.phaseBuild || translations.de.phaseBuild;
+      document.getElementById('txt-phase-peak').innerText = t.phasePeak || translations.de.phasePeak;
+      document.getElementById('txt-phase-taper').innerText = t.phaseTaper || translations.de.phaseTaper;
+
+      document.getElementById('txt-schedule-title').innerHTML = `<i class="fa-solid fa-calendar-day text-brand-green"></i> ${t.scheduleTitle || translations.de.scheduleTitle}`;
+      document.getElementById('txt-schedule-subtitle').innerText = t.scheduleSubtitle || translations.de.scheduleSubtitle;
+      document.getElementById('txt-anatomy-title').innerHTML = `<i class="fa-solid fa-child text-brand-green"></i> ${t.anatomyTitle || translations.de.anatomyTitle}`;
+      document.getElementById('txt-anatomy-subtitle').innerText = t.anatomySubtitle || translations.de.anatomySubtitle;
+
+      document.getElementById('txt-front').innerText = t.front || translations.de.front;
+      document.getElementById('txt-back').innerText = t.back || translations.de.back;
+
+      document.getElementById('txt-interference-title').innerText = t.interferenceTitle || translations.de.interferenceTitle;
+      document.getElementById('txt-interference-desc').innerText = t.interferenceDesc || translations.de.interferenceDesc;
+
+      document.getElementById('lbl-pitstop-badge').innerText = t.navCommunity || 'Athleten-Pitstop';
+      document.getElementById('lbl-pitstop-title').innerText = t.pitstopTitle || translations.de.pitstopTitle;
+      document.getElementById('txt-community-sub').innerText = t.pitstopSub || translations.de.pitstopSub;
+      document.getElementById('lbl-upload-photo').innerText = t.lblUploadPhoto || translations.de.lblUploadPhoto;
+      document.getElementById('lbl-btn-post').innerText = t.lblBtnPost || translations.de.lblBtnPost;
+
+      document.getElementById('lbl-edit-story').innerText = t.lblEditStory || translations.de.lblEditStory;
+      document.getElementById('lbl-followers').innerText = t.lblFollowers || translations.de.lblFollowers;
+      document.getElementById('lbl-following').innerText = t.lblFollowing || translations.de.lblFollowing;
+      document.getElementById('lbl-workouts-badge').innerText = t.lblWorkoutsBadge || translations.de.lblWorkoutsBadge;
+
+      document.getElementById('lbl-volume-title').innerHTML = `<i class="fa-solid fa-chart-line text-brand-green"></i> ${t.lblVolumeTitle || translations.de.lblVolumeTitle}`;
+      document.getElementById('lbl-volume-subtitle').innerText = t.lblVolumeSubtitle || translations.de.lblVolumeSubtitle;
+      document.getElementById('lbl-run-km').innerHTML = `<i class="fa-solid fa-person-running text-brand-green"></i> ${t.lblRunKm || translations.de.lblRunKm}`;
+      document.getElementById('lbl-bike-km').innerHTML = `<i class="fa-solid fa-person-biking text-blue-400"></i> ${t.lblBikeKm || translations.de.lblBikeKm}`;
+      document.getElementById('lbl-swim-km').innerHTML = `<i class="fa-solid fa-person-swimming text-teal-400"></i> ${t.lblSwimKm || translations.de.lblSwimKm}`;
+      document.getElementById('lbl-weight-vol').innerHTML = `<i class="fa-solid fa-dumbbell text-purple-400"></i> ${t.lblWeightVol || translations.de.lblWeightVol}`;
+
+      document.getElementById('lbl-calendar-title').innerHTML = `<i class="fa-solid fa-calendar-days text-brand-green"></i> ${t.lblCalendarTitle || translations.de.lblCalendarTitle}`;
+      document.getElementById('lbl-calendar-sub').innerText = t.lblCalendarSub || translations.de.lblCalendarSub;
+      document.getElementById('lbl-my-posts-title').innerHTML = `<i class="fa-solid fa-newspaper text-brand-green"></i> ${t.lblMyPostsTitle || translations.de.lblMyPostsTitle}`;
+
+      document.getElementById('txt-pro-title').innerText = t.proTitle || translations.de.proTitle;
+      document.getElementById('txt-pro-desc').innerText = t.proDesc || translations.de.proDesc;
+
+      document.getElementById('lbl-modal-duration').innerText = t.lblModalDuration || translations.de.lblModalDuration;
+      document.getElementById('lbl-modal-exercise-count').innerText = t.lblModalExerciseCount || translations.de.lblModalExerciseCount;
+      document.getElementById('lbl-modal-estimated-burn').innerText = t.lblModalEstimatedBurn || translations.de.lblModalEstimatedBurn;
+      document.getElementById('lbl-timer-title').innerText = t.lblTimerTitle || translations.de.lblTimerTitle;
+      document.getElementById('lbl-timer-subtitle').innerText = t.lblTimerSubtitle || translations.de.lblTimerSubtitle;
+      document.getElementById('lbl-exercises-heading').innerHTML = `<i class="fa-solid fa-list-check text-brand-green"></i> ${t.lblExercisesHeading || translations.de.lblExercisesHeading}`;
+      document.getElementById('btn-add-exercise-txt').innerText = t.btnAddExercise || translations.de.btnAddExercise;
+
+      if (t.workouts && t.workouts.length === 5) {
+        currentWorkouts.forEach((w, i) => {
+          if (t.workouts[i]) {
+            w.title = t.workouts[i].title;
+            w.desc = t.workouts[i].desc;
+            w.type = t.workouts[i].type;
+          }
+        });
+      }
+
+      renderWorkouts();
+      renderProfilePosts();
+      if (activeWorkoutIndex !== null) {
+        renderModalExercises();
+      }
+    }
+
+    function calculatePhases() {
+      const dateInput = document.getElementById('race-date').value;
+      if (!dateInput) return;
+
+      const raceDate = new Date(dateInput);
+      const today = new Date();
+      const diffTime = raceDate - today;
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+      const totalWeeks = Math.floor(diffDays / 7);
+
+      if (totalWeeks < 2) {
+        alert("Das Datum liegt zu nah in der Zukunft! Wähle ein Datum mit mindestens 4 Wochen Vorlaufzeit.");
+        return;
+      }
+
+      const taperWeeks = 2;
+      const remainingWeeks = totalWeeks - taperWeeks;
+      const baseWeeks = Math.floor(remainingWeeks * 0.5);
+      const buildWeeks = Math.floor(remainingWeeks * 0.3);
+      const peakWeeks = remainingWeeks - baseWeeks - buildWeeks;
+
+      document.getElementById('p1-weeks').innerText = `${baseWeeks} Wochen`;
+      document.getElementById('p2-weeks').innerText = `${buildWeeks} Wochen`;
+      document.getElementById('p3-weeks').innerText = `${peakWeeks} Wochen`;
+
+      document.getElementById('phase-preview').classList.remove('hidden');
+    }
+
+    function switchTab(tabName) {
+      document.getElementById('tab-generator').classList.add('hidden');
+      document.getElementById('tab-schedule').classList.add('hidden');
+      document.getElementById('tab-community').classList.add('hidden');
+      document.getElementById('tab-profile').classList.add('hidden');
+      document.getElementById('tab-pro').classList.add('hidden');
+
+      document.getElementById('nav-generator').classList.remove('text-brand-green');
+      document.getElementById('nav-schedule').classList.remove('text-brand-green');
+      document.getElementById('nav-community').classList.remove('text-brand-green');
+      document.getElementById('nav-profile').classList.remove('text-brand-green');
+      document.getElementById('nav-pro').classList.remove('text-brand-green');
+
+      document.getElementById(`tab-${tabName}`).classList.remove('hidden');
+      document.getElementById(`nav-${tabName}`).classList.add('text-brand-green');
+
+      if(tabName === 'schedule') {
+        renderWorkouts();
+      }
+      if(tabName === 'community') {
+        renderCommunityFeed();
+      }
+      if(tabName === 'profile') {
+        renderProfilePosts();
+      }
+    }
+
+    function editBioPrompt() {
+      const currentBio = document.getElementById('profile-bio-text').innerText.replace(/^"|"$/g, '');
+      const newBio = prompt("Deine Athleten-Story / Bio anpassen:", currentBio);
+      if (newBio !== null && newBio.trim() !== "") {
+        document.getElementById('profile-bio-text').innerText = `"${newBio.trim()}"`;
+      }
+    }
+
+    function jumpToWorkoutFromCalendar(workoutIdx) {
+      switchTab('schedule');
+      openWorkoutModal(workoutIdx);
+    }
+
+    function getEndTime(startTimeStr, durationMinutes) {
+      if(!startTimeStr || durationMinutes === 0) return startTimeStr;
+      const [hours, mins] = startTimeStr.split(':').map(Number);
+      const startDate = new Date();
+      startDate.setHours(hours, mins, 0);
+      const endDate = new Date(startDate.getTime() + durationMinutes * 60000);
+      const endHours = String(endDate.getHours()).padStart(2, '0');
+      const endMins = String(endDate.getMinutes()).padStart(2, '0');
+      return `${endHours}:${endMins}`;
+    }
+
+    function autoCalculateDuration(workout) {
+      if (!workout.exercises || workout.exercises.length === 0) {
+        workout.duration = 15;
+        return;
+      }
+      let totalMinutes = 10;
+      workout.exercises.forEach(ex => {
+        const setsCount = ex.sets || (ex.loggedSets ? ex.loggedSets.length : 3);
+        totalMinutes += setsCount * 3;
+      });
+      workout.duration = Math.max(20, totalMinutes);
+    }
+
+    function renderWorkouts() {
+      const container = document.getElementById('workout-list');
+      container.innerHTML = '';
+
+      const langObj = translations[currentLang] || translations.de;
+      const dayMap = langObj.days || translations.de.days;
+
+      currentWorkouts.forEach((w, index) => {
+        autoCalculateDuration(w);
+        const endTime = getEndTime(w.startTime, w.duration);
+        const translatedDay = dayMap[w.rawDay] || w.rawDay;
+        
+        let badgeColor = 'bg-zinc-800 text-zinc-300';
+        if(w.type === 'Kraft') badgeColor = 'bg-blue-500/10 text-blue-400 border border-blue-500/20';
+        if(w.type === 'Ausdauer') badgeColor = 'bg-brand-green/10 text-brand-green border border-brand-green/20';
+
+        const card = document.createElement('div');
+        card.className = 'bg-brand-card border border-brand-border rounded-2xl p-5 flex flex-col md:flex-row md:items-center justify-between gap-4 hover:border-brand-green/50 transition cursor-pointer group shadow-lg';
+
+        card.innerHTML = `
+          <div class="space-y-2 flex-1" onclick="openWorkoutModal(${index})">
+            <div class="flex items-center gap-3">
+              <span class="text-xs font-black uppercase text-brand-muted tracking-wider">${translatedDay}</span>
+              <span class="px-2.5 py-0.5 rounded-md text-[10px] font-bold uppercase ${badgeColor}">${w.type}</span>
+              <span class="text-xs text-brand-green font-bold"><i class="fa-regular fa-clock"></i> ${w.duration} Min</span>
+              <span class="text-[10px] text-zinc-400 bg-zinc-800 px-2 py-0.5 rounded border border-zinc-700">${w.exercises.length} Übungen</span>
+            </div>
+            <h3 class="text-lg font-bold text-white group-hover:text-brand-green transition flex items-center gap-2">
+              ${w.title} <i class="fa-solid fa-chevron-right text-xs opacity-0 group-hover:opacity-100 transition"></i>
+            </h3>
+            <p class="text-xs text-brand-muted">${w.desc}</p>
+          </div>
+
+          <div class="flex flex-wrap items-center gap-3 pt-3 md:pt-0 border-t md:border-t-0 border-brand-border">
+            <div class="flex items-center gap-2 bg-brand-black px-3 py-2 rounded-xl border border-brand-border" onclick="event.stopPropagation()">
+              <i class="fa-solid fa-clock text-brand-green text-xs"></i>
+              <input type="time" value="${w.startTime}" onchange="updateWorkoutTime(${index}, this.value)" class="bg-transparent text-white text-xs font-bold focus:outline-none">
+              <span class="text-xs text-brand-muted">- ${endTime}</span>
+            </div>
+
+            <button onclick="event.stopPropagation(); openWorkoutModal(${index})" class="px-3 py-2 bg-brand-green/10 hover:bg-brand-green/20 text-brand-green border border-brand-green/30 rounded-xl text-xs font-bold transition flex items-center gap-1.5">
+              <i class="fa-solid fa-pen-to-square"></i> Details & Tracker
+            </button>
+
+            <button onclick="event.stopPropagation(); exportSingleIcs(${index})" class="p-2.5 bg-zinc-800 hover:bg-zinc-700 text-white rounded-xl text-xs border border-brand-border transition" title="Apple Kalender">
+              <i class="fa-brands fa-apple"></i>
+            </button>
+
+            <button onclick="event.stopPropagation(); exportGoogleCalendar(${index})" class="p-2.5 bg-zinc-800 hover:bg-zinc-700 text-white rounded-xl text-xs border border-brand-border transition" title="Google Kalender">
+              <i class="fa-brands fa-google"></i>
+            </button>
+          </div>
+        `;
+
+        container.appendChild(card);
+      });
+    }
+
+    function updateWorkoutTime(index, newTime) {
+      currentWorkouts[index].startTime = newTime;
+      renderWorkouts();
+    }
+
+    function openWorkoutModal(index) {
+      activeWorkoutIndex = index;
+      const w = currentWorkouts[index];
+      const langObj = translations[currentLang] || translations.de;
+      const dayMap = langObj.days || translations.de.days;
+
+      document.getElementById('modal-day-badge').innerText = dayMap[w.rawDay] || w.rawDay;
+      document.getElementById('modal-type-badge').innerText = w.type;
+      document.getElementById('modal-title').innerText = w.title;
+
+      renderModalExercises();
+      document.getElementById('workout-modal').classList.remove('hidden');
+    }
+
+    function closeWorkoutModal() {
+      document.getElementById('workout-modal').classList.add('hidden');
+      activeWorkoutIndex = null;
+      renderWorkouts();
+    }
+
+    function renderModalExercises() {
+      if (activeWorkoutIndex === null) return;
+      const w = currentWorkouts[activeWorkoutIndex];
+      autoCalculateDuration(w);
+
+      document.getElementById('modal-duration-display').innerText = `${w.duration} Min`;
+      document.getElementById('modal-exercise-count').innerText = `${w.exercises.length} Übungen`;
+      document.getElementById('modal-calories').innerText = `~ ${w.duration * 8} kcal`;
+
+      const container = document.getElementById('modal-exercises-container');
+      container.innerHTML = '';
+
+      if (w.exercises.length === 0) {
+        container.innerHTML = `
+          <div class="text-center py-8 text-brand-muted text-xs bg-brand-black/50 rounded-xl border border-dashed border-brand-border">
+            Keine Übungen in diesem Workout. Klicke auf "Übung Hinzufügen" um Übungen zu ergänzen.
+          </div>
+        `;
+        return;
+      }
+
+      w.exercises.forEach((ex, exIdx) => {
+        const card = document.createElement('div');
+        card.className = 'bg-brand-black p-4 rounded-xl border border-brand-border space-y-3';
+
+        let setsRowsHtml = '';
+        ex.loggedSets.forEach((set, sIdx) => {
+          setsRowsHtml += `
+            <div class="flex items-center justify-between gap-2 text-xs bg-zinc-900/80 p-2 rounded-lg border border-zinc-800">
+              <span class="font-bold text-brand-green text-[11px] w-12">Satz ${sIdx + 1}</span>
+              
+              <div class="flex items-center gap-2 flex-1 justify-end">
+                <div class="flex items-center gap-1 bg-brand-black px-2 py-1 rounded border border-zinc-800">
+                  <span class="text-[10px] text-brand-muted">Kg:</span>
+                  <input type="number" value="${set.weight}" onchange="updateSetData(${exIdx}, ${sIdx}, 'weight', this.value)" class="w-12 bg-transparent text-white font-bold text-xs focus:outline-none text-right">
+                </div>
+
+                <div class="flex items-center gap-1 bg-brand-black px-2 py-1 rounded border border-zinc-800">
+                  <span class="text-[10px] text-brand-muted">Reps:</span>
+                  <input type="number" value="${set.reps}" onchange="updateSetData(${exIdx}, ${sIdx}, 'reps', this.value)" class="w-12 bg-transparent text-white font-bold text-xs focus:outline-none text-right">
+                </div>
+
+                <button onclick="triggerSetCompleted()" class="px-2 py-1 bg-brand-green/20 hover:bg-brand-green/40 text-brand-green rounded text-[10px] font-bold transition">
+                  <i class="fa-solid fa-check"></i> Done
+                </button>
+              </div>
+            </div>
+          `;
+        });
+
+        card.innerHTML = `
+          <div class="flex items-center justify-between gap-2 border-b border-zinc-800 pb-2">
+            <div class="flex items-center gap-2 flex-1">
+              <i class="fa-solid fa-dumbbell text-brand-green text-xs"></i>
+              <input type="text" value="${ex.name}" onchange="updateExerciseName(${exIdx}, this.value)" class="bg-transparent text-white font-bold text-sm focus:outline-none border-b border-transparent focus:border-brand-green flex-1">
+            </div>
+
+            <div class="flex items-center gap-2">
+              <button onclick="addSetToExercise(${exIdx})" class="px-2 py-1 bg-zinc-800 hover:bg-zinc-700 text-white rounded text-[10px] font-bold transition border border-zinc-700" title="Satz hinzufügen">
+                + Satz
+              </button>
+              <button onclick="removeExercise(${exIdx})" class="p-1.5 text-red-400 hover:text-red-300 hover:bg-red-500/10 rounded transition" title="Übung löschen">
+                <i class="fa-solid fa-trash-can text-xs"></i>
+              </button>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-2 text-[11px] text-brand-muted">
+            <div><strong class="text-white">Ziel:</strong> ${ex.sets} Sätze x ${ex.reps}</div>
+            <div><strong class="text-white">Zielgewicht:</strong> ${ex.targetWeight}</div>
+          </div>
+
+          <div class="space-y-1.5 pt-1">
+            ${setsRowsHtml}
+          </div>
+        `;
+
+        container.appendChild(card);
+      });
+    }
+
+    function addNewExercisePrompt() {
+      if (activeWorkoutIndex === null) return;
+      const exName = prompt("Name der neuen Übung (z.B. Bankdrücken, Ausfallschritte):", "Kabelzug Latzug");
+      if (!exName || !exName.trim()) return;
+
+      const newEx = {
+        name: exName.trim(),
+        sets: 3,
+        reps: '10-12',
+        targetWeight: '40kg',
+        loggedSets: [
+          { reps: 10, weight: 40 },
+          { reps: 10, weight: 40 },
+          { reps: 10, weight: 40 }
+        ]
+      };
+
+      currentWorkouts[activeWorkoutIndex].exercises.push(newEx);
+      renderModalExercises();
+    }
+
+    function removeExercise(exIdx) {
+      if (activeWorkoutIndex === null) return;
+      currentWorkouts[activeWorkoutIndex].exercises.splice(exIdx, 1);
+      renderModalExercises();
+    }
+
+    function updateExerciseName(exIdx, newName) {
+      if (activeWorkoutIndex === null || !newName.trim()) return;
+      currentWorkouts[activeWorkoutIndex].exercises[exIdx].name = newName;
+    }
+
+    function addSetToExercise(exIdx) {
+      if (activeWorkoutIndex === null) return;
+      const ex = currentWorkouts[activeWorkoutIndex].exercises[exIdx];
+      const lastSet = ex.loggedSets[ex.loggedSets.length - 1] || { reps: 10, weight: 20 };
+      ex.loggedSets.push({ ...lastSet });
+      ex.sets = ex.loggedSets.length;
+      renderModalExercises();
+    }
+
+    function updateSetData(exIdx, setIdx, field, value) {
+      if (activeWorkoutIndex === null) return;
+      const set = currentWorkouts[activeWorkoutIndex].exercises[exIdx].loggedSets[setIdx];
+      if (set) {
+        set[field] = parseFloat(value) || 0;
+      }
+    }
+
+    function triggerSetCompleted() {
+      resetTimer(90);
+      toggleTimer(true);
+    }
+
+    function toggleTimer(forceStart = false) {
+      const btn = document.getElementById('btn-timer-toggle');
+      if (timerRunning && !forceStart) {
+        clearInterval(timerInterval);
+        timerRunning = false;
+        btn.innerText = 'Start';
+        btn.className = 'px-3 py-1.5 bg-brand-green hover:bg-brand-greenHover text-black text-xs font-extrabold rounded-lg transition';
+      } else {
+        if (timerInterval) clearInterval(timerInterval);
+        timerRunning = true;
+        btn.innerText = 'Pause';
+        btn.className = 'px-3 py-1.5 bg-yellow-400 hover:bg-yellow-500 text-black text-xs font-extrabold rounded-lg transition';
+
+        timerInterval = setInterval(() => {
+          if (timerSeconds > 0) {
+            timerSeconds--;
+            updateTimerDisplay();
+          } else {
+            clearInterval(timerInterval);
+            timerRunning = false;
+            btn.innerText = 'Start';
+            btn.className = 'px-3 py-1.5 bg-brand-green hover:bg-brand-greenHover text-black text-xs font-extrabold rounded-lg transition';
+            alert('⏱️ Satz-Pause beendet! Bereit für den nächsten Satz.');
+          }
+        }, 1000);
+      }
+    }
+
+    function resetTimer(seconds) {
+      if (timerInterval) clearInterval(timerInterval);
+      timerRunning = false;
+      timerSeconds = seconds;
+      updateTimerDisplay();
+      const btn = document.getElementById('btn-timer-toggle');
+      btn.innerText = 'Start';
+      btn.className = 'px-3 py-1.5 bg-brand-green hover:bg-brand-greenHover text-black text-xs font-extrabold rounded-lg transition';
+    }
+
+    function updateTimerDisplay() {
+      const mins = Math.floor(timerSeconds / 60);
+      const secs = timerSeconds % 60;
+      document.getElementById('timer-display').innerText = 
+        `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+    }
+
+    function handleImageSelect(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      document.getElementById('file-name-display').innerText = file.name;
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        currentSelectedImage = e.target.result;
+        showPreviewImage(currentSelectedImage);
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function handleUrlInput(url) {
+      if (url && url.trim()) {
+        currentSelectedImage = url.trim();
+        showPreviewImage(currentSelectedImage);
+      }
+    }
+
+    function showPreviewImage(src) {
+      const previewContainer = document.getElementById('image-preview-container');
+      const previewImg = document.getElementById('image-preview');
+      previewImg.src = src;
+      previewContainer.classList.remove('hidden');
+    }
+
+    function removeSelectedImage() {
+      currentSelectedImage = null;
+      document.getElementById('post-image-file').value = '';
+      document.getElementById('post-image-url').value = '';
+      document.getElementById('file-name-display').innerText = 'Kein Bild gewählt';
+      document.getElementById('image-preview-container').classList.add('hidden');
+    }
+
+    function renderCommunityFeed() {
+      const feedContainer = document.getElementById('community-feed');
+      feedContainer.innerHTML = '';
+
+      communityPosts.forEach((post, index) => {
+        const postCard = document.createElement('div');
+        postCard.className = 'bg-brand-card border border-brand-border rounded-2xl p-5 space-y-4 hover:border-zinc-700 transition shadow-xl';
+
+        let commentsHtml = '';
+        post.comments.forEach(c => {
+          commentsHtml += `
+            <div class="bg-brand-black p-2.5 rounded-xl border border-brand-border text-xs space-y-1">
+              <span class="font-bold text-brand-green">${c.author}</span>
+              <p class="text-zinc-300">${c.text}</p>
+            </div>
+          `;
+        });
+
+        const imageHtml = post.image ? `
+          <div class="rounded-xl overflow-hidden border border-brand-border max-h-80 bg-black flex items-center justify-center">
+            <img src="${post.image}" alt="Pitstop Post Image" class="w-full h-full object-cover max-h-80 hover:scale-105 transition duration-300" onerror="this.src='https://placehold.co/800x450/121215/a3e635?text=Pitstop+Athleten+Foto'">
+          </div>
+        ` : '';
+
+        postCard.innerHTML = `
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-3">
+              <div class="w-9 h-9 rounded-full bg-zinc-800 border border-brand-border flex items-center justify-center font-bold text-xs text-white">
+                ${post.author.substring(0, 2)}
+              </div>
+              <div>
+                <h4 class="text-sm font-bold text-white flex items-center gap-1.5">
+                  ${post.author}
+                  <i class="fa-solid fa-circle-check text-brand-green text-[10px]" title="Athleten-Pitstop Mitglied"></i>
+                </h4>
+                <span class="text-[10px] text-brand-muted">${post.time}</span>
+              </div>
+            </div>
+            <span class="px-2.5 py-1 bg-brand-green/10 text-brand-green border border-brand-green/20 rounded-lg text-[10px] font-bold uppercase">
+              ${post.category}
+            </span>
+          </div>
+
+          <p class="text-xs text-zinc-200 leading-relaxed">${post.content}</p>
+
+          ${imageHtml}
+
+          <div class="flex items-center gap-4 pt-2 border-t border-brand-border text-xs">
+            <button onclick="giveKudos(${index})" class="flex items-center gap-1.5 text-brand-muted hover:text-brand-green transition font-bold">
+              <i class="fa-solid fa-thumbs-up text-brand-green"></i>
+              <span>${post.kudos} Kudos</span>
+            </button>
+            <span class="text-brand-muted"><i class="fa-regular fa-comment"></i> ${post.comments.length} Kommentare</span>
+          </div>
+
+          ${post.comments.length > 0 ? `<div class="space-y-2 pt-1">${commentsHtml}</div>` : ''}
+
+          <div class="flex items-center gap-2 pt-2">
+            <input type="text" id="comment-input-${index}" placeholder="Antworten..." class="bg-brand-black border border-brand-border text-white text-xs rounded-xl p-2 focus:outline-none focus:border-brand-green flex-1">
+            <button onclick="addComment(${index})" class="px-3 py-2 bg-zinc-800 hover:bg-zinc-700 text-white text-xs rounded-xl border border-brand-border transition">
+              Senden
+            </button>
+          </div>
+        `;
+
+        feedContainer.appendChild(postCard);
+      });
+    }
+
+    function renderProfilePosts() {
+      const container = document.getElementById('profile-posts-container');
+      container.innerHTML = '';
+
+      const myPosts = communityPosts.filter(p => p.author === 'Lucas' || p.author === 'Lucas Vance');
+
+      if (myPosts.length === 0) {
+        container.innerHTML = `
+          <div class="text-center py-6 text-brand-muted text-xs bg-brand-black p-4 rounded-xl border border-brand-border">
+            Du hast noch keine eigenen Posts im Athleten-Pitstop geteilt.
+          </div>
+        `;
+        return;
+      }
+
+      myPosts.forEach(post => {
+        const postCard = document.createElement('div');
+        postCard.className = 'bg-brand-black border border-brand-border rounded-xl p-4 space-y-3';
+
+        const imageHtml = post.image ? `
+          <div class="rounded-lg overflow-hidden border border-brand-border max-h-48 bg-black">
+            <img src="${post.image}" alt="Post Image" class="w-full h-full object-cover max-h-48">
+          </div>
+        ` : '';
+
+        postCard.innerHTML = `
+          <div class="flex items-center justify-between">
+            <span class="text-[10px] text-brand-muted">${post.time}</span>
+            <span class="px-2 py-0.5 bg-brand-green/10 text-brand-green rounded text-[10px] font-bold uppercase">${post.category}</span>
+          </div>
+          <p class="text-xs text-zinc-200">${post.content}</p>
+          ${imageHtml}
+          <div class="flex items-center gap-4 text-xs text-brand-muted pt-1">
+            <span><i class="fa-solid fa-thumbs-up text-brand-green"></i> ${post.kudos} Kudos</span>
+            <span><i class="fa-regular fa-comment"></i> ${post.comments.length} Kommentare</span>
+          </div>
+        `;
+
+        container.appendChild(postCard);
+      });
+    }
+
+    function addCommunityPost() {
+      const author = document.getElementById('post-author').value || 'Lucas Vance';
+      const category = document.getElementById('post-category').value;
+      const content = document.getElementById('post-content').value;
+
+      if (!content.trim() && !currentSelectedImage) {
+        alert("Bitte gib einen Text oder ein Foto ein!");
+        return;
+      }
+
+      communityPosts.unshift({
+        id: Date.now(),
+        author: author,
+        category: category,
+        time: 'Gerade eben',
+        content: content,
+        image: currentSelectedImage,
+        kudos: 0,
+        comments: []
+      });
+
+      document.getElementById('post-content').value = '';
+      removeSelectedImage();
+      renderCommunityFeed();
+      renderProfilePosts();
+    }
+
+    function giveKudos(index) {
+      communityPosts[index].kudos += 1;
+      renderCommunityFeed();
+      renderProfilePosts();
+    }
+
+    function addComment(index) {
+      const input = document.getElementById(`comment-input-${index}`);
+      if (!input.value.trim()) return;
+
+      communityPosts[index].comments.push({
+        author: 'Lucas Vance',
+        text: input.value
+      });
+
+      renderCommunityFeed();
+      renderProfilePosts();
+    }
+
+    function exportGoogleCalendar(index) {
+      const w = currentWorkouts[index];
+      const endTime = getEndTime(w.startTime, w.duration);
+      const now = new Date();
+      const dateStr = now.toISOString().replace(/-|:|\.\d\d\d/g, "").substring(0, 8);
+      const startIso = `${dateStr}T${w.startTime.replace(':', '')}00`;
+      const endIso = `${dateStr}T${endTime.replace(':', '')}00`;
+      const title = encodeURIComponent(`[HYBRID AI] ${w.title}`);
+      const details = encodeURIComponent(`${w.desc}\n\nDauer: ${w.duration} Min`);
+      const url = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${startIso}/${endIso}&details=${details}`;
+      window.open(url, '_blank');
+    }
+
+    function exportSingleIcs(index) {
+      const w = currentWorkouts[index];
+      const endTime = getEndTime(w.startTime, w.duration);
+      const now = new Date();
+      const year = now.getFullYear();
+      const month = String(now.getMonth() + 1).padStart(2, '0');
+      const day = String(now.getDate()).padStart(2, '0');
+      const dtStart = `${year}${month}${day}T${w.startTime.replace(':', '')}00`;
+      const dtEnd = `${year}${month}${day}T${endTime.replace(':', '')}00`;
+
+      const icsContent = `BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//HYBRID AI Fitness//DE\nBEGIN:VEVENT\nSUMMARY:[HYBRID AI] ${w.title}\nDESCRIPTION:${w.desc}\nDTSTART:${dtStart}\nDTEND:${dtEnd}\nEND:VEVENT\nEND:VCALENDAR`;
+      downloadFile(icsContent, `training-${w.rawDay.toLowerCase()}.ics`, 'text/calendar');
+    }
+
+    function downloadFile(content, fileName, mimeType) {
+      const blob = new Blob([content], { type: mimeType });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = fileName;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+
+    function generatePlan() {
+      const btn = document.getElementById('btn-generate');
+      btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Erstelle Wettkampfplan...`;
+
+      setTimeout(() => {
+        btn.innerHTML = `<i class="fa-solid fa-wand-magic-sparkles text-lg"></i> <span>Wettkampf-Plan Generieren & Kalender Synchronisieren</span>`;
+        switchTab('schedule');
+      }, 800);
+    }
+
+    window.onload = function() {
+      changeLanguage('de');
+    };
+  </script>
+</body>
+</html>
