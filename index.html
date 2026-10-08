@@ -343,3 +343,488 @@
                 <div class="w-full bg-zinc-800 h-1.5 rounded-full overflow-hidden">
                   <div class="bg-brand-green h-full w-full"></div>
                 </div>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+
+      <div id="workout-list" class="space-y-4"></div>
+
+    </section>
+
+    <!-- TAB 3: COMMUNITY / ATHLETEN-FEED -->
+    <section id="tab-community" class="hidden space-y-8 max-w-4xl mx-auto">
+      
+      <div class="text-center max-w-xl mx-auto space-y-2">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-green/10 border border-brand-green/20 text-brand-green text-xs font-bold uppercase tracking-wider">
+          <i class="fa-solid fa-comments"></i> Athleten-Treffpunkt
+        </div>
+        <h2 class="text-3xl font-black text-white">Hybrid Community Feed</h2>
+        <p class="text-brand-muted text-xs">Tausche dich mit anderen Athleten über Workouts, Zeiten und Wettkampf-Erfahrungen aus.</p>
+      </div>
+
+      <!-- BEITRAG ERSTELLEN BOX -->
+      <div class="bg-brand-card border border-brand-border rounded-2xl p-5 space-y-4 shadow-xl">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-full bg-brand-green flex items-center justify-center text-black font-extrabold text-sm">
+            DU
+          </div>
+          <input type="text" id="post-author" placeholder="Dein Name" value="Lucas" class="bg-brand-black border border-brand-border text-white text-xs rounded-xl p-2.5 focus:outline-none focus:border-brand-green w-48">
+          <select id="post-category" class="bg-brand-black border border-brand-border text-white text-xs rounded-xl p-2.5 focus:outline-none focus:border-brand-green flex-1">
+            <option value="Ironman 70.3">Ironman 70.3 Training</option>
+            <option value="Lauf-Session">Lauf-Session / Pace</option>
+            <option value="Kraft / Gym">Kraft / Gym Session</option>
+            <option value="Wettkampf-Tipp">Wettkampf-Tipp / Talk</option>
+          </select>
+        </div>
+
+        <textarea id="post-content" rows="3" placeholder="Was hast du heute trainiert? Wie lief die Einheit oder welche Frage hast du an die Community?" class="w-full bg-brand-black border border-brand-border text-white text-xs rounded-xl p-3 focus:outline-none focus:border-brand-green resize-none placeholder:text-zinc-600"></textarea>
+
+        <div class="flex justify-between items-center pt-1">
+          <span class="text-[10px] text-brand-muted"><i class="fa-solid fa-shield-halved text-brand-green"></i> Nur für verifizierte Hybrid-Athleten</span>
+          <button onclick="addCommunityPost()" class="px-5 py-2.5 bg-brand-green hover:bg-brand-greenHover text-black font-extrabold text-xs uppercase rounded-xl transition glow-effect flex items-center gap-2">
+            <i class="fa-solid fa-paper-plane"></i> Posten
+          </button>
+        </div>
+      </div>
+
+      <!-- FEED POSTS CONTAINER -->
+      <div id="community-feed" class="space-y-4"></div>
+
+    </section>
+
+    <!-- TAB 4: PRO ABO -->
+    <section id="tab-pro" class="hidden space-y-8 max-w-4xl mx-auto">
+      <div class="text-center space-y-3">
+        <h2 class="text-3xl md:text-4xl font-black text-white">Hol Dir Den Vollständigen Vorsprung</h2>
+        <p class="text-brand-muted text-sm max-w-xl mx-auto">Unlimitierte KI-Generierung, automatische Strava-Synchronisation und erweiterte Puls- Zonen-Analyse für deine Einheiten.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4">
+        <div class="bg-brand-card border border-brand-border rounded-2xl p-6 flex flex-col justify-between space-y-6">
+          <div class="space-y-4">
+            <span class="text-xs font-bold text-brand-muted uppercase tracking-wider">Monatlich Flexibel</span>
+            <div class="flex items-baseline gap-1">
+              <span class="text-4xl font-black text-white">CHF 4.90</span>
+              <span class="text-xs text-brand-muted">/ Monat</span>
+            </div>
+            <ul class="space-y-3 text-xs text-zinc-300 pt-2">
+              <li class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-green"></i> Alle Trainingspläne unlimitiert anpassen</li>
+              <li class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-green"></i> Kalender Export (Apple / Google)</li>
+              <li class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-green"></i> Jedeszeit monatlich kündbar</li>
+            </ul>
+          </div>
+          <button onclick="alert('Stripe Testmodus aktiv.')" class="w-full py-3 bg-zinc-800 hover:bg-zinc-700 text-white font-bold text-xs uppercase tracking-wider rounded-xl transition border border-brand-border">
+            7 Tage Gratis Testen
+          </button>
+        </div>
+
+        <div class="bg-brand-card border-2 border-brand-green rounded-2xl p-6 flex flex-col justify-between space-y-6 relative glow-effect">
+          <div class="space-y-4">
+            <span class="text-xs font-bold text-brand-green uppercase tracking-wider">Jahres-Pass</span>
+            <div class="flex items-baseline gap-1">
+              <span class="text-4xl font-black text-white">CHF 39.00</span>
+              <span class="text-xs text-brand-muted">/ Jahr</span>
+            </div>
+            <ul class="space-y-3 text-xs text-zinc-300 pt-2">
+              <li class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-green"></i> Alles aus dem Monats-Abo</li>
+              <li class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-green"></i> Strava & Garmin Sync (Beta)</li>
+              <li class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-green"></i> Watt & Pulszonen-Rechner</li>
+            </ul>
+          </div>
+
+          <button onclick="alert('Stripe Testmodus aktiv.')" class="w-full py-3 bg-brand-green hover:bg-brand-greenHover text-black font-black text-xs uppercase tracking-wider rounded-xl transition">
+            Jahres-Pass Aktivieren
+          </button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="border-t border-brand-border py-6 bg-brand-black text-center text-xs text-brand-muted">
+    <p>HYBRID AI &copy; 2026 – Gefertigt für Athleten. Passt sich deinem Kalender an.</p>
+  </footer>
+
+  <script>
+    let currentWorkouts = [
+      { id: 1, day: 'Montag', type: 'Kraft', title: 'Oberkörper & Rumpfstabilität', duration: 50, startTime: '07:00', desc: 'Bankdrücken, Klimmzüge, Schulterdrücken + Core Stability' },
+      { id: 2, day: 'Dienstag', type: 'Ausdauer', title: 'Grundlagenausdauer Laufen (Zone 2)', duration: 45, startTime: '18:00', desc: 'Ruhiger Lauf im flachen Gelände. Puls strikt in Zone 2 halten.' },
+      { id: 3, day: 'Mittwoch', type: 'Kraft', title: 'Unterkörper / Beine & Po', duration: 55, startTime: '07:00', desc: 'Kniebeugen, Rumänisches Kreuzheben, Ausfallschritte' },
+      { id: 4, day: 'Donnerstag', type: 'Ausdauer', title: 'Rennrad / ERG-Intervall', duration: 60, startTime: '17:30', desc: '15 Min Warmup, 4x5 Min Schwellen-Intervalle, 15 Min Cool Down' },
+      { id: 5, day: 'Freitag', type: 'Rest', title: 'Regeneration & Mobility', duration: 20, startTime: '08:00', desc: 'Foam Rolling und aktives Dehnen für Hüfte und Fußgelenke' }
+    ];
+
+    let communityPosts = [
+      {
+        id: 1,
+        author: 'Marco S.',
+        category: 'Ironman 70.3',
+        time: 'Vor 2 Stunden',
+        content: 'Heute morgen 90km auf dem Zeitfahrvelo im Regen absolviert. Die Formkurve für Rapperswil stimmt! Wie regeneriert ihr nach so langen Einheiten am besten bezüglich Beinkraft?',
+        kudos: 14,
+        comments: [
+          { author: 'Sarah B.', text: 'Direkt Protein-Shake + 20 Min Beine hochlegen! Wirkt Wunder.' }
+        ]
+      },
+      {
+        id: 2,
+        author: 'Elena K.',
+        category: 'Kraft / Gym',
+        time: 'Vor 5 Stunden',
+        content: 'Schwere Kniebeugen (4x6 @ 110kg) direkt am Tag vor den Intervall-Läufen gemacht. Die Erholungs-Analyse in der App hatte Recht – Quads sind komplett rot! Nächstes Mal halte ich den 24h Abstand ein.',
+        kudos: 22,
+        comments: []
+      }
+    ];
+
+    const translations = {
+      de: {
+        heroTitle: 'Dein Training. Deine Zeiten.<br><span class="text-brand-green">Maximale Performance.</span>',
+        heroDesc: 'Verbinde Kraftaufbau und Ausdauer in einem klaren Wochenraster. Passe die Trainingszeit flexibel an deinen Tagesablauf an.',
+        btnGenerate: 'Plan Erstellen & In Den Kalender Schieben',
+        navPlaner: 'Planer',
+        navSchedule: 'Tagesplaner & Erholung',
+        navCommunity: 'Community',
+        navPro: 'Pro Abo',
+        lblRaceDate: '1. Wettkampf-Datum (Tag A)',
+        lblGoal: '2. Event-Typ'
+      },
+      en: {
+        heroTitle: 'Your Training. Your Time.<br><span class="text-brand-green">Maximum Performance.</span>',
+        heroDesc: 'Combine strength building and endurance into a clear weekly schedule. Adjust your workout times flexibly to fit your daily routine.',
+        btnGenerate: 'Generate Plan & Export To Calendar',
+        navPlaner: 'Planner',
+        navSchedule: 'Daily Planner & Recovery',
+        navCommunity: 'Community',
+        navPro: 'Pro Plan',
+        lblRaceDate: '1. Race Date (Day A)',
+        lblGoal: '2. Event Type'
+      },
+      es: {
+        heroTitle: 'Tu Entrenamiento. Tus Horarios.<br><span class="text-brand-green">Rendimiento Máximo.</span>',
+        heroDesc: 'Combina el desarrollo de fuerza y la resistencia en un plan semanal claro. Adapta el tiempo de entrenamiento a tu rutina diaria.',
+        btnGenerate: 'Crear Plan y Exportar al Calendario',
+        navPlaner: 'Planificador',
+        navSchedule: 'Plan Diario y Recuperación',
+        navCommunity: 'Comunidad',
+        navPro: 'Suscripción Pro',
+        lblRaceDate: '1. Fecha de Competición (Día A)',
+        lblGoal: '2. Tipo de Evento'
+      },
+      fr: {
+        heroTitle: 'Votre Entraînement. Vos Horaires.<br><span class="text-brand-green">Performance Maximale.</span>',
+        heroDesc: 'Combinez le renforcement musculaire et l endurance dans un planning hebdomadaire clair. Adaptez vos séances à votre journée.',
+        btnGenerate: 'Créer le Plan et Exporter au Calendrier',
+        navPlaner: 'Planificateur',
+        navSchedule: 'Planning & Récupération',
+        navCommunity: 'Communauté',
+        navPro: 'Abonnement Pro',
+        lblRaceDate: '1. Date de la Compétition (Jour A)',
+        lblGoal: '2. Type d Événement'
+      },
+      pt: {
+        heroTitle: 'Teu Treino. Teus Horários.<br><span class="text-brand-green">Desempenho Máximo.</span>',
+        heroDesc: 'Combina ganho de força e resistência num plano semanal claro. Ajusta o teu tempo de treino à tua rotina diária.',
+        btnGenerate: 'Criar Plano e Exportar para o Calendário',
+        navPlaner: 'Planeador',
+        navSchedule: 'Agenda Diária e Recuperação',
+        navCommunity: 'Comunidade',
+        navPro: 'Plano Pro',
+        lblRaceDate: '1. Data da Prova (Dia A)',
+        lblGoal: '2. Tipo de Evento'
+      },
+      it: {
+        heroTitle: 'Il Tuo Allenamento. I Tuoi Orari.<br><span class="text-brand-green">Massima Performance.</span>',
+        heroDesc: 'Unisci forza e resistenza in una pianificazione settimanale chiara. Adatta i tuoi orari di allenamento alla tua giornata.',
+        btnGenerate: 'Crea Piano ed Esporta nel Calendario',
+        navPlaner: 'Pianificatore',
+        navSchedule: 'Piano Giornaliero e Recupero',
+        navCommunity: 'Community',
+        navPro: 'Abbonamento Pro',
+        lblRaceDate: '1. Data della Gara (Giorno A)',
+        lblGoal: '2. Tipo di Evento'
+      }
+    };
+
+    function changeLanguage(langKey) {
+      const t = translations[langKey] || translations['de'];
+      
+      document.getElementById('hero-title').innerHTML = t.heroTitle;
+      document.getElementById('hero-desc').innerHTML = t.heroDesc;
+      document.getElementById('btn-generate').querySelector('span').innerText = t.btnGenerate;
+      
+      document.getElementById('txt-nav-planer').innerText = t.navPlaner;
+      document.getElementById('txt-nav-schedule').innerText = t.navSchedule;
+      document.getElementById('txt-nav-community').innerText = t.navCommunity;
+      document.getElementById('txt-nav-pro').innerText = t.navPro;
+      
+      document.getElementById('lbl-race-date').innerHTML = `<i class="fa-solid fa-flag-checkered text-brand-green"></i> ${t.lblRaceDate}`;
+      document.getElementById('lbl-goal').innerText = t.lblGoal;
+    }
+
+    function calculatePhases() {
+      const dateInput = document.getElementById('race-date').value;
+      if (!dateInput) return;
+
+      const raceDate = new Date(dateInput);
+      const today = new Date();
+      const diffTime = raceDate - today;
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+      const totalWeeks = Math.floor(diffDays / 7);
+
+      if (totalWeeks < 2) {
+        alert("Das Datum liegt zu nah in der Zukunft! Wähle ein Datum mit mindestens 4 Wochen Vorlaufzeit.");
+        return;
+      }
+
+      const taperWeeks = 2;
+      const remainingWeeks = totalWeeks - taperWeeks;
+      const baseWeeks = Math.floor(remainingWeeks * 0.5);
+      const buildWeeks = Math.floor(remainingWeeks * 0.3);
+      const peakWeeks = remainingWeeks - baseWeeks - buildWeeks;
+
+      document.getElementById('p1-weeks').innerText = `${baseWeeks} Wochen`;
+      document.getElementById('p2-weeks').innerText = `${buildWeeks} Wochen`;
+      document.getElementById('p3-weeks').innerText = `${peakWeeks} Wochen`;
+
+      document.getElementById('phase-preview').classList.remove('hidden');
+    }
+
+    function switchTab(tabName) {
+      document.getElementById('tab-generator').classList.add('hidden');
+      document.getElementById('tab-schedule').classList.add('hidden');
+      document.getElementById('tab-community').classList.add('hidden');
+      document.getElementById('tab-pro').classList.add('hidden');
+
+      document.getElementById('nav-generator').classList.remove('text-brand-green');
+      document.getElementById('nav-schedule').classList.remove('text-brand-green');
+      document.getElementById('nav-community').classList.remove('text-brand-green');
+      document.getElementById('nav-pro').classList.remove('text-brand-green');
+
+      document.getElementById(`tab-${tabName}`).classList.remove('hidden');
+      document.getElementById(`nav-${tabName}`).classList.add('text-brand-green');
+
+      if(tabName === 'schedule') {
+        renderWorkouts();
+      }
+      if(tabName === 'community') {
+        renderCommunityFeed();
+      }
+    }
+
+    function renderCommunityFeed() {
+      const feedContainer = document.getElementById('community-feed');
+      feedContainer.innerHTML = '';
+
+      communityPosts.forEach((post, index) => {
+        const postCard = document.createElement('div');
+        postCard.className = 'bg-brand-card border border-brand-border rounded-2xl p-5 space-y-4 hover:border-zinc-700 transition';
+
+        let commentsHtml = '';
+        post.comments.forEach(c => {
+          commentsHtml += `
+            <div class="bg-brand-black p-2.5 rounded-xl border border-brand-border text-xs space-y-1">
+              <span class="font-bold text-brand-green">${c.author}</span>
+              <p class="text-zinc-300">${c.text}</p>
+            </div>
+          `;
+        });
+
+        postCard.innerHTML = `
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-3">
+              <div class="w-9 h-9 rounded-full bg-zinc-800 border border-brand-border flex items-center justify-center font-bold text-xs text-white">
+                ${post.author.substring(0, 2)}
+              </div>
+              <div>
+                <h4 class="text-sm font-bold text-white">${post.author}</h4>
+                <span class="text-[10px] text-brand-muted">${post.time}</span>
+              </div>
+            </div>
+            <span class="px-2.5 py-1 bg-brand-green/10 text-brand-green border border-brand-green/20 rounded-lg text-[10px] font-bold uppercase">
+              ${post.category}
+            </span>
+          </div>
+
+          <p class="text-xs text-zinc-200 leading-relaxed">${post.content}</p>
+
+          <div class="flex items-center gap-4 pt-2 border-t border-brand-border text-xs">
+            <button onclick="giveKudos(${index})" class="flex items-center gap-1.5 text-brand-muted hover:text-brand-green transition font-bold">
+              <i class="fa-solid fa-thumbs-up text-brand-green"></i>
+              <span>${post.kudos} Kudos</span>
+            </button>
+            <span class="text-brand-muted"><i class="fa-regular fa-comment"></i> ${post.comments.length} Kommentare</span>
+          </div>
+
+          ${post.comments.length > 0 ? `<div class="space-y-2 pt-1">${commentsHtml}</div>` : ''}
+
+          <div class="flex items-center gap-2 pt-2">
+            <input type="text" id="comment-input-${index}" placeholder="Antworten..." class="bg-brand-black border border-brand-border text-white text-xs rounded-xl p-2 focus:outline-none focus:border-brand-green flex-1">
+            <button onclick="addComment(${index})" class="px-3 py-2 bg-zinc-800 hover:bg-zinc-700 text-white text-xs rounded-xl border border-brand-border transition">
+              Senden
+            </button>
+          </div>
+        `;
+
+        feedContainer.appendChild(postCard);
+      });
+    }
+
+    function addCommunityPost() {
+      const author = document.getElementById('post-author').value || 'Anonym';
+      const category = document.getElementById('post-category').value;
+      const content = document.getElementById('post-content').value;
+
+      if (!content.trim()) {
+        alert("Bitte gib einen Text ein!");
+        return;
+      }
+
+      communityPosts.unshift({
+        id: Date.now(),
+        author: author,
+        category: category,
+        time: 'Gerade eben',
+        content: content,
+        kudos: 0,
+        comments: []
+      });
+
+      document.getElementById('post-content').value = '';
+      renderCommunityFeed();
+    }
+
+    function giveKudos(index) {
+      communityPosts[index].kudos += 1;
+      renderCommunityFeed();
+    }
+
+    function addComment(index) {
+      const input = document.getElementById(`comment-input-${index}`);
+      if (!input.value.trim()) return;
+
+      communityPosts[index].comments.push({
+        author: 'Lucas',
+        text: input.value
+      });
+
+      renderCommunityFeed();
+    }
+
+    function getEndTime(startTimeStr, durationMinutes) {
+      if(!startTimeStr || durationMinutes === 0) return startTimeStr;
+      const [hours, mins] = startTimeStr.split(':').map(Number);
+      const startDate = new Date();
+      startDate.setHours(hours, mins, 0);
+      const endDate = new Date(startDate.getTime() + durationMinutes * 60000);
+      const endHours = String(endDate.getHours()).padStart(2, '0');
+      const endMins = String(endDate.getMinutes()).padStart(2, '0');
+      return `${endHours}:${endMins}`;
+    }
+
+    function renderWorkouts() {
+      const container = document.getElementById('workout-list');
+      container.innerHTML = '';
+
+      currentWorkouts.forEach((w, index) => {
+        const endTime = getEndTime(w.startTime, w.duration);
+        
+        let badgeColor = 'bg-zinc-800 text-zinc-300';
+        if(w.type === 'Kraft') badgeColor = 'bg-blue-500/10 text-blue-400 border border-blue-500/20';
+        if(w.type === 'Ausdauer') badgeColor = 'bg-brand-green/10 text-brand-green border border-brand-green/20';
+
+        const card = document.createElement('div');
+        card.className = 'bg-brand-card border border-brand-border rounded-2xl p-5 flex flex-col md:flex-row md:items-center justify-between gap-4 hover:border-zinc-700 transition';
+
+        card.innerHTML = `
+          <div class="space-y-2 flex-1">
+            <div class="flex items-center gap-3">
+              <span class="text-xs font-black uppercase text-brand-muted tracking-wider">${w.day}</span>
+              <span class="px-2.5 py-0.5 rounded-md text-[10px] font-bold uppercase ${badgeColor}">${w.type}</span>
+              <span class="text-xs text-zinc-500"><i class="fa-regular fa-clock"></i> ${w.duration} Min</span>
+            </div>
+            <h3 class="text-lg font-bold text-white">${w.title}</h3>
+            <p class="text-xs text-brand-muted">${w.desc}</p>
+          </div>
+
+          <div class="flex flex-wrap items-center gap-3 pt-3 md:pt-0 border-t md:border-t-0 border-brand-border">
+            <div class="flex items-center gap-2 bg-brand-black px-3 py-2 rounded-xl border border-brand-border">
+              <i class="fa-solid fa-clock text-brand-green text-xs"></i>
+              <input type="time" value="${w.startTime}" onchange="updateWorkoutTime(${index}, this.value)" class="bg-transparent text-white text-xs font-bold focus:outline-none">
+              <span class="text-xs text-brand-muted">- ${endTime}</span>
+            </div>
+
+            <button onclick="exportSingleIcs(${index})" class="p-2.5 bg-zinc-800 hover:bg-zinc-700 text-white rounded-xl text-xs border border-brand-border transition" title="Apple Kalender">
+              <i class="fa-brands fa-apple"></i>
+            </button>
+
+            <button onclick="exportGoogleCalendar(${index})" class="p-2.5 bg-zinc-800 hover:bg-zinc-700 text-white rounded-xl text-xs border border-brand-border transition" title="Google Kalender">
+              <i class="fa-brands fa-google"></i>
+            </button>
+          </div>
+        `;
+
+        container.appendChild(card);
+      });
+    }
+
+    function updateWorkoutTime(index, newTime) {
+      currentWorkouts[index].startTime = newTime;
+      renderWorkouts();
+    }
+
+    function exportGoogleCalendar(index) {
+      const w = currentWorkouts[index];
+      const endTime = getEndTime(w.startTime, w.duration);
+      const now = new Date();
+      const dateStr = now.toISOString().replace(/-|:|\.\d\d\d/g, "").substring(0, 8);
+      const startIso = `${dateStr}T${w.startTime.replace(':', '')}00`;
+      const endIso = `${dateStr}T${endTime.replace(':', '')}00`;
+      const title = encodeURIComponent(`[HYBRID AI] ${w.title}`);
+      const details = encodeURIComponent(`${w.desc}\n\nDauer: ${w.duration} Min`);
+      const url = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${startIso}/${endIso}&details=${details}`;
+      window.open(url, '_blank');
+    }
+
+    function exportSingleIcs(index) {
+      const w = currentWorkouts[index];
+      const endTime = getEndTime(w.startTime, w.duration);
+      const now = new Date();
+      const year = now.getFullYear();
+      const month = String(now.getMonth() + 1).padStart(2, '0');
+      const day = String(now.getDate()).padStart(2, '0');
+      const dtStart = `${year}${month}${day}T${w.startTime.replace(':', '')}00`;
+      const dtEnd = `${year}${month}${day}T${endTime.replace(':', '')}00`;
+
+      const icsContent = `BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//HYBRID AI Fitness//DE\nBEGIN:VEVENT\nSUMMARY:[HYBRID AI] ${w.title}\nDESCRIPTION:${w.desc}\nDTSTART:${dtStart}\nDTEND:${dtEnd}\nEND:VEVENT\nEND:VCALENDAR`;
+      downloadFile(icsContent, `training-${w.day.toLowerCase()}.ics`, 'text/calendar');
+    }
+
+    function downloadFile(content, fileName, mimeType) {
+      const blob = new Blob([content], { type: mimeType });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = fileName;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+
+    function generatePlan() {
+      const btn = document.getElementById('btn-generate');
+      btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Erstelle Wettkampfplan...`;
+
+      setTimeout(() => {
+        btn.innerHTML = `<i class="fa-solid fa-wand-magic-sparkles text-lg"></i> <span>Wettkampf-Plan Generieren & Kalender Synchronisieren</span>`;
+        switchTab('schedule');
+      }, 800);
+    }
+  </script>
+</body>
+</html>
