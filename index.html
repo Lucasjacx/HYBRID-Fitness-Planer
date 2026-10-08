@@ -23,7 +23,7 @@
               black: '#09090b',
               card: '#121215',
               border: '#27272a',
-              green: '#a3e635', // Dynamic Lime / Neon Green
+              green: '#a3e635',
               greenHover: '#84cc16',
               greenGlow: 'rgba(163, 230, 53, 0.15)',
               muted: '#a1a1aa'
@@ -100,7 +100,7 @@
   </header>
 
   <!-- MAIN CONTAINER -->
-  <main class="max-w-6xl mx-auto px-4 py-8 flex-1 w-full">
+  <main class="max-w-6xl mx-auto px-4 py-8 flex-1 w-full space-y-8">
 
     <!-- TAB 1: GENERATOR -->
     <section id="tab-generator" class="space-y-8">
@@ -116,13 +116,15 @@
           Verbinde Kraftaufbau und Ausdauer in einem klaren Wochenraster. Passe die Trainingszeit flexibel an deinen Tagesablauf an und exportiere sie direkt in deinen Apple oder Google Kalender.
         </p>
       </div>
-<!-- Trailer Video -->
+
+      <!-- TRAILER VIDEO -->
       <div class="max-w-3xl mx-auto rounded-2xl overflow-hidden border border-brand-border shadow-2xl glow-effect">
         <video autoplay loop muted playsinline class="w-full h-auto max-h-[350px] object-cover">
-          <source src="HYBRID TRAINING VID.mp4" type="video/mp4">
+          <source src="trailer.mp4" type="video/mp4">
           Dein Browser unterstützt kein Video.
         </video>
       </div>
+
       <div class="bg-brand-card border border-brand-border rounded-2xl p-6 md:p-8 max-w-3xl mx-auto space-y-6 shadow-2xl">
         
         <div class="space-y-2">
@@ -155,14 +157,6 @@
           </div>
         </div>
 
-        <div class="space-y-2 pt-2 border-t border-brand-border">
-          <div class="flex items-center justify-between">
-            <label class="text-xs font-bold uppercase tracking-wider text-brand-muted block">Gemini API Key (Optional)</label>
-            <span class="text-[10px] text-brand-green">Ohne Key wird der Standard-Demo-Plan geladen</span>
-          </div>
-          <input type="password" id="apiKey" placeholder="AI-Key hier einfügen für individuelle Pläne..." class="w-full bg-brand-black border border-brand-border text-white text-sm rounded-xl p-3 focus:outline-none focus:border-brand-green transition placeholder:text-zinc-600">
-        </div>
-
         <button onclick="generatePlan()" id="btn-generate" class="w-full py-4 bg-brand-green hover:bg-brand-greenHover text-black font-black uppercase tracking-wider rounded-xl transition glow-effect flex items-center justify-center gap-3">
           <i class="fa-solid fa-wand-magic-sparkles text-lg"></i>
           <span>Plan Erstellen & In Den Kalender Schieben</span>
@@ -171,7 +165,7 @@
       </div>
     </section>
 
-    <!-- TAB 2: TAGESPLANER -->
+    <!-- TAB 2: TAGESPLANER & ERHOLUNGSMONITOR -->
     <section id="tab-schedule" class="hidden space-y-6">
       
       <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-brand-card p-6 rounded-2xl border border-brand-border">
@@ -181,139 +175,96 @@
           </h2>
           <p class="text-xs text-brand-muted mt-1">Passe die Uhrzeit deiner Einheiten an. Der Endzeitpunkt wird automatisch berechnet.</p>
         </div>
+      </div>
 
-        <div class="flex items-center gap-3">
-          <button onclick="exportAllToIcs()" class="px-4 py-2.5 bg-zinc-800 hover:bg-zinc-700 text-white text-xs font-bold rounded-xl border border-brand-border flex items-center gap-2 transition">
-            <i class="fa-brands fa-apple text-base"></i> Alle als .ics (Apple)
-          </button>
+      <!-- MUSKEL ERHOLUNGS-DIAGRAMM -->
+      <div class="bg-brand-card border border-brand-border rounded-2xl p-6 space-y-6">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-brand-border pb-4">
+          <div>
+            <h3 class="text-xl font-black text-white flex items-center gap-2">
+              <i class="fa-solid fa-child text-brand-green"></i> Muskel-Erholung & Interferenz-Check
+            </h3>
+            <p class="text-xs text-brand-muted mt-1">Wissenschaftlich berechneter Status basierend auf deinen letzten Einheiten.</p>
+          </div>
+
+          <div class="flex items-center gap-4 text-xs font-bold">
+            <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-red-500 inline-block"></span> 0-24h (Ermüdet)</span>
+            <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-yellow-400 inline-block"></span> 24-48h (Erholung)</span>
+            <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-brand-green inline-block"></span> 48h+ (Bereit)</span>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 items-center">
+          <div class="lg:col-span-1 bg-brand-black p-4 rounded-xl border border-brand-border flex justify-center items-center gap-8">
+            <div class="text-center space-y-2">
+              <span class="text-[10px] uppercase font-bold text-brand-muted tracking-wider">Vorderseite</span>
+              <svg viewBox="0 0 100 200" class="w-28 h-56">
+                <path d="M 35 45 Q 50 40 65 45 L 60 60 Q 50 65 40 60 Z" fill="#a3e635" />
+                <path d="M 25 45 Q 35 40 35 50 L 28 65 Z M 75 45 Q 65 40 65 50 L 72 65 Z" fill="#a3e635" />
+                <path d="M 40 62 Q 50 65 60 62 L 58 90 Q 50 95 42 90 Z" fill="#a3e635" />
+                <path d="M 35 98 Q 50 95 65 98 L 62 140 Q 50 142 38 140 Z" fill="#ef4444" />
+                <path d="M 38 145 L 42 185 L 36 185 Z M 62 145 L 58 185 L 64 185 Z" fill="#eab308" />
+              </svg>
+            </div>
+
+            <div class="text-center space-y-2">
+              <span class="text-[10px] uppercase font-bold text-brand-muted tracking-wider">Rückseite</span>
+              <svg viewBox="0 0 100 200" class="w-28 h-56">
+                <path d="M 30 45 Q 50 38 70 45 L 62 75 Q 50 80 38 75 Z" fill="#a3e635" />
+                <path d="M 35 85 Q 50 80 65 85 L 63 108 Q 50 112 37 108 Z" fill="#eab308" />
+                <path d="M 37 112 Q 50 110 63 112 L 60 145 Q 50 147 40 145 Z" fill="#ef4444" />
+                <path d="M 38 148 L 44 180 L 36 180 Z M 62 148 L 56 180 L 64 180 Z" fill="#eab308" />
+              </svg>
+            </div>
+          </div>
+
+          <div class="lg:col-span-2 space-y-4">
+            <div class="bg-red-500/10 border border-red-500/30 rounded-xl p-4 flex items-start gap-3">
+              <i class="fa-solid fa-triangle-exclamation text-red-400 text-lg mt-0.5"></i>
+              <div class="space-y-1">
+                <h4 class="text-sm font-bold text-red-400">Interferenz-Warnung: Beine & Quads stark belastet</h4>
+                <p class="text-xs text-zinc-300">
+                  Deine Quads haben nach den gestrigen Kniebeugen hohe Entzündungsmarker (0–24h Fenster). Ein intensiver Lauf heute hemmt die Erholung.
+                </p>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+              <div class="bg-brand-black p-3 rounded-xl border border-brand-border space-y-1">
+                <div class="flex items-center justify-between text-[11px] font-bold">
+                  <span class="text-white">Beine (Quads)</span>
+                  <span class="text-red-400">18% (Rot)</span>
+                </div>
+                <div class="w-full bg-zinc-800 h-1.5 rounded-full overflow-hidden">
+                  <div class="bg-red-500 h-full w-[18%]"></div>
+                </div>
+              </div>
+
+              <div class="bg-brand-black p-3 rounded-xl border border-brand-border space-y-1">
+                <div class="flex items-center justify-between text-[11px] font-bold">
+                  <span class="text-white">Ischiocrurale</span>
+                  <span class="text-yellow-400">45% (Gelb)</span>
+                </div>
+                <div class="w-full bg-zinc-800 h-1.5 rounded-full overflow-hidden">
+                  <div class="bg-yellow-400 h-full w-[45%]"></div>
+                </div>
+              </div>
+
+              <div class="bg-brand-black p-3 rounded-xl border border-brand-border space-y-1">
+                <div class="flex items-center justify-between text-[11px] font-bold">
+                  <span class="text-white">Oberkörper</span>
+                  <span class="text-brand-green">100% (Grün)</span>
+                </div>
+                <div class="w-full bg-zinc-800 h-1.5 rounded-full overflow-hidden">
+                  <div class="bg-brand-green h-full w-full"></div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
-      <div id="workout-list" class="space-y-4">  
-        <!-- MUSKEL ERHOLUNGS-DIAGRAMM (HEATMAP) -->
-<div class="bg-brand-card border border-brand-border rounded-2xl p-6 space-y-6">
-  
-  <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-brand-border pb-4">
-    <div>
-      <h3 class="text-xl font-black text-white flex items-center gap-2">
-        <i class="fa-solid fa-child text-brand-green"></i> Muskel-Erholung & Interferenz-Check
-      </h3>
-      <p class="text-xs text-brand-muted mt-1">Wissenschaftlich berechneter Status basierend auf deinen letzten Einheiten.</p>
-    </div>
-
-    <!-- Status Legend -->
-    <div class="flex items-center gap-4 text-xs font-bold">
-      <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-red-500 inline-block"></span> 0-24h (Ermüdet)</span>
-      <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-yellow-400 inline-block"></span> 24-48h (Erholung)</span>
-      <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-brand-green inline-block"></span> 48h+ (Bereit)</span>
-    </div>
-  </div>
-
-  <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 items-center">
-    
-    <!-- SVG MUSKEL ANATOMIE MAP -->
-    <div class="lg:col-span-1 bg-brand-black p-4 rounded-xl border border-brand-border flex justify-center items-center gap-8">
-      
-      <!-- VORDERSEITE -->
-      <div class="text-center space-y-2">
-        <span class="text-[10px] uppercase font-bold text-brand-muted tracking-wider">Vorderseite</span>
-        <svg viewBox="0 0 100 200" class="w-32 h-64">
-          <!-- Schultern / Brust -->
-          <path id="muscle-chest" d="M 35 45 Q 50 40 65 45 L 60 60 Q 50 65 40 60 Z" fill="#ef4444" class="transition-colors duration-500 cursor-pointer hover:opacity-80"/>
-          <path id="muscle-shoulders" d="M 25 45 Q 35 40 35 50 L 28 65 Z M 75 45 Q 65 40 65 50 L 72 65 Z" fill="#eab308" class="transition-colors duration-500"/>
-          <!-- Abs / Core -->
-          <path id="muscle-abs" d="M 40 62 Q 50 65 60 62 L 58 90 Q 50 95 42 90 Z" fill="#a3e635" class="transition-colors duration-500"/>
-          <!-- Quads (Oberschenkel) -->
-          <path id="muscle-quads" d="M 35 98 Q 50 95 65 98 L 62 140 Q 50 142 38 140 Z" fill="#ef4444" class="transition-colors duration-500"/>
-          <!-- Schienbein/Waden vorne -->
-          <path id="muscle-calves-front" d="M 38 145 L 42 185 L 36 185 Z M 62 145 L 58 185 L 64 185 Z" fill="#a3e635" class="transition-colors duration-500"/>
-        </svg>
-      </div>
-
-      <!-- RÜCKSEITE -->
-      <div class="text-center space-y-2">
-        <span class="text-[10px] uppercase font-bold text-brand-muted tracking-wider">Rückseite</span>
-        <svg viewBox="0 0 100 200" class="w-32 h-64">
-          <!-- Oberer Rücken / Lats -->
-          <path id="muscle-back" d="M 30 45 Q 50 38 70 45 L 62 75 Q 50 80 38 75 Z" fill="#a3e635" class="transition-colors duration-500"/>
-          <!-- Glutes (Gesäss) -->
-          <path id="muscle-glutes" d="M 35 85 Q 50 80 65 85 L 63 108 Q 50 112 37 108 Z" fill="#ef4444" class="transition-colors duration-500"/>
-          <!-- Hamstrings (Oberschenkel hinten) -->
-          <path id="muscle-hamstrings" d="M 37 112 Q 50 110 63 112 L 60 145 Q 50 147 40 145 Z" fill="#eab308" class="transition-colors duration-500"/>
-          <!-- Waden hinten -->
-          <path id="muscle-calves-back" d="M 38 148 L 44 180 L 36 180 Z M 62 148 L 56 180 L 64 180 Z" fill="#ef4444" class="transition-colors duration-500"/>
-        </svg>
-      </div>
-
-    </div>
-
-    <!-- ERHOLUNGS-ANALYSE & HINWEISE -->
-    <div class="lg:col-span-2 space-y-4">
-      
-      <!-- KI Warning Card -->
-      <div class="bg-red-500/10 border border-red-500/30 rounded-xl p-4 flex items-start gap-3">
-        <i class="fa-solid fa-triangle-exclamation text-red-400 text-lg mt-0.5"></i>
-        <div class="space-y-1">
-          <h4 class="text-sm font-bold text-red-400">Interferenz-Warnung: Beine & Quads stark belastet</h4>
-          <p class="text-xs text-zinc-300">
-            Deine Quads und Waden haben nach den gestrigen Kniebeugen und dem Intervall-Lauf hohe Entzündungsmarker (0–24h Fenster). Ein intensiver Lauf heute hemmt die Erholung und steigert das Verletzungsrisiko.
-          </p>
-        </div>
-      </div>
-
-      <!-- Muscle Status Cards Grid -->
-      <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
-        
-        <div class="bg-brand-black p-3 rounded-xl border border-brand-border space-y-1">
-          <div class="flex items-center justify-between text-[11px] font-bold">
-            <span class="text-white">Beine (Quads)</span>
-            <span class="text-red-400">18% (Rot)</span>
-          </div>
-          <div class="w-full bg-zinc-800 h-1.5 rounded-full overflow-hidden">
-            <div class="bg-red-500 h-full w-[18%]"></div>
-          </div>
-          <span class="text-[10px] text-brand-muted block pt-1">Noch ~30h Regeneration</span>
-        </div>
-
-        <div class="bg-brand-black p-3 rounded-xl border border-brand-border space-y-1">
-          <div class="flex items-center justify-between text-[11px] font-bold">
-            <span class="text-white">Gesäss (Glutes)</span>
-            <span class="text-yellow-400">55% (Gelb)</span>
-          </div>
-          <div class="w-full bg-zinc-800 h-1.5 rounded-full overflow-hidden">
-            <div class="bg-yellow-400 h-full w-[55%]"></div>
-          </div>
-          <span class="text-[10px] text-brand-muted block pt-1">Noch ~14h Regeneration</span>
-        </div>
-
-        <div class="bg-brand-black p-3 rounded-xl border border-brand-border space-y-1">
-          <div class="flex items-center justify-between text-[11px] font-bold">
-            <span class="text-white">Oberkörper / Lats</span>
-            <span class="text-brand-green">100% (Grün)</span>
-          </div>
-          <div class="w-full bg-zinc-800 h-1.5 rounded-full overflow-hidden">
-            <div class="bg-brand-green h-full w-full"></div>
-          </div>
-          <span class="text-[10px] text-brand-muted block pt-1">Bereit für Reize</span>
-        </div>
-
-      </div>
-
-      <!-- KI Tipp -->
-      <div class="bg-zinc-900 p-3.5 rounded-xl border border-brand-border flex items-center justify-between">
-        <div class="flex items-center gap-2 text-xs">
-          <i class="fa-solid fa-lightbulb text-brand-green"></i>
-          <span class="text-zinc-300">Empfehlung für heute: <strong>Oberkörper Kraft</strong> oder <strong>Zone 1 Velo-Rollen (45 Min)</strong>.</span>
-        </div>
-      </div>
-
-    </div>
-
-  </div>
-
-</div>
-        <!-- Dynamischer Inhalt via JavaScript -->
-      </div>
+      <div id="workout-list" class="space-y-4"></div>
 
     </section>
 
@@ -325,7 +276,6 @@
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4">
-        
         <div class="bg-brand-card border border-brand-border rounded-2xl p-6 flex flex-col justify-between space-y-6">
           <div class="space-y-4">
             <span class="text-xs font-bold text-brand-muted uppercase tracking-wider">Monatlich Flexibel</span>
@@ -345,10 +295,6 @@
         </div>
 
         <div class="bg-brand-card border-2 border-brand-green rounded-2xl p-6 flex flex-col justify-between space-y-6 relative glow-effect">
-          <div class="absolute -top-3 right-6 bg-brand-green text-black font-extrabold text-[10px] uppercase px-3 py-1 rounded-full">
-            Bester Deal (Save 33%)
-          </div>
-
           <div class="space-y-4">
             <span class="text-xs font-bold text-brand-green uppercase tracking-wider">Jahres-Pass</span>
             <div class="flex items-baseline gap-1">
@@ -366,7 +312,6 @@
             Jahres-Pass Aktivieren
           </button>
         </div>
-
       </div>
     </section>
 
@@ -376,16 +321,13 @@
     <p>HYBRID AI &copy; 2026 – Gefertigt für Athleten. Passt sich deinem Kalender an.</p>
   </footer>
 
-  <!-- APP JAVASCRIPT LOGIC -->
   <script>
     let currentWorkouts = [
       { id: 1, day: 'Montag', type: 'Kraft', title: 'Oberkörper & Rumpfstabilität', duration: 50, startTime: '07:00', desc: 'Bankdrücken, Klimmzüge, Schulterdrücken + Core Stability' },
       { id: 2, day: 'Dienstag', type: 'Ausdauer', title: 'Grundlagenausdauer Laufen (Zone 2)', duration: 45, startTime: '18:00', desc: 'Ruhiger Lauf im flachen Gelände. Puls strikt in Zone 2 halten.' },
       { id: 3, day: 'Mittwoch', type: 'Kraft', title: 'Unterkörper / Beine & Po', duration: 55, startTime: '07:00', desc: 'Kniebeugen, Rumänisches Kreuzheben, Ausfallschritte' },
       { id: 4, day: 'Donnerstag', type: 'Ausdauer', title: 'Rennrad / ERG-Intervall', duration: 60, startTime: '17:30', desc: '15 Min Warmup, 4x5 Min Schwellen-Intervalle, 15 Min Cool Down' },
-      { id: 5, day: 'Freitag', type: 'Rest', title: 'Regeneration & Mobility', duration: 20, startTime: '08:00', desc: 'Foam Rolling und aktives Dehnen für Hüfte und Fußgelenke' },
-      { id: 6, day: 'Samstag', type: 'Ausdauer', title: 'Langer Lauf / Koppeltraining', duration: 90, startTime: '09:00', desc: '75 Min Radfahren + direkt danach 15 Min Koppellauf' },
-      { id: 7, day: 'Sonntag', type: 'Rest', title: 'Ruhetag', duration: 0, startTime: '10:00', desc: 'Komplette Erholung, gutes Essen und Spaziergang' }
+      { id: 5, day: 'Freitag', type: 'Rest', title: 'Regeneration & Mobility', duration: 20, startTime: '08:00', desc: 'Foam Rolling und aktives Dehnen für Hüfte und Fußgelenke' }
     ];
 
     function switchTab(tabName) {
@@ -448,11 +390,11 @@
               <span class="text-xs text-brand-muted">- ${endTime}</span>
             </div>
 
-            <button onclick="exportSingleIcs(${index})" class="p-2.5 bg-zinc-800 hover:bg-zinc-700 text-white rounded-xl text-xs border border-brand-border transition" title="In Apple/Outlook Kalender (.ics)">
+            <button onclick="exportSingleIcs(${index})" class="p-2.5 bg-zinc-800 hover:bg-zinc-700 text-white rounded-xl text-xs border border-brand-border transition" title="Apple Kalender">
               <i class="fa-brands fa-apple"></i>
             </button>
 
-            <button onclick="exportGoogleCalendar(${index})" class="p-2.5 bg-zinc-800 hover:bg-zinc-700 text-white rounded-xl text-xs border border-brand-border transition" title="In Google Kalender eintragen">
+            <button onclick="exportGoogleCalendar(${index})" class="p-2.5 bg-zinc-800 hover:bg-zinc-700 text-white rounded-xl text-xs border border-brand-border transition" title="Google Kalender">
               <i class="fa-brands fa-google"></i>
             </button>
           </div>
@@ -470,16 +412,12 @@
     function exportGoogleCalendar(index) {
       const w = currentWorkouts[index];
       const endTime = getEndTime(w.startTime, w.duration);
-      
       const now = new Date();
       const dateStr = now.toISOString().replace(/-|:|\.\d\d\d/g, "").substring(0, 8);
-      
       const startIso = `${dateStr}T${w.startTime.replace(':', '')}00`;
       const endIso = `${dateStr}T${endTime.replace(':', '')}00`;
-
       const title = encodeURIComponent(`[HYBRID AI] ${w.title}`);
       const details = encodeURIComponent(`${w.desc}\n\nDauer: ${w.duration} Min`);
-      
       const url = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${startIso}/${endIso}&details=${details}`;
       window.open(url, '_blank');
     }
@@ -487,26 +425,14 @@
     function exportSingleIcs(index) {
       const w = currentWorkouts[index];
       const endTime = getEndTime(w.startTime, w.duration);
-      
       const now = new Date();
       const year = now.getFullYear();
       const month = String(now.getMonth() + 1).padStart(2, '0');
       const day = String(now.getDate()).padStart(2, '0');
-
       const dtStart = `${year}${month}${day}T${w.startTime.replace(':', '')}00`;
       const dtEnd = `${year}${month}${day}T${endTime.replace(':', '')}00`;
 
-      const icsContent = `BEGIN:VCALENDAR
-VERSION:2.0
-PRODID:-//HYBRID AI Fitness//NONSGML v1.0//DE
-BEGIN:VEVENT
-SUMMARY:[HYBRID AI] ${w.title}
-DESCRIPTION:${w.desc}
-DTSTART:${dtStart}
-DTEND:${dtEnd}
-END:VEVENT
-END:VCALENDAR`;
-
+      const icsContent = `BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//HYBRID AI Fitness//DE\nBEGIN:VEVENT\nSUMMARY:[HYBRID AI] ${w.title}\nDESCRIPTION:${w.desc}\nDTSTART:${dtStart}\nDTEND:${dtEnd}\nEND:VEVENT\nEND:VCALENDAR`;
       downloadFile(icsContent, `training-${w.day.toLowerCase()}.ics`, 'text/calendar');
     }
 
